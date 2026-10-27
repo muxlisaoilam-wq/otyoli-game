@@ -293,7 +293,7 @@ function settings(){const tg=(k,f)=>[tr(k),()=>{f();save();settings()},1],gd=()=
 tg(ST.snd?'snd_on':'snd_off',()=>ST.snd=!ST.snd),tg(ST.vib!==false?'vib_on':'vib_off',()=>ST.vib=ST.vib===false),tg(ST.mus?'music_on':'music_off',()=>{ST.mus=!ST.mus;music()}),
 tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
 tg(ST.acc?'acc_on':'acc_off',()=>{ST.acc=!ST.acc;applyAcc();if(gd())draw()}),tg('hand_'+(ST.hd||0),()=>{ST.hd=((ST.hd||0)+1)%3;applyHand()}),
-[tr('profile'),profile],[tr('pickboard'),pickBoard],[tr('lang'),langScr],[tr('backup'),backup]],0,tr('settings'));settingsFoot()}
+[tr('profile'),profile],[tr('pickboard'),pickBoard],[tr('lang'),langScr],[tr('backup'),backup]],0,tr('settings')+' · v2');settingsFoot()}
 const FBC={apiKey:"AIzaSyB4bqT_n3u-cMby28d1ZLAjedegHSpH44c",authDomain:"otyoli-2cd9d.firebaseapp.com",databaseURL:"https://otyoli-2cd9d-default-rtdb.firebaseio.com",projectId:"otyoli-2cd9d",appId:"1:323475651995:web:1e6ea5117385c0071d753e"};
 var FBP=null,FU=null,FRDY=0,SYN=0,CT=0;
 const er=m=>box('✖ '+m,[[tr('close')]]);
