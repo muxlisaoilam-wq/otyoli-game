@@ -50,6 +50,7 @@ h2{color:var(--gold);margin:6vh 0 2vh;text-align:center}
 .box.l h4{margin:0 0 6px;font-size:26px;font-weight:400}
 .bg3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.bg3 img{width:100%;aspect-ratio:1;display:block;border:3px solid transparent}.bg3 img.s{border-color:var(--gold)}
 .box.l button{background:none;color:#4f5d1c;align-self:flex-end}
+.box .ft{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:6px}.box .ft button{background:none;color:var(--gold);padding:10px 8px;font-size:17px}
 #fl{overflow:hidden}#fl img{width:100%;height:100%;object-fit:cover;border-radius:28px;margin:-14px -22px;width:calc(100% + 44px);height:calc(100% + 28px);max-width:none}
 .bk{background:#3a3a30!important;color:#fff!important;font-size:22px!important}
 #lgl button{display:block;width:min(80vw,400px);margin:10px 0;padding:18px;border:0;border-radius:14px;background:var(--gold);font-size:26px;font-weight:700}
@@ -106,6 +107,7 @@ html,body{overscroll-behavior:none;touch-action:manipulation;-webkit-touch-callo
 <div class="g2 g3"><button class="mb" onclick="lvlMenu(7)" data-i="m7"></button><button class="mb" onclick="lvlMenu(8)" data-i="m8"></button><button class="mb" onclick="lvlMenu(9)" data-i="m9"></button><button class="mb" onclick="editor()" data-i="edit"></button></div>
 <button class="mb bk" style="margin-bottom:3vh" onclick="show('s1')" data-i="back"></button></div>
 <div class="scr" id="s3"><h2 id="lt"></h2><div id="grid"></div><button class="mb bk" onclick="show('s2')" data-i="back"></button></div>
+<div class="scr" id="s6" style="justify-content:center"><img id="lg2" style="width:min(70vw,360px);margin-bottom:5vh"><button class="mb" id="wg" data-i="gsign"></button><button class="mb" id="wm" data-i="guest"></button></div>
 <div class="scr" id="s5"><h2 data-i="lang"></h2><div id="lgl"></div></div>
 <div class="scr" id="g"><div class="tb"><div onclick="leave()"><img id="i_home"></div><div onclick="rs()"><img id="i_rs"></div></div>
 <div id="st"><b id="t1"></b><div id="t2"></div></div>
@@ -291,13 +293,17 @@ function settings(){const tg=(k,f)=>[tr(k),()=>{f();save();settings()},1],gd=()=
 tg(ST.snd?'snd_on':'snd_off',()=>ST.snd=!ST.snd),tg(ST.vib!==false?'vib_on':'vib_off',()=>ST.vib=ST.vib===false),tg(ST.mus?'music_on':'music_off',()=>{ST.mus=!ST.mus;music()}),
 tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
 tg(ST.acc?'acc_on':'acc_off',()=>{ST.acc=!ST.acc;applyAcc();if(gd())draw()}),tg('hand_'+(ST.hd||0),()=>{ST.hd=((ST.hd||0)+1)%3;applyHand()}),
-[FU?'☁ '+(ST.nm||FU.displayName||'')+' ⏏':'☁ Google',()=>FU?signOutG():signIn().catch(()=>{})],[tr('profile'),profile],[tr('pickboard'),pickBoard],[tr('lang'),langScr],[tr('backup'),backup],[tr('close')]],0,tr('settings'))}
+[tr('profile'),profile],[tr('pickboard'),pickBoard],[tr('lang'),langScr],[tr('backup'),backup]],0,tr('settings'));settingsFoot()}
 const FBC={apiKey:"AIzaSyB4bqT_n3u-cMby28d1ZLAjedegHSpH44c",authDomain:"otyoli-2cd9d.firebaseapp.com",databaseURL:"https://otyoli-2cd9d-default-rtdb.firebaseio.com",projectId:"otyoli-2cd9d",appId:"1:323475651995:web:1e6ea5117385c0071d753e"};
 var FBP=null,FU=null,FRDY=0,SYN=0,CT=0;
 const er=m=>box('✖ '+m,[[tr('close')]]);
 function fbLoad(){return FBP||(FBP=new Promise((ok,no)=>{const u=['app','auth','database'].map(x=>'https://www.gstatic.com/firebasejs/10.14.1/firebase-'+x+'-compat.js');let i=0;const nx=()=>{if(i>=u.length){try{firebase.initializeApp(FBC);FRDY=1;firebase.auth().onAuthStateChanged(us=>{FU=us;if(us)syncUp()});ok()}catch(e){FBP=null;no(e)}return}const s=document.createElement('script');s.src=u[i++];s.onload=nx;s.onerror=()=>{FBP=null;no(new Error('net'))};document.head.appendChild(s)};nx()}))}
 function signIn(){return new Promise((ok,no)=>{const pr=()=>new firebase.auth.GoogleAuthProvider();if(FRDY)firebase.auth().signInWithPopup(pr()).then(ok,e=>{const c=(e&&e.code)||'';if(/popup/.test(c))firebase.auth().signInWithRedirect(pr());else{if(!/cancel|closed/.test(c))er(c.replace('auth/','')||'?');no(e)}});else fbLoad().then(()=>firebase.auth().signInWithRedirect(pr()),()=>{er('internet');no()})})}
-function signOutG(){FRDY&&firebase.auth().signOut().then(()=>box('✔',[[tr('close')]]))}
+function signOutG(){const done=()=>{ST.wl=0;try{localStorage.setItem('otyoli',JSON.stringify(ST))}catch(e){}location.reload()};if(FRDY&&firebase.auth().currentUser)firebase.auth().signOut().then(done,done);else done()}
+function outAsk(){box(FU?(FU.displayName||FU.email||''):'',[[tr('gout'),signOutG],[tr('cancel'),settings]],0,'🚪 '+tr('gout')+'?')}
+function settingsFoot(){const b=$('bx'),f=document.createElement('div'),l=document.createElement('button'),r=document.createElement('button');f.className='ft';
+l.textContent=FU?tr('gout'):'☁ '+tr('gsign');l.onclick=()=>{if(FU)outAsk();else{$('ov').classList.remove('on');signIn().catch(()=>{})}};
+r.textContent=tr('close');r.onclick=()=>$('ov').classList.remove('on');f.append(l,r);b.appendChild(f)}
 function cloudDeb(){if(!FU||SYN)return;clearTimeout(CT);CT=setTimeout(syncUp,4000)}
 function syncUp(){if(!FU)return;const db=firebase.database(),me=FU.uid;Promise.all([db.ref('users/'+me+'/progress').once('value'),db.ref('users/'+me+'/profile').once('value')]).then(([a,b])=>{const C=a.val()||{},P=b.val()||{},U={};const mx=(k,v)=>{if(v>(C[k]||0))U[k]=v};
 [1,2,3,4,7,8,9].forEach(m=>{mx('level_'+m,ST.l[m]||1);if((C['level_'+m]||0)>(ST.l[m]||1))ST.l[m]=C['level_'+m]});
@@ -314,7 +320,11 @@ Promise.all([db.ref('leaderboard').orderByChild('stars').limitToLast(200).once('
 R.forEach((x,i)=>{const d=document.createElement('div');d.textContent=(i+1)+'. '+(x.avatar||'')+(x.flag||'')+' '+(x.name||'—')+'  ⭐'+(x.stars||0);if(x.id==me)d.style.color='var(--gold)';w.appendChild(d)});
 if(t){const h=document.createElement('div'),i=document.createElement('input'),b=document.createElement('button'),m=document.createElement('div');h.textContent='ID: '+me.slice(-6);h.style.color='var(--gold)';i.type='text';i.maxLength=6;i.placeholder='ID';b.textContent='＋';b.onclick=()=>{const q=L.find(x=>x.id!=me&&x.id.endsWith(i.value.trim())&&i.value.trim().length==6);if(!q)return m.textContent='✖';db.ref('users/'+me+'/friends/'+q.id).set(true).then(()=>board(1))};w.append(h,i,b,m)}}).catch(()=>{w.textContent='✖'})}
 if(navigator.onLine)fbLoad().catch(()=>{});
-$('tip').onclick=()=>{if(TUT){TUT=0;ST.tut=1;save();draw()}};let p=0;applyTheme();applyAcc();applySkin();applyHand();applyLang();if(ST.mus)music();const ti=setInterval(()=>{p+=2;const v=Math.min(p,100);$('pc').textContent=v+'%';$('pb').firstChild.style.width=v+'%';if(p>=100){clearInterval(ti);if(ST.lg===undefined)langScr();else show('s1')}},60);
+T.gout=["Akkauntdan chiqish","Выйти из аккаунта","Sign out","تسجيل الخروج","退出账号","खाते से लॉग आउट"];T.gsign=["Google bilan kirish","Войти через Google","Sign in with Google","تسجيل الدخول عبر Google","使用 Google 登录","Google से साइन इन करें"];
+const goHome=()=>{if(ST.lg===undefined)langScr();else show('s1')};
+$('wm').onclick=()=>{ST.wl=1;save();goHome()};
+$('wg').onclick=()=>{ST.wl=1;save();signIn().then(goHome,()=>{})};
+$('tip').onclick=()=>{if(TUT){TUT=0;ST.tut=1;save();draw()}};let p=0;applyTheme();applyAcc();applySkin();applyHand();applyLang();if(ST.mus)music();const ti=setInterval(()=>{p+=2;const v=Math.min(p,100);$('pc').textContent=v+'%';$('pb').firstChild.style.width=v+'%';if(p>=100){clearInterval(ti);if(!ST.wl){$('lg2').src=$('lg').src;show('s6')}else goHome()}},60);
 
-</script><script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})if('serviceWorker'in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script><script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});if('serviceWorker'in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
