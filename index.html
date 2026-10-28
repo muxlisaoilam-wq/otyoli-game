@@ -465,7 +465,7 @@ const regionOf=l=>Math.floor((l-1)/RL);
 const rgSt=r=>{let n=0;for(let k=1;k<=RL;k++)n+=ST.s['1_'+(r*RL+k)]||0;return n};
 const rgDone=r=>rgSt(r)>=15;
 const rgOpen=r=>{for(let i=0;i<r;i++)if(!rgDone(i))return false;return true};
-const rgImg=r=>'viloyat/'+String(r+1).padStart(2,'0')+'.jpg',rgThb=r=>'viloyat/t'+String(r+1).padStart(2,'0')+'.jpg';
+const rgImg=r=>String(r+1).padStart(2,'0')+'.jpg',rgThb=r=>'t'+String(r+1).padStart(2,'0')+'.jpg';
 const rgBlur=(r,st)=>rgDone(r)?'none':'blur('+(rgOpen(r)?Math.max(3,14-st*.7).toFixed(1):14)+'px) grayscale(.5) brightness(.55)';
 function adv(){const g=$('rg');g.innerHTML='';
 for(let r=0;r<RG;r++){const op=rgOpen(r),dn=rgDone(r),st=Math.min(15,rgSt(r)),c=document.createElement('div');c.className='rc'+(op?'':' lk')+(dn?' dn':'');
