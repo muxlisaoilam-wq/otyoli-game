@@ -1,4 +1,4 @@
-const C='ot-yoli-v10',A=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png',...Array.from({length:14},(_,i)=>{const n=String(i+1).padStart(2,'0');return['./'+n+'.jpg','./t'+n+'.jpg']}).flat()];
+const C='ot-yoli-v11',A=['./','./index.html','./manifest.json','./icon-192.png','./icon-512.png',...Array.from({length:14},(_,i)=>{const n=String(i+1).padStart(2,'0');return['./'+n+'.jpg','./t'+n+'.jpg']}).flat()];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(C).then(c=>Promise.all(A.map(u=>c.add(u).catch(()=>{})))).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET'||new URL(r.url).origin!==location.origin)return;
