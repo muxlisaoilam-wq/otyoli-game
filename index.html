@@ -187,10 +187,10 @@ h2{text-shadow:0 0 12px #2bb5ff;letter-spacing:.5px}
 <div class="row"><button class="sb" onclick="shop()"><span data-i="shop"></span> <span id="cn"></span></button><button class="sb" id="instb" onclick="instApp()" data-i="inst"></button></div></div>
 <div class="scr" id="s2"><h2 data-i="lvlpick" style="margin:3vh 0 0"></h2>
 <button class="mb m2" onclick="lvlMenu(11)"><span>🎓 <span data-i="beg"></span></span><span class="sub" id="p11"></span></button>
-<button class="mb m2" onclick="tiers(3)"><span>8×8 <span data-i="classic"></span></span></button>
+<button class="mb m2" onclick="tiers(3)"><span data-i="classic"></span></button>
 <div class="g2 g4" style="grid-template-columns:repeat(3,1fr)!important"><button class="mb" onclick="tiers(0)"><span>5×5</span><span class="sub" id="z0"></span></button><button class="mb" onclick="tiers(1)"><span>5×6</span><span class="sub" id="z1"></span></button><button class="mb" onclick="tiers(2)"><span>7×7</span><span class="sub" id="z2"></span></button></div>
 <button class="mb m2" onclick="blitzStart()"><span data-i="blitz"></span><span class="sub" id="p5"></span></button>
-<button class="mb m2" onclick="show('s7')" data-i="vary"></button>
+<button class="mb m2" onclick="show('s7')"><span>🎲 <span data-i="vary"></span></span></button>
 <button class="mb m2" onclick="adv()" data-i="adv"></button>
 <div class="g2 g4"><button class="mb" onclick="play(1,0,1)"><span data-i="daily"></span><span class="sub" id="pd"></span></button><button class="mb" onclick="play(2,0,0,1)"><span data-i="weekly"></span><span class="sub" id="pw"></span></button></div>
 <button class="mb bk" style="margin-bottom:3vh" onclick="show('s1')" data-i="back"></button></div>
@@ -411,9 +411,8 @@ FL.forEach((f,i)=>{const d=document.createElement('div'),o=skinOk(i);d.className
 w.append(g,lb,g2);box(w,[[tr('cancel')]],1,tr('pickboard'))}
 function settings(){const tg=(k,f)=>[tr(k),()=>{f();save();settings()},1],gd=()=>$('g').classList.contains('on');box('',[
 tg(ST.snd?'snd_on':'snd_off',()=>ST.snd=!ST.snd),tg(ST.vib!==false?'vib_on':'vib_off',()=>ST.vib=ST.vib===false),tg(ST.mus?'music_on':'music_off',()=>{ST.mus=!ST.mus;music()}),
-tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.nums!==false?'nums_on':'nums_off',()=>{ST.nums=ST.nums===false;if(gd())draw()}),tg('rt_'+(ST.rts||0),()=>ST.rts=((ST.rts||0)+1)%3),[tr('inst'),instApp],[tr('howto'),()=>{ST.tut=0;save();play(0)}],[tr('tcol')+': '+TCE[ST.tc||0],()=>{nextTc();save();settings()},1],tg(ST.tmr?'tmr_on':'tmr_off',()=>{ST.tmr=!ST.tmr;if(gd()&&!ended&&mode!=5&&mode!=6&&!HM()){clearInterval(tm);if(ST.tmr)tm=setInterval(tick,1000);draw()}}),tg(ST.rem!==false?'rem_on':'rem_off',()=>ST.rem=ST.rem===false),tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
-tg(ST.acc?'acc_on':'acc_off',()=>{ST.acc=!ST.acc;applyAcc();if(gd())draw()}),tg('hand_'+(ST.hd||0),()=>{ST.hd=((ST.hd||0)+1)%3;applyHand()}),
-[tr('profile'),profile],[tr('pickboard'),pickBoard],[tr('lang'),langScr],[tr('backup'),backup]],0,tr('settings')+' · v2');$('bx').classList.add('st2');settingsFoot()}
+tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.nums!==false?'nums_on':'nums_off',()=>{ST.nums=ST.nums===false;if(gd())draw()}),[tr('inst'),instApp],[tr('howto'),()=>{ST.tut=0;save();play(0)}],[tr('tcol')+': '+TCE[ST.tc||0],()=>{nextTc();save();settings()},1],tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
+[tr('lang'),langScr]],0,tr('settings')+' · v2');$('bx').classList.add('st2');settingsFoot()}
 const FBC={apiKey:"AIzaSyB4bqT_n3u-cMby28d1ZLAjedegHSpH44c",authDomain:"otyoli-2cd9d.firebaseapp.com",databaseURL:"https://otyoli-2cd9d-default-rtdb.firebaseio.com",projectId:"otyoli-2cd9d",appId:"1:323475651995:web:1e6ea5117385c0071d753e"};
 var FBP=null,FU=null,FRDY=0,SYN=0,CT=0;
 const er=m=>box('✖ '+m,[[tr('close')]]);
@@ -466,7 +465,7 @@ T.a11t=["Chaqmoq", "Молния", "Lightning", "برق", "闪电", "बिज�
 T.a11d=["Blitzda 10 ta bosqichni yeching", "Решите 10 уровней в блице", "Solve 10 levels in Blitz", "احلل 10 مراحل في البليتز", "在闪电模式中完成10个关卡", "ब्लिट्ज़ में 10 स्तर हल करें"];
 T.wkleft=["📅 Haftalik reyting · yangilanishiga # kun", "📅 Недельный рейтинг · до обновления # дн.", "📅 Weekly ranking · resets in # days", "📅 الترتيب الأسبوعي · يتجدد بعد # أيام", "📅 每周排行 · # 天后重置", "📅 साप्ताहिक रैंकिंग · # दिन में रीसेट"];
 T.gnudge=["☁ Google bilan kirsangiz, yutuqlaringiz yo‘qolmaydi!", "☁ Войдите через Google — ваши достижения не пропадут!", "☁ Sign in with Google so your progress is never lost!", "☁ سجّل الدخول عبر Google كي لا تضيع إنجازاتك!", "☁ 使用 Google 登录，成就就不会丢失！", "☁ Google से साइन इन करें, आपकी उपलब्धियाँ कभी नहीं खोएँगी!"];
-T.vary=["Xar xil","Разное","Variety","متنوع","更多玩法","विविध"];
+T.vary=["Har xil","Разное","Variety","متنوع","更多玩法","विविध"];
 T.cont=["▶ Davom etish","▶ Продолжить","▶ Continue","▶ متابعة","▶ 继续","▶ जारी रखें"];
 T.dleft=["# kun qoldi","осталось # дн.","# days left","بقي # أيام","剩余 # 天","# दिन शेष"];
 T.stucktip=["💡 Maslahat: avval bo‘sh qo‘shnisi eng kam katakka o‘ting.","💡 Совет: сначала ходите на клетку с наименьшим числом свободных соседей.","💡 Tip: first go to the square with the fewest free neighbours."];
@@ -494,7 +493,7 @@ L('msn',["🎯 Missiyalar","🎯 Миссии","🎯 Missions","🎯 المها�
 L('rec',["🏆 Rekordlar","🏆 Рекорды","🏆 Records","🏆 الأرقام القياسية","🏆 纪录","🏆 रिकॉर्ड"]);
 L('mt0',["# ta bosqich yeching","Пройдите уровней: #","Win # levels","اربح # مراحل","赢得 # 个关卡","# स्तर जीतें"]);
 L('mt1',["Maslahatsiz 3 yulduz oling","Получите 3 звезды без подсказок","Earn 3 stars with no hints","احصل على 3 نجوم بدون تلميحات","不使用提示获得3星","बिना संकेत 3 सितारे पाएं"]);
-L('mt2',["‘Xar xil’dan bitta bosqich yeching","Пройдите уровень из «Разное»","Win a level from ‘Variety’","اربح مرحلة من «متنوع»","在“更多玩法”中赢得一关","‘विविध’ से एक स्तर जीतें"]);
+L('mt2',["‘Har xil’dan bitta bosqich yeching","Пройдите уровень из «Разное»","Win a level from ‘Variety’","اربح مرحلة من «متنوع»","在“更多玩法”中赢得一关","‘विविध’ से एक स्तर जीतें"]);
 L('mrew',["+# ⭐ mukofot","+# ⭐ награда","+# ⭐ reward","+# ⭐ مكافأة","+# ⭐ 奖励","+# ⭐ इनाम"]);
 L('mdone',["🎯 Missiya bajarildi! +# ⭐","🎯 Миссия выполнена! +# ⭐","🎯 Mission complete! +# ⭐","🎯 اكتملت المهمة! +# ⭐","🎯 任务完成！+# ⭐","🎯 मिशन पूरा! +# ⭐"]);
 L('mnew',["Missiyalar har kuni yangilanadi","Миссии обновляются каждый день","Missions refresh every day","تتجدد المهام كل يوم","任务每天刷新","मिशन हर दिन बदलते हैं"]);
@@ -648,8 +647,8 @@ $('dok').onclick=()=>{dlClose();if(z==3){k==0?play(0):lvlMenu(k)}else lvlMenu(12
 A('ldiff',["Qiyinlik darajasi","Уровень сложности","Level difficulty","مستوى الصعوبة","难度等级","कठिनाई स्तर"]);
 A('okb',["OK","ОК","OK","حسناً","确定","ठीक है"]);
 A('coin',["Tanga","Монеты","Coins","العملات","金币","सिक्के"]);
-A('beg',["Boshlang‘ich","Начальный","Beginner","للمبتدئين","入门","शुरुआती"]);
-A('classic',["Klassik","Классика","Classic","كلاسيكي","经典","क्लासिक"]);
+A('beg',["Mashq","Тренировка","Practice","تدريب","练习","अभ्यास"]);
+A('classic',["Classic","Classic","Classic","Classic","Classic","Classic"]);
 A('duel2',["Ikki kishilik","Для двоих","Two players","لاعبان","双人","दो खिलाड़ी"]);
 A('mi11',["Doskada ba’zi sonlar ko‘rsatilgan. Ot 1-dan boshlab 2, 3, 4… tartibida yursin: ko‘rsatilgan sonlarga o‘z navbatida yetib borish kerak, yo‘q sonlarni esa o‘zingiz davom ettirasiz. Har bosqichda sonlar joylashuvi o‘zgaradi.","На доске показаны некоторые числа. Ходите конём по порядку 1, 2, 3, 4…: показанные числа нужно занять в свой черёд, а недостающие продолжите сами. На каждом уровне расположение чисел меняется.","Some numbers are shown on the board. Move the knight in order 1, 2, 3, 4…: you must land on each shown number at its turn, and you continue the missing numbers yourself. The numbers are placed differently on every stage.","بعض الأرقام ظاهرة على الرقعة. حرّك الحصان بالترتيب 1، 2، 3، 4…: يجب الوصول إلى الأرقام الظاهرة في دورها، وتكمل أنت الأرقام الناقصة. يتغير توزيع الأرقام في كل مرحلة.","棋盘上显示了部分数字。请按 1、2、3、4…的顺序走马：必须按顺序走到已显示的数字上，缺少的数字由你自己接着走。每一关数字的位置都不同。","बोर्ड पर कुछ संख्याएँ दिखाई गई हैं। घोड़े को 1, 2, 3, 4… के क्रम में चलाएँ: दिखाई गई संख्याओं पर अपनी बारी पर पहुँचना ज़रूरी है, बाकी संख्याएँ आप खुद पूरी करें। हर स्तर पर संख्याओं की जगह बदलती है।"]);
 for(let m=12;m<=20;m++){const z=Math.floor((m-12)/3),k=['easy','medium','hard'][(m-12)%3];A('sz'+m,T[k].map(x=>SZN[z]+' · '+x))}
@@ -670,7 +669,7 @@ function begTip(){if(mode!=11||lvl>2||ended)return '';if(hist.length<=1)return t
 A('bt1',["👆 Ot “Г” shaklida yuradi: yashil belgili kataklardan biriga bosing.","👆 Конь ходит буквой «Г»: нажмите на одну из отмеченных клеток.","👆 The knight moves in an “L”: tap one of the marked squares.","👆 يتحرك الحصان على شكل «L»: اضغط على أحد المربعات المعلَّمة.","👆 马走“日”字：点击任意一个有标记的格子。","👆 घोड़ा “L” आकार में चलता है: चिह्नित खानों में से किसी पर टैप करें।"]);
 A('bt2',["🔢 Navbat: # — binafsha raqamli katakka boring.","🔢 Ход №#: идите на клетку с фиолетовым числом.","🔢 Move #: go to the square with the purple number.","🔢 الحركة #: اذهب إلى المربع ذي الرقم البنفسجي.","🔢 第#步：走到紫色数字的格子。","🔢 चाल #: बैंगनी संख्या वाले खाने पर जाएँ।"]);
 A('bt3',["💡 Raqam ko‘rsatilmagan: keyingi binafsha raqamga yetib borishni o‘ylab yuring.","💡 Числа нет: ходите так, чтобы успеть к следующему фиолетовому числу.","💡 No number here: plan your path to reach the next purple number.","💡 لا يوجد رقم هنا: خطّط لتصل إلى الرقم البنفسجي التالي.","💡 这里没有数字：规划路线，赶到下一个紫色数字。","💡 यहाँ संख्या नहीं है: अगली बैंगनी संख्या तक पहुँचने की योजना बनाएँ।"]);
-A('begdone',["🎓 Boshlang‘ich bosqichlarni tugatdingiz! Endi asosiy o‘yin — 8×8 Klassikni sinab ko‘ring.","🎓 Вы прошли все начальные уровни! Теперь попробуйте главный режим — 8×8 Классика.","🎓 You finished all Beginner stages! Now try the main game — 8×8 Classic.","🎓 أنهيت كل مراحل المبتدئين! جرّب الآن اللعبة الرئيسية — 8×8 كلاسيكي.","🎓 你已完成所有入门关卡！现在试试主玩法——8×8经典。","🎓 आपने सभी शुरुआती स्तर पूरे कर लिए! अब मुख्य खेल 8×8 क्लासिक आज़माएँ।"]);
+A('begdone',["🎓 Mashq bosqichlarini tugatdingiz! Endi asosiy o‘yin — Classicni sinab ko‘ring.","🎓 Вы прошли все тренировочные уровни! Теперь попробуйте главный режим — Classic.","🎓 You finished all Practice stages! Now try the main game — Classic.","🎓 أنهيت كل مراحل التدريب! جرّب الآن اللعبة الرئيسية — Classic.","🎓 你已完成所有练习关卡！现在试试主玩法——Classic。","🎓 आपने सभी अभ्यास स्तर पूरे कर लिए! अब मुख्य खेल Classic आज़माएँ।"]);
 A('sttip',["⭐⭐⭐ — yordamsiz · ⭐⭐ — 1–3 marta yordam · ⭐ — ko‘proq yordam","⭐⭐⭐ — без помощи · ⭐⭐ — 1–3 помощи · ⭐ — больше помощи","⭐⭐⭐ — no help · ⭐⭐ — 1–3 helps · ⭐ — more helps","⭐⭐⭐ — بدون مساعدة · ⭐⭐ — 1–3 مرات · ⭐ — أكثر","⭐⭐⭐ — 无提示 · ⭐⭐ — 1–3次 · ⭐ — 更多","⭐⭐⭐ — बिना मदद · ⭐⭐ — 1–3 बार · ⭐ — ज़्यादा"]);
 A('skrew',["🔥 # kun ketma-ket! Mukofot: +# 🪙","🔥 # дн. подряд! Награда: +# 🪙","🔥 # days in a row! Reward: +# 🪙","🔥 # أيام متتالية! المكافأة: +# 🪙","🔥 连续 # 天！奖励：+# 🪙","🔥 लगातार # दिन! इनाम: +# 🪙"]);
 A('invtxt',["♞ “Ot Yo‘li” — aql o‘yini! Men o‘ynayapman, siz ham sinab ko‘ring:","♞ «Путь коня» — игра для ума! Я играю, попробуйте и вы:","♞ “Knight’s Path” — a brain game! I’m playing, try it too:","♞ «مسار الحصان» — لعبة ذكاء! أنا ألعبها، جرّبها أنت أيضًا:","♞ “马之路”——益智游戏！我在玩，你也来试试：","♞ “घोड़े का रास्ता” — दिमागी खेल! मैं खेल रहा हूँ, आप भी आज़माएँ:"]);
