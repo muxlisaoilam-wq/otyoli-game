@@ -181,6 +181,12 @@ h2{text-shadow:0 0 12px #2bb5ff;letter-spacing:.5px}
 @keyframes goPulse{0%,100%{box-shadow:0 0 12px #3dff7a,inset 0 0 12px #3dff7a77}50%{box-shadow:0 0 26px #7dffa6,inset 0 0 16px #7dffa699}}
 @media (min-aspect-ratio:12/10){#s1 .mb.go{font-size:min(5.6vh,32px);padding:1.5vh 0}}
 @media (prefers-reduced-motion:reduce){#s1 .mb.go{animation:none}}
+/* Katta "keyingi" tugmasi (g'alaba oynasi) */
+.box button.big{background:linear-gradient(#27d65a,#0b8a2c);border:3px solid #a8ffc0;color:#fff;font-size:min(6.4vw,26px);padding:min(4vw,18px) 10px;box-shadow:0 0 14px #3dff7a,inset 0 0 10px #3dff7a77;text-shadow:0 0 8px #0a5a1c,0 2px 2px #0a5a1c}
+/* Bosh menyu: Boshlashdan boshqa tugmalar kichikroq */
+#s1 .mb:not(.go){font-size:min(6vw,28px);padding:min(3vw,15px) 0}
+#s1 .sb{padding:min(3.6vw,18px) 0;font-size:min(4vw,18px)}
+@media (min-aspect-ratio:12/10){#s1 .mb:not(.go){font-size:min(3.8vh,24px);padding:.9vh 0}#s1 .sb{padding:1.3vh 0;font-size:min(2.6vh,17px)}}
 </style></head><body>
 <div class="scr on" id="s0"><div class="au">Muallif: Mansur Gulamjanov  Usanovich</div><img id="lg"><div><div id="pc">1%</div><div id="pb"><i></i></div></div></div>
 <div class="scr" id="s1"><div class="pf"><div id="fl" onclick="profile()"></div><div id="pn" onclick="profile()"><h3 id="pnm"></h3><div id="skl"></div></div></div>
@@ -261,7 +267,7 @@ const fb=()=>share(msg);
 try{c.toBlob(b=>{if(!b)return fb();const f=new File([b],'otyoli.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],text:msg+' '+u}).catch(()=>{});else{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='otyoli.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4e3);toast('✔ PNG')}},'image/png')}catch(e){fb()}}
 function gnx(){if(FU)return 0;const g=ST.gn||0;if(ST.w>=3&&(!g||ST.w-g>=10)){ST.gn=ST.w;save();return 1}return 0}
 function share(m,x){const u='https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');if(navigator.share)navigator.share({text:m,url:u}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(m))}
-function box(t,bs,l,h){const b=$('bx');b.className='box'+(l?' l':'');b.innerHTML='';if(h){const e=document.createElement('h4');e.textContent=h;b.appendChild(e)}if(t instanceof Node)b.appendChild(t);else if(t){const e=document.createElement('div');e.textContent=t;b.appendChild(e)}bs.forEach(([n,f,k])=>{const x=document.createElement('button');x.textContent=n;x.onclick=()=>{if(!k)$('ov').classList.remove('on');f&&f()};b.appendChild(x)});$('ov').classList.add('on');if(!RM&&b.animate)b.animate([{transform:'scale(.92)',opacity:0},{transform:'none',opacity:1}],{duration:180,easing:'ease-out'})}
+function box(t,bs,l,h){const b=$('bx');b.className='box'+(l?' l':'');b.innerHTML='';if(h){const e=document.createElement('h4');e.textContent=h;b.appendChild(e)}if(t instanceof Node)b.appendChild(t);else if(t){const e=document.createElement('div');e.textContent=t;b.appendChild(e)}bs.forEach(([n,f,k,c])=>{const x=document.createElement('button');x.textContent=n;if(c)x.className=c;x.onclick=()=>{if(!k)$('ov').classList.remove('on');f&&f()};b.appendChild(x)});$('ov').classList.add('on');if(!RM&&b.animate)b.animate([{transform:'scale(.92)',opacity:0},{transform:'none',opacity:1}],{duration:180,easing:'ease-out'})}
 function toast(m){$('tip').textContent=m;setTimeout(()=>{if($('tip').textContent==m)$('tip').textContent=''},1600)}
 function profile(){let av=ST.av||'🔥';const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:12px';
 const pv=document.createElement('div');pv.className='pv';const inp=document.createElement('input');inp.type='text';inp.maxLength=16;inp.value=ST.nm||'';inp.placeholder=tr('yname');
@@ -276,7 +282,7 @@ function howto(){box(tr('abouttxt'),[[tr('close')]],0,tr('about'))}
 function ach(){const n3=Object.values(ST.s).filter(v=>v==3).length;const AA=AC(),ARG={2:[3,10],3:[11],4:[2]},A=AA.map((v,i)=>[i,v||(ST.ac||[]).includes(i),ARG[i]||[]]);
 box(A.map(a=>(a[1]?'✅ ':'🔒 ')+tr('a'+a[0]+'t')+'\n     '+rp(tr('a'+a[0]+'d'),...(a[2]||[]))).join('\n'),[[tr('close')]],0,tr('ach'))}
 function stats(){box([rp(tr('wins'),ST.w),rp(tr('stars'),stars()),rp(tr('medreach'),ST.l[1]),rp(tr('hardreach'),ST.l[2]),ST.fast?tr('fastest').replace('#:#',fmt(ST.fast)):tr('fastest0'),rp(tr('streak'),ST.sk||0)].join('\n'),[[tr('close')]],0,tr('stats'))}
-function AC(){const n3=Object.values(ST.s).filter(v=>v==3).length;return[ST.w>0,ST.noh>0,n3>=10,ST.l[1]>=11||ST.l[2]>=11,ST.fast>0&&ST.fast<120,Math.max(ST.bs||0,ST.sk||0)>=7,Math.max(ST.bs||0,ST.sk||0)>=30,ST.w>=100,ST.w>=500,stars()>=100,stars()>=1000,(ST.blz||0)>=10]}
+function AC(){const n3=Object.values(ST.s).filter(v=>v==3).length;return[ST.w>0,ST.noh>0,n3>=10,ST.l[1]>=11||ST.l[2]>=11,ST.fast>0&&ST.fast<120,Math.max(ST.bs||0,ST.sk||0)>=7,Math.max(ST.bs||0,ST.sk||0)>=30,ST.w>=100,ST.w>=500,stars()>=100,stars()>=1000,(ST.blz||0)>=10,!!(ST.begd||ST.begc),n3>=50,ST.fast>0&&ST.fast<60,Object.values(ST.s).filter(v=>v>0).length>=100]}
 function rew(s0){const A=AC();ST.ac=ST.ac||[];let t='';A.forEach((v,i)=>{if(v&&!ST.ac.includes(i)){ST.ac.push(i);t+='\n'+tr('newach')+tr('a'+i+'t')+'\n'+tr('unl')}});const s1=stars();if(SKR.some(q=>q!=='a4'&&q>s0&&q<=s1))t+='\n'+tr('unl')+' '+tr('skins');return t}
 function langScr(){const g=$('lgl');g.innerHTML='';LG.forEach((n,i)=>{const b=document.createElement('button');b.textContent=n;b.onclick=()=>{ST.lg=i;save();applyLang();show('s1');if(!ST.sug)startup()};g.appendChild(b)});show('s5')}
 function prof(){$('pnm').textContent=ST.nm||tr('guest');const a=ST.av||'🔥';$('fl').innerHTML=a.startsWith('data:')?`<img src="${a}">`:a;$('rt').textContent=stars();{const q=$('pcn');if(q)q.textContent=ST.coins||0}{const q=$('skl'),dd=new Date().toDateString(),yy=new Date(Date.now()-864e5).toDateString();if(q)q.textContent=ST.sk&&(ST.d==dd||ST.d==yy)?'🔥 '+rp(tr('streak'),ST.sk):''}}
@@ -336,7 +342,7 @@ function contPlay(){const q=ST.last;if(!q)return;if(!q.m)return play(0);play(q.m
 function starsFx(n){const b=$('bx'),r=document.createElement('div');r.style.cssText='font-size:44px;letter-spacing:6px';b.insertBefore(r,b.firstChild);if(MSGX){const m=document.createElement('div');m.textContent=MSGX.trim();m.style.cssText='color:var(--gold);font-weight:700;white-space:pre-line';b.insertBefore(m,r.nextSibling);MSGX=''}for(let i=0;i<3;i++){const e=document.createElement('span');e.textContent=i<n?'⭐':'☆';e.style.cssText='display:inline-block;opacity:0';r.appendChild(e);setTimeout(()=>{e.style.opacity=1;if(!RM&&e.animate)e.animate([{transform:'scale(0) rotate(-90deg)'},{transform:'scale(1.5) rotate(10deg)',offset:.7},{transform:'none'}],{duration:420,easing:'ease-out'});if(i<n)sfx('star'+(i+1))},500+i*450)}}
 function back3(){if(mode==5||mode==6)return;ended=false;let k=0;while(k<3&&hist.length>1){const l=hist.pop();vis[l]=0;num[l]=0;k++}cur=hist[hist.length-1];if(mode&&hist.length==1)forced=curCfg.t;if(GM)forced=GM[hist.length+1]||-1;usedB=true;HC++;tStart=Date.now()-tEl;if(HM()||ST.tmr)tm=setInterval(tick,1000);draw()}
 const lvBack=()=>{if(AFR&&mode==1){AFR=0;return adv()}{if(daily||weekly)return show('s2');if([4,6,9,10].includes(mode))return show('s7');if(mode==1||mode==2)return tiers(3);if(mode>=12&&mode<=20)return tiers(Math.floor((mode-12)/3));show('s2')}};
-function retrace(seq,cb){RTING=1;RSKIP=0;const id=++demoTok;let i=seq.length-1;const tot=[2600,1200,4200][ST.rts||0],d=Math.max(15,Math.min(140,tot/seq.length));const f=()=>{if(id!=demoTok){RTING=0;return}if(RSKIP){cur=seq[0];anim=null;draw();RTING=0;RSKIP=0;cb();return}if(i<=0){RTING=0;cb();return}i--;cur=seq[i];anim=null;draw();setTimeout(f,d)};setTimeout(f,300)}
+function retrace(seq,cb){const id=++demoTok;setTimeout(()=>{if(id==demoTok)cb()},300)}
 function leave(){if(RTING)return;AFR=0;clearInterval(tm);demoTok++;ended=true;show('s1')}
 function rs(){if(mode==6||RTING)return;start()}
 function start(){if(!daily&&!weekly&&(mode==0||LM(mode)))ST.last={m:mode,l:lvl};clearInterval(tm);demoTok++;TUT=mode==0&&!ST.tut?1:0;const c=curCfg;N=c.n;TOT=N*N-c.b.length-(c.o||[]).length;BLK=Array(N*N).fill(0);c.b.forEach(i=>BLK[i]=1);(c.o||[]).forEach(i=>BLK[i]=2);ENDN=c.cl?c.s:-1;lastB=0;vis=Array(N*N).fill(0);num=Array(N*N).fill(0);hist=[];cur=-1;forced=-1;ended=false;usedH=usedB=false;HC=0;backLeft=3;tEl=0;tStart=Date.now();hintCell=-1;
@@ -373,8 +379,8 @@ let t=tr('won')+'\n'+(mode==0?rp(tr('congrats'),TOT):rp(tr('lvldone'),lvl));
 let rj=-1;if(LM(mode)){const k=mode+'_'+lvl,r0=mode==1&&lvl<=RG*RL?regionOf(lvl):-1,pre=r0>=0?rgSt(r0):0;ST.s[k]=Math.max(ST.s[k]||0,sc);if(r0>=0&&pre<15&&rgSt(r0)>=15)rj=r0;if(lvl==ST.l[mode]&&lvl<=LVN(mode))ST.l[mode]++;if(sc==3)ST.noh++;
 if(mode==2&&!usedH&&!usedB){const s=Math.floor(tEl/1000);ST.hb=ST.hb||{};if(!ST.hb[lvl]||s<ST.hb[lvl])ST.hb[lvl]=s;t+='\n'+tr('time').replace('#:#',fmt(s));if(!ST.fast||s<ST.fast)ST.fast=s;ST.top=(ST.top||[]).concat([{t:s,l:lvl,n:ST.nm||''}]).sort((a,b)=>a.t-b.t).slice(0,5)}}
 const d=new Date().toDateString();if(ST.d!=d){ST.sk=(ST.d==new Date(Date.now()-864e5).toDateString()?ST.sk:0)+1;ST.d=d;{const mc={3:20,7:50,14:100,30:200}[ST.sk];if(mc){addC(mc);t+='\n'+rp(tr('skrew'),ST.sk,mc)}}}ST.bs=Math.max(ST.bs||0,ST.sk||0);
-t+=rew(s0);if(sc<3)t+='\n'+tr('sttip');if(mode==11&&lvl==LVN(11)){t+='\n\n'+tr('begdone');if(!ST.begc){ST.begc=1;addC(100);t+='\n'+tr('begc')}}if(mode==1&&lvl<=RG*RL&&lvl%RL==0&&rj<0&&rgSt(regionOf(lvl))<15)t+='\n\n'+rp(tr('rgneed'),rgSt(regionOf(lvl)));save();const sm=(mode?rp(tr('shr'),lvl,sc):tr('shr0'))+(code?' ['+code+']':'');
-const gn=gnx();t+='\n\n💡 '+tr('fct'+((ST.fp=(ST.fp||0)+1)*7%31));if(gn)t+='\n\n'+tr('gnudge');box(rjNode(t,rj),[...(rj>=0?[[rj<RG-1?tr('rgnext'):tr('rgall'),()=>advGo(rj<RG-1?rj+1:rj)]]:[]),...(LM(mode)?[[tr('next'),nextLvl]]:[]),[tr('again'),start],...(gn?[['☁ '+tr('gsign'),()=>{signIn().catch(()=>{})}]]:[])]);starsFx(sc);return});return}
+if(mode==11&&lvl==LVN(11))ST.begd=1;t+=rew(s0);if(sc<3)t+='\n'+tr('sttip');if(mode==11&&lvl==LVN(11)){t+='\n\n'+tr('begdone');if(!ST.begc){ST.begc=1;addC(100);t+='\n'+tr('begc')}}if(mode==1&&lvl<=RG*RL&&lvl%RL==0&&rj<0&&rgSt(regionOf(lvl))<15)t+='\n\n'+rp(tr('rgneed'),rgSt(regionOf(lvl)));save();const sm=(mode?rp(tr('shr'),lvl,sc):tr('shr0'))+(code?' ['+code+']':'');
+const gn=gnx();t+='\n\n💡 '+tr('fct'+((ST.fp=(ST.fp||0)+1)*7%31));if(gn)t+='\n\n'+tr('gnudge');box(rjNode(t,rj),[...(rj>=0?[[rj<RG-1?tr('rgnext'):tr('rgall'),()=>advGo(rj<RG-1?rj+1:rj)]]:[]),...(LM(mode)?[mode==11&&lvl>=LVN(11)?['🏆 '+tr('goclassic'),()=>tiers(3),0,'big']:['➡️ '+tr('next'),nextLvl,0,'big']]:[]),[tr('again'),start],...(gn?[['☁ '+tr('gsign'),()=>{signIn().catch(()=>{})}]]:[])]);starsFx(sc);return});return}
 if(!nbrs(cur).some(t=>ok(cur,t))){ended=true;tEl=Date.now()-tStart;clearInterval(tm);
 if(mode==5){sfx('err');toast(tr('over'));setTimeout(()=>{if(mode==5&&blz&&!blz.over)start()},700);return}
 if(mode==6){duelNext({ok:false,n:hist.length});return}
@@ -416,7 +422,7 @@ FL.forEach((f,i)=>{const d=document.createElement('div'),o=skinOk(i);d.className
 w.append(g,lb,g2);box(w,[[tr('cancel')]],1,tr('pickboard'))}
 function settings(){const tg=(k,f)=>[tr(k),()=>{f();save();settings()},1],gd=()=>$('g').classList.contains('on');box('',[
 tg(ST.snd?'snd_on':'snd_off',()=>ST.snd=!ST.snd),tg(ST.vib!==false?'vib_on':'vib_off',()=>ST.vib=ST.vib===false),tg(ST.mus?'music_on':'music_off',()=>{ST.mus=!ST.mus;music()}),
-tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.nums!==false?'nums_on':'nums_off',()=>{ST.nums=ST.nums===false;if(gd())draw()}),[tr('inst'),instApp],[tr('howto'),()=>{ST.tut=0;save();play(0)}],[tr('tcol')+': '+TCE[ST.tc||0],()=>{nextTc();save();settings()},1],tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
+tg(ST.pth!==false?'path_on':'path_off',()=>{ST.pth=ST.pth===false;if(gd())draw()}),tg(ST.nums!==false?'nums_on':'nums_off',()=>{ST.nums=ST.nums===false;if(gd())draw()}),[tr('inst'),instApp],[tr('tcol')+': '+TCE[ST.tc||0],()=>{nextTc();save();settings()},1],tg(ST.th=='light'?'th_light':'th_dark',()=>{ST.th=ST.th=='light'?'dark':'light';applyTheme()}),
 [tr('lang'),langScr]],0,tr('settings')+' · v2');$('bx').classList.add('st2');settingsFoot()}
 const FBC={apiKey:"AIzaSyB4bqT_n3u-cMby28d1ZLAjedegHSpH44c",authDomain:"otyoli-2cd9d.firebaseapp.com",databaseURL:"https://otyoli-2cd9d-default-rtdb.firebaseio.com",projectId:"otyoli-2cd9d",appId:"1:323475651995:web:1e6ea5117385c0071d753e"};
 var FBP=null,FU=null,FRDY=0,SYN=0,CT=0;
@@ -468,6 +474,16 @@ T.a10t=["1000 yulduz", "1000 звёзд", "1000 stars", "1000 نجمة", "1000 �
 T.a10d=["Jami 1000 ta yulduz yig‘ing", "Соберите 1000 звёзд", "Collect 1000 stars in total", "اجمع 1000 نجمة", "累计获得1000颗星", "कुल 1000 सितारे जमा करें"];
 T.a11t=["Chaqmoq", "Молния", "Lightning", "برق", "闪电", "बिजली"];
 T.a11d=["Blitzda 10 ta bosqichni yeching", "Решите 10 уровней в блице", "Solve 10 levels in Blitz", "احلل 10 مراحل في البليتز", "在闪电模式中完成10个关卡", "ब्लिट्ज़ में 10 स्तर हल करें"];
+T.a12t=["Mashq tugadi", "Тренировка пройдена", "Practice complete", "انتهى التدريب", "练习完成", "अभ्यास पूरा"];
+T.a12d=["Mashqning barcha bosqichlarini tugating", "Пройдите все уровни тренировки", "Finish all Practice levels", "أكمل جميع مراحل التدريب", "完成练习的所有关卡", "अभ्यास के सभी स्तर पूरे करें"];
+T.a13t=["Ot ustasi", "Мастер коня", "Knight master", "سيد الحصان", "骑士大师", "घोड़े का उस्ताद"];
+T.a13d=["50 ta bosqichda 3 yulduz oling", "Получите 3 звезды на 50 уровнях", "Get 3 stars on 50 levels", "احصل على 3 نجوم في 50 مرحلة", "在 50 个关卡获得三星", "50 स्तरों पर 3 सितारे पाएँ"];
+T.a14t=["Tezkor", "Быстрый", "Quick", "سريع جدًا", "神速", "तेज़"];
+T.a14d=["Qiyin bosqichni 1 daqiqadan tez tugating", "Пройдите сложный уровень быстрее чем за 1 мин.", "Finish a hard level in under 1 minute", "أكمل مرحلة صعبة في أقل من دقيقة", "在 1 分钟内完成困难关卡", "कठिन स्तर 1 मिनट से कम में पूरा करें"];
+T.a15t=["100 bosqich", "100 уровней", "100 levels", "100 مرحلة", "100 个关卡", "100 स्तर"];
+T.a15d=["Kamida 1 yulduz bilan 100 xil bosqichni tugating", "Пройдите 100 разных уровней хотя бы с 1 звездой", "Finish 100 different levels with at least 1 star", "أكمل 100 مرحلة مختلفة بنجمة واحدة على الأقل", "至少 1 星通关 100 个不同关卡", "कम से कम 1 सितारे के साथ 100 अलग स्तर पूरे करें"];
+T.goclassic=["Classic o‘yinini boshlash", "Играть в Classic", "Play Classic", "العب Classic", "开始玩 Classic", "Classic खेलें"];
+T.bt0=["🐴 Ot shu yerdan boshlanadi. Yashil belgili katakka bosib yuring.", "🐴 Конь начинает отсюда. Нажимайте на клетки с зелёной отметкой.", "🐴 The knight starts here. Tap the green-marked squares.", "🐴 يبدأ الحصان من هنا. اضغط على المربعات ذات العلامة الخضراء.", "🐴 马从这里出发。点击带绿色标记的格子。", "🐴 घोड़ा यहीं से शुरू होता है। हरे निशान वाले खानों पर टैप करें।"];
 T.wkleft=["📅 Haftalik reyting · yangilanishiga # kun", "📅 Недельный рейтинг · до обновления # дн.", "📅 Weekly ranking · resets in # days", "📅 الترتيب الأسبوعي · يتجدد بعد # أيام", "📅 每周排行 · # 天后重置", "📅 साप्ताहिक रैंकिंग · # दिन में रीसेट"];
 T.gnudge=["☁ Google bilan kirsangiz, yutuqlaringiz yo‘qolmaydi!", "☁ Войдите через Google — ваши достижения не пропадут!", "☁ Sign in with Google so your progress is never lost!", "☁ سجّل الدخول عبر Google كي لا تضيع إنجازاتك!", "☁ 使用 Google 登录，成就就不会丢失！", "☁ Google से साइन इन करें, आपकी उपलब्धियाँ कभी नहीं खोएँगी!"];
 T.vary=["Har xil","Разное","Variety","متنوع","更多玩法","विविध"];
@@ -692,7 +708,7 @@ applyLang()})();
 /* ===== YANGILIKLAR 2 ===== */
 const ssum=m=>{let s=0;for(let i=1;i<=LVN(m);i++)s+=ST.s[m+'_'+i]||0;return s};
 function whyNot(i){if(vis[i])return tr('w_vis');if(cur>=0&&!isAdj(cur,i))return tr('w_shape');if(GV&&GV[i]&&GV[i]!=hist.length+1)return rp(tr('w_gv'),GV[i]);if(forced>=0&&i!=forced&&GM)return rp(tr('w_fg'),hist.length+1);return tr('cant')}
-function begTip(){if(mode!=11||lvl>2||ended)return '';if(hist.length<=1)return tr('bt1');const n=hist.length+1;return GM&&GM[n]?rp(tr('bt2'),n):tr('bt3')}
+function begTip(){if(mode!=11||ended)return '';if(lvl>2)return hist.length<=1?tr('bt0'):'';if(hist.length<=1)return tr('bt1');const n=hist.length+1;return GM&&GM[n]?rp(tr('bt2'),n):tr('bt3')}
 (()=>{const A=(k,a)=>T[k]=a;
 A('bt1',["👆 Ot “Г” shaklida yuradi: yashil belgili kataklardan biriga bosing.","👆 Конь ходит буквой «Г»: нажмите на одну из отмеченных клеток.","👆 The knight moves in an “L”: tap one of the marked squares.","👆 يتحرك الحصان على شكل «L»: اضغط على أحد المربعات المعلَّمة.","👆 马走“日”字：点击任意一个有标记的格子。","👆 घोड़ा “L” आकार में चलता है: चिह्नित खानों में से किसी पर टैप करें।"]);
 A('bt2',["🔢 Navbat: # — binafsha raqamli katakka boring.","🔢 Ход №#: идите на клетку с фиолетовым числом.","🔢 Move #: go to the square with the purple number.","🔢 الحركة #: اذهب إلى المربع ذي الرقم البنفسجي.","🔢 第#步：走到紫色数字的格子。","🔢 चाल #: बैंगनी संख्या वाले खाने पर जाएँ।"]);
