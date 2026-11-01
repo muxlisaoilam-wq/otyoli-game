@@ -286,6 +286,17 @@ html[data-th=light] #lgh{color:#0a1a3a;text-shadow:none}
 html[data-th=light] #jturn{color:#0a1a3a;text-shadow:none}
 /* o'yin turi oynasi: 2 holat */
 #dl.two .dd:nth-of-type(2){left:calc(100% - 14px)}#dl.two .dd:nth-of-type(3){display:none}
+/* v3.28: Classic — asosiy o'yin (Android v3.27 dagidek): oltin, kattaroq, "ASOSIY" yorlig'i, sekin "nafas oladi" */
+#s2 .mb.cls{position:relative;background:linear-gradient(135deg,rgba(224,165,38,.92),rgba(138,90,0,.82))!important;border:3px solid #ffe08a!important;color:#fff!important;text-shadow:0 2px 8px #5a3a00!important;box-shadow:0 0 0 3px rgba(255,201,60,.32),0 0 20px rgba(255,201,60,.55),inset 0 0 14px rgba(255,201,60,.38)!important;font-size:min(8.8vw,5.6vh,42px)!important;padding:min(6.4vw,3vh,32px) 0!important;border-radius:20px!important;animation:clsP 2.6s ease-in-out infinite;will-change:transform}
+#s2 .mb.cls .kn{color:#fff!important;text-shadow:0 0 10px #ffc93c!important}
+@keyframes clsP{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}
+#s2 .mb.cls .cbd{position:absolute;top:7px;right:14px;background:#ffd75a;color:#3a2400!important;border:1.5px solid #fff;border-radius:10px;padding:2px 9px;font-size:min(3vw,12px)!important;line-height:1.3;font-weight:700;text-shadow:none!important;letter-spacing:.3px;font-family:inherit}
+html[dir=rtl] #s2 .mb.cls .cbd{right:auto;left:14px}
+@media (prefers-reduced-motion:reduce){#s2 .mb.cls{animation:none}}
+/* v3.28: Telegram Mini App — Telegram'ning yuqori/pastki tugmalari ostida qolmasligi uchun */
+html.tg .scr{top:var(--tgT,0px)!important;bottom:var(--tgB,0px)!important;height:auto!important}
+html.tg body{padding-top:0;padding-bottom:0}
+html.tg #ov{padding-top:var(--tgT,0px);padding-bottom:var(--tgB,0px)}
 </style></head><body>
 <div class="scr on" id="s0"><div class="au">Muallif: Mansur Gulamjanov  Usanovich</div><img id="lg"><div id="ld"><div id="ldt"><div id="ldf"></div><div id="ldn"><div id="ldb"><div id="ldk"></div></div></div></div></div></div>
 <div class="scr" id="s1"><div class="pf"><div id="fl" onclick="profile()"></div><div id="pn" onclick="profile()"><h3 id="pnm"></h3><div id="skl"></div></div></div>
@@ -297,7 +308,7 @@ html[data-th=light] #jturn{color:#0a1a3a;text-shadow:none}
 <div class="row"><button class="sb" onclick="shop()"><span data-ic="cart"></span> <span class="ne" data-i="shop"></span> <span id="cn"></span></button><button class="sb" id="instb" onclick="instApp()" data-i="inst"></button></div></div>
 <div class="scr" id="s2"><h2 data-i="lvlpick" style="margin:3vh 0 0"></h2>
 <button class="mb m2" onclick="lvlMenu(11)"><span><span data-ic="cap"></span> <span data-i="beg"></span></span><span class="sub" id="p11"></span></button>
-<button class="mb m2" onclick="tiers(3)"><span><span class="kn">♞</span> <span data-i="classic"></span></span></button>
+<button class="mb m2 cls" id="clb" onclick="tiers(3)"><span><span class="kn">♞</span> <span data-i="classic"></span></span><span class="cbd" data-i="mainb"></span></button>
 <div class="g2 g4" style="grid-template-columns:repeat(3,1fr)!important"><button class="mb" onclick="tiers(0)"><span>5×5</span><span class="sub" id="z0"></span></button><button class="mb" onclick="tiers(1)"><span>5×6</span><span class="sub" id="z1"></span></button><button class="mb" onclick="tiers(2)"><span>7×7</span><span class="sub" id="z2"></span></button></div>
 <button class="mb m2" onclick="blitzStart()"><span><span data-ic="bolt"></span> <span class="ne" data-i="blitz"></span></span><span class="sub" id="p5"></span></button>
 <button class="mb m2" onclick="jangPick()"><span><span data-ic="swords"></span> <span class="ne" data-i="jang"></span></span><span class="sub" id="pj"></span></button>
@@ -1006,5 +1017,116 @@ addEventListener('resize',()=>{if($('sj')&&$('sj').classList.contains('on'))jDra
 (function(){const b=$('jb');if(b)b.addEventListener('pointerup',jTap);const n=$('jnew');if(n)n.onclick=()=>jSetup(JG.solo,JG.level);const u=$('jund');if(u)u.onclick=()=>{if(!jUndo())toast(tr('nogoback'))};
 const pv=$('lpv');if(pv)pv.onclick=e=>{e.preventDefault();try{window.open('https://muxlisaoilam-wq.github.io/otyoli/privacy.html','_blank')}catch(_){}};
 applyLang();upd();icoFix()})();
+</script><script>
+/* ===== v3.28: TELEGRAM MINI APP =====
+   O‘yin Telegram ichida ochilganda ishlaydi; oddiy brauzerda hech narsa o‘zgarmaydi.
+   Sozlash: TG_BOT — botingiz nomi (@ belgisiz), TG_APP — BotFather'dagi Mini App qisqa nomi
+   (asosiy Mini App bo‘lsa bo‘sh qoldiring), TG_STARS — bot.py /stars buyrug‘i bergan havolalar. */
+const TG_BOT='OtYoli_bot';
+const TG_APP='';
+const TG_STARS=[/* {coins:500,stars:50,link:'https://t.me/$...'} */];
+{const TL=(k,a)=>T[k]=a;
+
+TL('mainb',["⭐ ASOSIY","⭐ ГЛАВНАЯ","⭐ MAIN","⭐ الرئيسية","⭐ 主线","⭐ मुख्य"]);
+TL('tgsign',["Telegram orqali kirish","Войти через Telegram","Sign in with Telegram","الدخول عبر Telegram","通过 Telegram 登录","Telegram से साइन इन करें"]);
+TL('tgnoauth',["Reyting hozircha yoqilmagan (Firebase'da Anonymous kirishni yoqing). O‘yin va natijalar Telegram'da saqlanadi.","Рейтинг пока не включён (включите Anonymous вход в Firebase). Игра и прогресс сохраняются в Telegram.","Ranking isn’t enabled yet (turn on Anonymous sign-in in Firebase). Your game and progress are saved in Telegram.","التصنيف غير مفعّل بعد. اللعبة والتقدم محفوظان في Telegram.","排行榜暂未开启。游戏和进度保存在 Telegram 中。","रैंकिंग अभी चालू नहीं है। गेम और प्रगति Telegram में सहेजी जाती है।"]);
+TL('tgref',["🎁 Do‘stingiz taklifi uchun: +# 🪙","🎁 За приглашение друга: +# 🪙","🎁 Friend invite bonus: +# 🪙","🎁 مكافأة دعوة صديق: +# 🪙","🎁 好友邀请奖励：+# 🪙","🎁 मित्र निमंत्रण बोनस: +# 🪙"]);
+TL('tgsend',["📨 Do‘stga yuborish","📨 Отправить другу","📨 Send to a friend","📨 أرسل إلى صديق","📨 发给好友","📨 दोस्त को भेजें"]);
+TL('tgstory',["📸 Story'ga joylash","📸 В историю","📸 Post to Story","📸 انشر في القصة","📸 发布到快拍","📸 स्टोरी में डालें"]);
+TL('tgshare',["Ulashish","Поделиться","Share","مشاركة","分享","साझा करें"]);
+TL('tghome',["✔ O‘yin bosh ekranda bor","✔ Игра уже на главном экране","✔ Already on your home screen","✔ موجودة على الشاشة الرئيسية","✔ 已在主屏幕上","✔ होम स्क्रीन पर पहले से है"]);
+TL('tgstars',["⭐ # Stars → # tanga","⭐ # Stars → # монет","⭐ # Stars → # coins","⭐ # Stars ← # عملة","⭐ # Stars → # 金币","⭐ # Stars → # सिक्के"]);
+TL('tgpaid',["✔ Rahmat! +# 🪙","✔ Спасибо! +# 🪙","✔ Thank you! +# 🪙","✔ شكرًا! +# 🪙","✔ 谢谢！+# 🪙","✔ धन्यवाद! +# 🪙"]);
+applyLang()}
+
+(function(){
+const H=location.hash||'',HP=new URLSearchParams(H.slice(1));
+let inTg=/tgWebApp(Data|Version|Platform)=/.test(H);
+try{if(inTg)sessionStorage.setItem('otyoli_tg','1');else inTg=sessionStorage.getItem('otyoli_tg')=='1'}catch(e){}
+if(!inTg)return;
+document.documentElement.classList.add('tg');
+
+/* --- start_param: c<kod>_t<soniya>_r<id>, d (kunlik), w (haftalik), ref_<id> --- */
+let SP=HP.get('tgWebAppStartParam')||'';
+try{const Q=new URLSearchParams(location.search),q=Q.get('go'),rf=Q.get('ref');if(q&&!SP)SP=q=='daily'?'d':q=='weekly'?'w':'';if(rf&&/^\d+$/.test(rf))SP+=(SP?'_':'')+'r'+rf}catch(e){}
+const SPp={};SP.split('_').forEach((x,i,a)=>{if(x=='ref'&&a[i+1])SPp.r=a[i+1];else if(/^[ctr]/.test(x)&&x.length>1)SPp[x[0]]=x.slice(1);else if(x=='d'||x=='w')SPp[x]=1});
+if(SPp.c&&/^[A-Za-z0-9]+$/.test(SPp.c)){try{history.replaceState(history.state,'',location.pathname+'?c='+SPp.c+'&t='+(+SPp.t||0)+location.hash)}catch(e){}}
+
+const s=document.createElement('script');s.src='https://telegram.org/js/telegram-web-app.js';s.onload=init;document.head.appendChild(s);
+
+function init(){const W=window.Telegram&&Telegram.WebApp;if(!W)return;
+const V=v=>{try{return W.isVersionAtLeast(v)}catch(e){return false}},mob=['android','ios'].includes(W.platform),U=(W.initDataUnsafe&&W.initDataUnsafe.user)||null;
+try{W.ready();W.expand()}catch(e){}
+/* to‘liq ekran (faqat telefonda) va pastga surganda yopilmasin */
+try{if(mob&&V('8.0'))W.requestFullscreen()}catch(e){}
+try{if(V('7.7'))W.disableVerticalSwipes()}catch(e){}
+try{if(mob&&V('8.0'))W.lockOrientation()}catch(e){}
+
+/* xavfsiz hudud (kamera kesigi + Telegram tugmalari) */
+const ins=()=>{const a=W.safeAreaInset||{},b=W.contentSafeAreaInset||{},r=document.documentElement.style;r.setProperty('--tgT',((a.top||0)+(b.top||0))+'px');r.setProperty('--tgB',((a.bottom||0)+(b.bottom||0))+'px')};
+ins();['safeAreaChanged','contentSafeAreaChanged','fullscreenChanged','viewportChanged'].forEach(e=>{try{W.onEvent(e,ins)}catch(_){}});
+
+/* ranglar: Telegram'ning sarlavha/fon rangi o‘yin mavzusiga mos */
+if(ST.th===undefined&&W.colorScheme=='light'){ST.th='light';applyTheme()}
+const col=()=>{const c=(typeof THBG!='undefined'&&THBG[document.documentElement.dataset.th||'dark'])||'#050818';try{if(V('6.1')){W.setHeaderColor(c);W.setBackgroundColor(c)}if(V('7.10'))W.setBottomBarColor(c)}catch(e){}};
+col();new MutationObserver(col).observe(document.documentElement,{attributes:true,attributeFilter:['data-th']});
+
+/* tebranish: Telegram HapticFeedback (iPhone'da ham ishlaydi) */
+const HF=V('6.1')&&W.HapticFeedback;
+if(HF){try{Object.defineProperty(navigator,'vibrate',{configurable:true,value:p=>{try{Array.isArray(p)?HF.notificationOccurred('error'):HF.impactOccurred(p>=30?'medium':'light')}catch(e){}return true}})}catch(e){}
+const s0=sfx;sfx=function(k){try{if(ST.vib!==false){if(k=='win')HF.notificationOccurred('success');else if(k=='err')HF.notificationOccurred('warning')}}catch(e){}return s0.apply(this,arguments)}}
+
+/* Telegram'ning "Orqaga" tugmasi va yopishdan oldin so‘rash */
+const BB=V('6.1')&&W.BackButton;
+const bbUpd=()=>{const o=document.querySelector('.scr.on'),d=o&&o.id,ov=$('ov').classList.contains('on')||$('dl').classList.contains('on');
+if(BB){if(ov||(d&&!['s0','s1','s6'].includes(d)))BB.show();else BB.hide()}
+try{if(V('6.2')){if(d=='g'||d=='sj')W.enableClosingConfirmation();else W.disableClosingConfirmation()}}catch(e){}};
+if(BB)BB.onClick(()=>{try{backBtn()}catch(e){}});
+const mo=new MutationObserver(bbUpd);document.querySelectorAll('.scr,#ov,#dl').forEach(e=>mo.observe(e,{attributes:true,attributeFilter:['class']}));bbUpd();
+
+/* ism Telegram'dan */
+if(U&&!ST.nm){ST.nm=(U.first_name||U.username||'').slice(0,16);save()}
+
+/* kirish: telefonda Google ishlamaydi -> Telegram (Firebase anonim) */
+let tgAuthP=null;
+const tgAuth=q=>tgAuthP||(tgAuthP=new Promise((ok,no)=>{fbLoad().then(()=>{if(firebase.auth().currentUser)return ok(firebase.auth().currentUser);
+firebase.auth().signInAnonymously().then(r=>ok(r.user),e=>{tgAuthP=null;const c=(e&&e.code)||'';if(!q){if(/operation-not-allowed|admin-restricted/.test(c))box(tr('tgnoauth'),[[tr('close')]]);else er(c.replace('auth/','')||'internet')}no(e)})},e=>{tgAuthP=null;if(!q)er('internet');no(e)})}));
+if(mob||!U){T.gsign=T.tgsign;applyLang();signIn=()=>tgAuth()}
+const wg=$('wg');if(wg&&mob)wg.style.display='none';
+const wm=$('wm');if(wm&&U){const b=document.createElement('button');b.className='mb';b.id='wt';b.textContent='✈️ '+tr('tgsign');b.onclick=()=>{ST.wl=1;save();tgAuth(1).catch(()=>{});if(typeof goHome=='function')goHome();else show('s1')};wm.parentNode.insertBefore(b,wg||wm)}
+if(U&&!ST.wl){ST.wl=1;save()}
+if(U&&ST.wl)setTimeout(()=>tgAuth(1).catch(()=>{}),2600);
+
+/* natijalar Telegram bulutida (CloudStorage): boshqa telefonda ham davom etadi */
+const CS=V('6.9')&&W.CloudStorage,oSet=Storage.prototype.setItem,lsSet=(k,v)=>{try{oSet.call(localStorage,k,v)}catch(e){}};
+if(CS){let rdy=0,tmr=0,busy=0;
+const up=()=>{if(!rdy||busy)return;let j=localStorage.getItem('otyoli')||'';if(!j)return;if(j.length>300000){try{const o=JSON.parse(j);delete o.av;j=JSON.stringify(o)}catch(e){return}}
+const n=Math.ceil(j.length/3500),t=Date.now(),ks=[];for(let i=0;i<n;i++)ks.push(['o_'+i,j.slice(i*3500,(i+1)*3500)]);ks.push(['o_n',String(n)],['o_t',String(t)]);busy=1;
+let i=0;const nx=()=>{if(i>=ks.length){busy=0;lsSet('otyoli_tgt',String(t));return}const [k,v]=ks[i++];CS.setItem(k,v,e=>{if(e){busy=0;return}nx()})};nx()};
+Storage.prototype.setItem=function(k,v){oSet.call(this,k,v);if(this===localStorage&&k==='otyoli'&&rdy){clearTimeout(tmr);tmr=setTimeout(up,3000)}};
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&rdy){clearTimeout(tmr);up()}});
+CS.getItems(['o_n','o_t'],(e,v)=>{if(e||!v){rdy=1;return}const n=+v.o_n||0,t=+v.o_t||0,lt=+localStorage.getItem('otyoli_tgt')||0;
+let g0=0;try{g0=sessionStorage.getItem('otyoli_tgr')}catch(_){}
+if(n&&t>lt&&!g0){const ks=[];for(let i=0;i<n;i++)ks.push('o_'+i);CS.getItems(ks,(e2,v2)=>{if(!e2&&v2){const j=ks.map(k=>v2[k]||'').join('');try{const o=JSON.parse(j);if(o&&o.l){const av=ST.av;if(av&&!o.av)o.av=av;lsSet('otyoli',JSON.stringify(o));lsSet('otyoli_tgt',String(t));try{sessionStorage.setItem('otyoli_tgr','1')}catch(_){}location.reload();return}}catch(_){}}rdy=1})}
+else{rdy=1;if(localStorage.getItem('otyoli')&&lt>=t)up()}})}
+
+/* ulashish: Telegram ichida do‘stga yuborish yoki Story */
+const myId=U?String(U.id):'';
+const link=x=>{if(!TG_BOT)return 'https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');let p=[];const q=new URLSearchParams((x||'').replace(/^\?/,''));const c=q.get('c');if(c&&/^[A-Za-z0-9]+$/.test(c))p.push('c'+c,'t'+(+q.get('t')||0));if(myId)p.push('r'+myId);return 'https://t.me/'+TG_BOT+(TG_APP?'/'+TG_APP:'')+(p.length?'?startapp='+p.join('_'):'')};
+const send=(m,x)=>{const u='https://t.me/share/url?url='+encodeURIComponent(link(x))+'&text='+encodeURIComponent(m);try{W.openTelegramLink(u)}catch(e){window.open(u)}};
+share=function(m,x){if(!(mob&&V('7.8')))return send(m,x);box(m,[[tr('tgsend'),()=>send(m,x)],[tr('tgstory'),()=>{try{W.shareToStory(new URL('icon-512.png',location.href).href,{text:(m+' '+link(x)).slice(0,200)})}catch(e){send(m,x)}}],[tr('cancel')]],0,tr('tgshare'))};
+card=function(msg){return share(msg)};
+
+/* bosh ekranga qo‘shish */
+instApp=function(){if(!V('8.0'))return box(tr('insthelp'),[[tr('close')]],0,tr('inst'));try{W.checkHomeScreenStatus(st=>{if(st=='added')toast(tr('tghome'));else if(st=='unsupported')box(tr('insthelp'),[[tr('close')]],0,tr('inst'));else W.addToHomeScreen()})}catch(e){try{W.addToHomeScreen()}catch(_){}}};
+
+/* do‘konda Telegram Stars bilan tanga */
+if(TG_STARS.length&&V('6.1')){const sh0=shop;shop=function(msg){sh0(msg);const bx=$('bx'),last=bx.querySelector('button:last-of-type');TG_STARS.forEach(p=>{const b=document.createElement('button');b.textContent=rp(tr('tgstars'),p.stars,p.coins);b.onclick=()=>{try{W.openInvoice(p.link,st=>{if(st=='paid'){addC(p.coins);save();try{upd()}catch(e){}shop(rp(tr('tgpaid'),p.coins))}})}catch(e){}};bx.insertBefore(b,last)})}}
+
+/* taklif bonusi (yangi o‘yinchi uchun) va kunlik/haftalik havolalar */
+setTimeout(()=>{if(SPp.r&&SPp.r!=myId&&!ST.refd&&(ST.w||0)<3){ST.refd=SPp.r;addC(50);save();try{prof();upd()}catch(e){}toast(rp(tr('tgref'),50))}
+if((SPp.d||SPp.w)&&$('s1').classList.contains('on')){try{SPp.d?play(1,0,1):play(2,0,0,1)}catch(e){}}},4200);
+}
+})();
 </script><script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});if('serviceWorker'in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
