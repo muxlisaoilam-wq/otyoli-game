@@ -402,7 +402,7 @@ function tut(){const P=tr('rules').split('\n\n'),sl=[[P[0]+'\n\n'+P[1],'♞'],[P
 const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:14px;align-items:center';const e=document.createElement('div');e.className='big';e.textContent=sl[i][1];const t=document.createElement('div');t.textContent=sl[i][0];const d=document.createElement('div');d.className='dots';d.textContent=sl.map((_,j)=>j==i?'●':'○').join('');[e,t,d].forEach(x=>w.appendChild(x));
 box(w,[[i==sl.length-1?tr('gotit'):'▶',()=>go(i+1)]])};go(0)}
 let WIN=null;
-function card(msg,sc,code,secs){const W=WIN;if(!W)return share(msg);const u='https://muxlisaoilam-wq.github.io/otyoli/',Z=1080,H=1350,c=document.createElement('canvas'),X=c.getContext('2d');c.width=Z;c.height=H;
+function card(msg,sc,code,secs){const W=WIN;if(!W)return share(msg);const u='https://muxlisaoilam-wq.github.io/otyoli-game/',Z=1080,H=1350,c=document.createElement('canvas'),X=c.getContext('2d');c.width=Z;c.height=H;
 const g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0b1446');g.addColorStop(1,'#050818');X.fillStyle=g;X.fillRect(0,0,Z,H);X.textAlign='center';X.fillStyle='#4fd1ff';X.font='700 84px Roboto,system-ui,sans-serif';X.fillText('Ot Yo‘li',Z/2,125);
 const n=W.n,bs=900,x0=90,y0=175,cs=bs/n,bc=(IM.bc&&IM.bc[ST.b])||['#f0d9b5','#b58863'];
 for(let i=0;i<n*n;i++){const r=Math.floor(i/n),k=i%n;if(W.b[i]==2)continue;X.fillStyle=W.b[i]?'#0b0b0b':((r+k)%2?bc[1]:bc[0]);X.fillRect(x0+k*cs,y0+r*cs,cs,cs)}
@@ -419,7 +419,7 @@ X.fillStyle='#8a7a3c';X.font='32px Roboto,system-ui,sans-serif';X.fillText(u.rep
 const fb=()=>share(msg);
 try{c.toBlob(b=>{if(!b)return fb();const f=new File([b],'otyoli.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],text:msg+' '+u}).catch(()=>{});else{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='otyoli.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4e3);toast('✔ PNG')}},'image/png')}catch(e){fb()}}
 function gnx(){if(FU)return 0;const g=ST.gn||0;if(ST.w>=3&&(!g||ST.w-g>=10)){ST.gn=ST.w;save();return 1}return 0}
-function share(m,x){const u='https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');if(navigator.share)navigator.share({text:m,url:u}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(m))}
+function share(m,x){const u='https://muxlisaoilam-wq.github.io/otyoli-game/'+(x||'');if(navigator.share)navigator.share({text:m,url:u}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(m))}
 function box(t,bs,l,h){const b=$('bx');b.className='box'+(l?' l':'');b.innerHTML='';if(h){const e=document.createElement('h4');e.textContent=h;b.appendChild(e)}if(t instanceof Node)b.appendChild(t);else if(t){const e=document.createElement('div');e.textContent=t;b.appendChild(e)}bs.forEach(([n,f,k,c])=>{const x=document.createElement('button');x.textContent=n;if(c)x.className=c;x.onclick=()=>{if(!k)$('ov').classList.remove('on');f&&f()};b.appendChild(x)});$('ov').classList.add('on');if(!RM&&b.animate)b.animate([{transform:'scale(.92)',opacity:0},{transform:'none',opacity:1}],{duration:180,easing:'ease-out'})}
 function toast(m){$('tip').textContent=m;setTimeout(()=>{if($('tip').textContent==m)$('tip').textContent=''},1600)}
 function profile(){let av=ST.av||'🔥';const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:12px';
@@ -1112,7 +1112,7 @@ else{rdy=1;if(localStorage.getItem('otyoli')&&lt>=t)up()}})}
 
 /* ulashish: Telegram ichida do‘stga yuborish yoki Story */
 const myId=U?String(U.id):'';
-const link=x=>{if(!TG_BOT)return 'https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');let p=[];const q=new URLSearchParams((x||'').replace(/^\?/,''));const c=q.get('c');if(c&&/^[A-Za-z0-9]+$/.test(c))p.push('c'+c,'t'+(+q.get('t')||0));if(myId)p.push('r'+myId);return 'https://t.me/'+TG_BOT+(TG_APP?'/'+TG_APP:'')+(p.length?'?startapp='+p.join('_'):'')};
+const link=x=>{if(!TG_BOT)return 'https://muxlisaoilam-wq.github.io/otyoli-game/'+(x||'');let p=[];const q=new URLSearchParams((x||'').replace(/^\?/,''));const c=q.get('c');if(c&&/^[A-Za-z0-9]+$/.test(c))p.push('c'+c,'t'+(+q.get('t')||0));if(myId)p.push('r'+myId);return 'https://t.me/'+TG_BOT+(TG_APP?'/'+TG_APP:'')+(p.length?'?startapp='+p.join('_'):'')};
 const send=(m,x)=>{const u='https://t.me/share/url?url='+encodeURIComponent(link(x))+'&text='+encodeURIComponent(m);try{W.openTelegramLink(u)}catch(e){window.open(u)}};
 share=function(m,x){if(!(mob&&V('7.8')))return send(m,x);box(m,[[tr('tgsend'),()=>send(m,x)],[tr('tgstory'),()=>{try{W.shareToStory(new URL('icon-512.png',location.href).href,{text:(m+' '+link(x)).slice(0,200)})}catch(e){send(m,x)}}],[tr('cancel')]],0,tr('tgshare'))};
 card=function(msg){return share(msg)};
