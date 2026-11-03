@@ -1044,7 +1044,6 @@ const TG_APP='';
 const TG_STARS=[/* {coins:500,stars:50,link:'https://t.me/$...'} */];
 {const TL=(k,a)=>T[k]=a;
 
-TL('gext',["Google Telegram ichida akkauntga kirishga ruxsat bermaydi. O‘yin brauzerda (Chrome) ochiladi — u yerda Google bilan kiring.","Google не разрешает вход внутри Telegram. Игра откроется в браузере (Chrome) — войдите там через Google.","Google doesn't allow sign-in inside Telegram. The game will open in your browser (Chrome) — sign in with Google there.","لا يسمح Google بتسجيل الدخول داخل Telegram. ستفتح اللعبة في المتصفح (Chrome) — سجّل الدخول هناك عبر Google.","Google 不允许在 Telegram 内登录。游戏将在浏览器（Chrome）中打开——请在那里用 Google 登录。","Google Telegram के अंदर साइन इन की अनुमति नहीं देता। गेम ब्राउज़र (Chrome) में खुलेगा — वहाँ Google से साइन इन करें।"]);
 TL('mainb',["⭐ ASOSIY","⭐ ГЛАВНАЯ","⭐ MAIN","⭐ الرئيسية","⭐ 主线","⭐ मुख्य"]);
 TL('tgsign',["Telegram orqali kirish","Войти через Telegram","Sign in with Telegram","الدخول عبر Telegram","通过 Telegram 登录","Telegram से साइन इन करें"]);
 TL('tgnoauth',["Reyting hozircha yoqilmagan (Firebase'da Anonymous kirishni yoqing). O‘yin va natijalar Telegram'da saqlanadi.","Рейтинг пока не включён (включите Anonymous вход в Firebase). Игра и прогресс сохраняются в Telegram.","Ranking isn’t enabled yet (turn on Anonymous sign-in in Firebase). Your game and progress are saved in Telegram.","التصنيف غير مفعّل بعد. اللعبة والتقدم محفوظان في Telegram.","排行榜暂未开启。游戏和进度保存在 Telegram 中。","रैंकिंग अभी चालू नहीं है। गेम और प्रगति Telegram में सहेजी जाती है।"]);
@@ -1105,9 +1104,16 @@ const mo=new MutationObserver(bbUpd);document.querySelectorAll('.scr,#ov,#dl').f
 /* ism Telegram'dan */
 if(U&&!ST.nm){ST.nm=(U.first_name||U.username||'').slice(0,16);save()}
 
-/* v3.31 kirish: Telegram ichida (telefonda) Google kirishga ruxsat bermaydi -> o'yin brauzerda ochiladi, u yerda Google bilan kiriladi. Telegram (anonim) kirish olib tashlandi */
-const GURL='https://muxlisaoilam-wq.github.io/otyoli-game/?g=1';
-if(mob){signIn=()=>new Promise((ok,no)=>{box(tr('gext'),[['☁ '+tr('gsign'),()=>{try{W.openLink(GURL)}catch(e){location.href=GURL}no()}],[tr('cancel'),()=>no()]],0,'☁ Google')})}
+/* v3.32 kirish: telefonda Google Telegram ichida ishlamaydi -> Telegram (Firebase anonim) orqali bot ichida kiriladi va o'ynaladi */
+let tgAuthP=null;
+const tgAuth=q=>tgAuthP||(tgAuthP=new Promise((ok,no)=>{fbLoad().then(()=>{if(firebase.auth().currentUser)return ok(firebase.auth().currentUser);
+firebase.auth().signInAnonymously().then(r=>ok(r.user),e=>{tgAuthP=null;const c=(e&&e.code)||'';if(!q){if(/operation-not-allowed|admin-restricted/.test(c))box(tr('tgnoauth'),[[tr('close')]]);else er(c.replace('auth/','')||'internet')}no(e)})},e=>{tgAuthP=null;if(!q)er('internet');no(e)})}));
+if(mob||!U){T.gsign=T.tgsign;applyLang();signIn=()=>tgAuth()}
+const wg=$('wg');if(wg&&mob)wg.style.display='none';
+const wm=$('wm');if(wm&&U){const b=document.createElement('button');b.className='mb';b.id='wt';b.textContent='✈️ '+tr('tgsign');b.onclick=()=>{ST.wl=1;save();tgAuth(1).catch(()=>{});if(typeof goHome=='function')goHome();else show('s1')};wm.parentNode.insertBefore(b,wg||wm)}
+/* chiqqandan keyin (ST.wo) avtomatik qayta kirmaydi — kirish ekrani ko'rinadi */
+if(U&&!ST.wl&&!ST.wo){ST.wl=1;save()}
+if(U&&ST.wl&&!ST.wo)setTimeout(()=>tgAuth(1).catch(()=>{}),2600);
 
 /* natijalar Telegram bulutida (CloudStorage): boshqa telefonda ham davom etadi */
 const CS=V('6.9')&&W.CloudStorage,oSet=Storage.prototype.setItem,lsSet=(k,v)=>{try{oSet.call(localStorage,k,v)}catch(e){}};
