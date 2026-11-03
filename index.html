@@ -1108,8 +1108,7 @@ const mo=new MutationObserver(bbUpd);document.querySelectorAll('.scr,#ov,#dl').f
 /* ism Telegram'dan */
 if(U&&!ST.nm){ST.nm=(U.first_name||U.username||'').slice(0,16);save()}
 
-/* v3.33 kirish: faqat Google va Mehmon. Telegram ichida (telefonda) popup ishlamaydi -> bot ichida Google sahifasi (redirect) ochiladi, akkaunt tanlangach Firebase'ga kirib o'yin botda davom etadi */
-if(mob){signIn=()=>new Promise((ok,no)=>{const go=()=>{try{firebase.auth().signInWithRedirect(new firebase.auth.GoogleAuthProvider()).catch(e=>{er(((e&&e.code)||'?').replace('auth/',''));no(e)})}catch(e){er('?');no(e)}};if(FRDY)go();else fbLoad().then(go,()=>{er('internet');no()})})}
+/* v3.33 kirish: faqat Google va Mehmon. Google tugmasi oddiy signIn() bilan ishlaydi: avval popup (Chrome'dagi akkaunt tanlash), ishlamasa redirect */
 
 /* natijalar Telegram bulutida (CloudStorage): boshqa telefonda ham davom etadi */
 const CS=V('6.9')&&W.CloudStorage,oSet=Storage.prototype.setItem,lsSet=(k,v)=>{try{oSet.call(localStorage,k,v)}catch(e){}};
