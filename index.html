@@ -390,7 +390,10 @@ const wkLeft=()=>7-((Math.floor((Date.now()+18e6)/864e5)+3)%7);
 function wkSync(){const w=wkM();if(!ST.wb||ST.wb.w!=w)ST.wb={w,b:stars()}}
 const wkId=()=>Math.floor(Date.now()/864e5/7);
 const dIdx=()=>{const n=Math.floor((Date.now()-new Date().getTimezoneOffset()*6e4)/864e5);return (n*7919+13)%S.length};
-const stars=()=>{if(ST.te===undefined)ST.te=(ST.coins||0)+3*(Object.values(ST.s).reduce((a,b)=>a+b,0)+(ST.bonus||0));return Math.floor(ST.te/3)};function addC(n){stars();ST.coins=(ST.coins||0)+n;ST.te+=n}
+/* v3.29: reyting = eski reyting (rb, saqlanadi) + bundan keyingi halol yulduzlar: har bosqichdagi eng yaxshi natija + bonuslar + Blitz rekordi/5 */
+const fair=()=>Object.values(ST.s).reduce((a,b)=>a+(+b||0),0)+(ST.bonus||0)+Math.floor((ST.blz||0)/5);const stars=()=>fair()+(ST.rb||0);function addC(n){ST.coins=(ST.coins||0)+n}
+const C3=x=>x>=3?10:x>0?6:0,today=()=>new Date().toDateString();
+if(ST.rv!==3){const old=ST.te!==undefined?Math.floor(ST.te/3):ST.osr!==undefined?ST.osr:Math.floor((ST.coins||0)/3)+Object.values(ST.s).reduce((a,b)=>a+(+b||0),0)+(ST.bonus||0);ST.osr=old;ST.rb=Math.max(ST.rb||0,old-fair());delete ST.te;ST.rv=3}
 let ac;
 function sfx(k){if(!ST.snd)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.state=='suspended'&&ac.resume();const n=ac.currentTime;const tone=(f,t0,d,ty,v,f2)=>{const o=ac.createOscillator(),g=ac.createGain();o.type=ty||'sine';o.frequency.setValueAtTime(f,n+t0);if(f2)o.frequency.exponentialRampToValueAtTime(f2,n+t0+d);g.gain.setValueAtTime(v||.15,n+t0);g.gain.exponentialRampToValueAtTime(.001,n+t0+d);o.connect(g);g.connect(ac.destination);o.start(n+t0);o.stop(n+t0+d)};
 if(k=='eat')tone(700,0,.12,'sine',.18,350);else if(k=='err')tone(160,0,.18,'sawtooth',.12);else if(k=='hint'){tone(880,0,.1);tone(1180,.1,.15)}else if(/^star/.test(k))tone(500+ +k.slice(4)*180,0,.3,'triangle',.18);else if(k=='win')[523,659,784,1047].forEach((f,i)=>tone(f,i*.12,.25,'triangle',.18))}catch(e){}}
@@ -402,7 +405,7 @@ function tut(){const P=tr('rules').split('\n\n'),sl=[[P[0]+'\n\n'+P[1],'♞'],[P
 const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:14px;align-items:center';const e=document.createElement('div');e.className='big';e.textContent=sl[i][1];const t=document.createElement('div');t.textContent=sl[i][0];const d=document.createElement('div');d.className='dots';d.textContent=sl.map((_,j)=>j==i?'●':'○').join('');[e,t,d].forEach(x=>w.appendChild(x));
 box(w,[[i==sl.length-1?tr('gotit'):'▶',()=>go(i+1)]])};go(0)}
 let WIN=null;
-function card(msg,sc,code,secs){const W=WIN;if(!W)return share(msg);const u='https://muxlisaoilam-wq.github.io/otyoli-game/',Z=1080,H=1350,c=document.createElement('canvas'),X=c.getContext('2d');c.width=Z;c.height=H;
+function card(msg,sc,code,secs){const W=WIN;if(!W)return share(msg);const u='https://muxlisaoilam-wq.github.io/otyoli/',Z=1080,H=1350,c=document.createElement('canvas'),X=c.getContext('2d');c.width=Z;c.height=H;
 const g=X.createLinearGradient(0,0,0,H);g.addColorStop(0,'#0b1446');g.addColorStop(1,'#050818');X.fillStyle=g;X.fillRect(0,0,Z,H);X.textAlign='center';X.fillStyle='#4fd1ff';X.font='700 84px Roboto,system-ui,sans-serif';X.fillText('Ot Yo‘li',Z/2,125);
 const n=W.n,bs=900,x0=90,y0=175,cs=bs/n,bc=(IM.bc&&IM.bc[ST.b])||['#f0d9b5','#b58863'];
 for(let i=0;i<n*n;i++){const r=Math.floor(i/n),k=i%n;if(W.b[i]==2)continue;X.fillStyle=W.b[i]?'#0b0b0b':((r+k)%2?bc[1]:bc[0]);X.fillRect(x0+k*cs,y0+r*cs,cs,cs)}
@@ -419,7 +422,7 @@ X.fillStyle='#8a7a3c';X.font='32px Roboto,system-ui,sans-serif';X.fillText(u.rep
 const fb=()=>share(msg);
 try{c.toBlob(b=>{if(!b)return fb();const f=new File([b],'otyoli.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f],text:msg+' '+u}).catch(()=>{});else{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='otyoli.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4e3);toast('✔ PNG')}},'image/png')}catch(e){fb()}}
 function gnx(){if(FU)return 0;const g=ST.gn||0;if(ST.w>=3&&(!g||ST.w-g>=10)){ST.gn=ST.w;save();return 1}return 0}
-function share(m,x){const u='https://muxlisaoilam-wq.github.io/otyoli-game/'+(x||'');if(navigator.share)navigator.share({text:m,url:u}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(m))}
+function share(m,x){const u='https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');if(navigator.share)navigator.share({text:m,url:u}).catch(()=>{});else window.open('https://t.me/share/url?url='+encodeURIComponent(u)+'&text='+encodeURIComponent(m))}
 function box(t,bs,l,h){const b=$('bx');b.className='box'+(l?' l':'');b.innerHTML='';if(h){const e=document.createElement('h4');e.textContent=h;b.appendChild(e)}if(t instanceof Node)b.appendChild(t);else if(t){const e=document.createElement('div');e.textContent=t;b.appendChild(e)}bs.forEach(([n,f,k,c])=>{const x=document.createElement('button');x.textContent=n;if(c)x.className=c;x.onclick=()=>{if(!k)$('ov').classList.remove('on');f&&f()};b.appendChild(x)});$('ov').classList.add('on');if(!RM&&b.animate)b.animate([{transform:'scale(.92)',opacity:0},{transform:'none',opacity:1}],{duration:180,easing:'ease-out'})}
 function toast(m){$('tip').textContent=m;setTimeout(()=>{if($('tip').textContent==m)$('tip').textContent=''},1600)}
 function profile(){let av=ST.av||'🔥';const w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:12px';
@@ -444,6 +447,7 @@ function rating(){if(FU)return board(0);const tp=(ST.top||[]).map((e,i)=>(i+1)+'
 const AV=['🔥','😎','🦁','🐯','🦅','🐴','♞','👑','🚀','🌟','🎯','🧠'];
 const LG=['O‘zbekcha','Русский','English','العربية','中文','हिन्दी'];
 const tr=k=>uzT((T[k]&&(T[k][ST.lg||0]||T[k][2]))||k);
+T.norew=["🔁 Bu natija avval olingan — yangi yulduz va tanga berilmaydi","🔁 Этот результат уже получен — новые звёзды и монеты не начисляются","🔁 Result already earned — no new stars or coins","🔁 تم الحصول على هذه النتيجة مسبقًا — لا نجوم أو عملات جديدة","🔁 已获得过此成绩——不再奖励星星和金币","🔁 यह परिणाम पहले ही मिल चुका है — नए सितारे या सिक्के नहीं"];
 const rp=(s,...v)=>{v.forEach(x=>s=s.replace('#',x));return s};
 const fmt=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
 const applySkin=()=>{document.documentElement.style.setProperty('--pf',FL[ST.sn||0]||FL[0]);if($('g')&&$('g').classList.contains('on'))draw()};
@@ -525,9 +529,9 @@ function tap(i){if(ended){if(RTING)RSKIP=1;return}hintCell=-1;if(TUT>1&&!tutCell
 function nextLvl(){if(AFR&&mode==1&&lvl%RL==0)return adv();lvl=lvl>=LVN(mode)?1:lvl+1;curCfg=getCfg();start()}
 function check(){
 if(hist.length==TOT&&(!curCfg.cl||isAdj(cur,hist[0]))){ended=true;tEl=Date.now()-tStart;clearInterval(tm);WIN={h:hist.slice(),n:N,b:BLK.slice()};
-if(mode==5){blz.score++;addC(2);sfx('win');draw();toast('✅ '+rp(tr('solved'),blz.score));newBlitz();return}
+if(mode==5){blz.score++;if(ST.bzd!=today()){ST.bzd=today();ST.bzc=0}if((ST.bzc||0)<20){ST.bzc=(ST.bzc||0)+2;addC(2)}sfx('win');draw();toast('✅ '+rp(tr('solved'),blz.score));newBlitz();return}
 if(mode==6){duelNext({ok:true,t:tEl,n:TOT});return}
-retrace(hist.slice(),()=>{wkSync();const s0=stars();ST.w++;sfx('win');fw();const sc=HC==0?3:HC<=3?2:1,code=CODE[mode]&&!daily&&!weekly?rp(tr('lvl'),lvl):'',rpl=[tr('replay'),()=>demo(hist.slice())];MSGX=mProg(sc,mode)+recMsg();{const cn=(sc==3?10:6)+(daily?15:0)+(weekly?20:0);addC(cn);MSGX+='🪙 +'+cn+'\n'}
+retrace(hist.slice(),()=>{wkSync();const s0=stars();ST.w++;sfx('win');fw();const sc=HC==0?3:HC<=3?2:1,code=CODE[mode]&&!daily&&!weekly?rp(tr('lvl'),lvl):'',rpl=[tr('replay'),()=>demo(hist.slice())];const pv=LM(mode)&&!daily&&!weekly?(ST.s[mode+'_'+lvl]||0):-1;let cn=0;if(daily){if(ST.dyc!=today()){ST.dyc=today();cn=C3(sc)+15}}else if(weekly){if(ST.wkc!=wkId()){ST.wkc=wkId();cn=C3(sc)+20}}else if(pv>=0)cn=Math.max(0,C3(sc)-C3(pv));else if(mode==0&&!ST.e0){ST.e0=1;cn=C3(sc)}const nw=cn>0||(pv>=0&&sc>pv);MSGX=mProg(sc,mode,nw)+recMsg();if(cn){addC(cn);MSGX+='🪙 +'+cn+'\n'}else MSGX+=tr('norew')+'\n';
 if(daily){const d=new Date().toDateString();let tt=tr('won')+'\n'+tr('dailydone');if(ST.dyd!=d){ST.ds=(ST.dyd==new Date(Date.now()-864e5).toDateString()?(ST.ds||0):0)+1;ST.dyd=d;ST.bonus=(ST.bonus||0)+sc;tt+='\n'+rp(tr('bonus'),sc)}else tt+='\n'+tr('bonusdone');tt+='\n'+rp(tr('streak'),ST.ds||1)+rew(s0);save();box(tt,[[tr('close'),()=>lvBack()]]);starsFx(sc);return}
 if(weekly){const s=Math.floor(tEl/1000),w=wkId();let tt=tr('won')+'\n'+tr('weekly')+'\n'+tr('time').replace('#:#',fmt(s));if(!usedH&&!usedB&&(!ST.wk||ST.wk.w!=w||s<ST.wk.t))ST.wk={w,t:s};if(ST.wk&&ST.wk.w==w)tt+='\n'+tr('wbest').replace('#:#',fmt(ST.wk.t));tt+=rew(s0);save();box(tt,[[tr('close'),()=>lvBack()]]);starsFx(sc);return}
 let t=tr('won')+'\n'+(mode==0?rp(tr('congrats'),TOT):rp(tr('lvldone'),lvl));
@@ -593,9 +597,10 @@ function settingsFoot(){const b=$('bx'),f=document.createElement('div'),l=docume
 l.textContent=FU?tr('gout'):'☁ '+tr('gsign');l.onclick=()=>{if(FU)outAsk();else{$('ov').classList.remove('on');signIn().catch(()=>{})}};
 r.textContent=tr('close');r.onclick=()=>$('ov').classList.remove('on');f.append(l,r);b.appendChild(f)}
 function cloudDeb(){if(!FU||SYN)return;clearTimeout(CT);CT=setTimeout(syncUp,4000)}
-function syncUp(){if(!FU)return;const db=firebase.database(),me=FU.uid;Promise.all([db.ref('users/'+me+'/progress').once('value'),db.ref('users/'+me+'/profile').once('value')]).then(([a,b])=>{wkSync();const sb=stars();const C=a.val()||{},P=b.val()||{},U={};const mx=(k,v)=>{if(v>(C[k]||0))U[k]=v};
+function syncUp(){if(!FU)return;const db=firebase.database(),me=FU.uid;Promise.all([db.ref('users/'+me+'/progress').once('value'),db.ref('users/'+me+'/profile').once('value'),db.ref('leaderboard/'+me+'/stars').once('value')]).then(([a,b,lb])=>{wkSync();const sb=stars();const C=a.val()||{},P=b.val()||{},U={};const mx=(k,v)=>{if(v>(C[k]||0))U[k]=v};
 LMS.forEach(m=>{mx('level_'+m,ST.l[m]||1);if((C['level_'+m]||0)>(ST.l[m]||1))ST.l[m]=C['level_'+m]});
 Object.keys(ST.s).forEach(k=>mx('stars_'+k,ST.s[k]));Object.keys(C).forEach(k=>{if(k.startsWith('stars_')){const q=k.slice(6);if(C[k]>(ST.s[q]||0))ST.s[q]=C[k]}});
+{if((C.rb||0)>(ST.rb||0))ST.rb=C.rb;if(!ST.rbs){ST.rbs=1;const L=+lb.val()||0;if(L-fair()>(ST.rb||0))ST.rb=L-fair()}mx('rb',ST.rb||0)}
 ST.hb=ST.hb||{};Object.keys(ST.hb).forEach(l=>{const c=C['hard_best_'+l];if(!c||ST.hb[l]<c)U['hard_best_'+l]=ST.hb[l]});Object.keys(C).forEach(k=>{if(k.startsWith('hard_best_')){const l=k.slice(10);if(!ST.hb[l]||C[k]<ST.hb[l])ST.hb[l]=C[k]}});
 if(Object.keys(U).length)db.ref('users/'+me+'/progress').update(U);
 if(P.updatedAt&&P.updatedAt>(ST.pu||0)){if(P.name)ST.nm=P.name;if(P.avatar)ST.av=P.avatar;if(P.photo)ST.av='data:image/jpeg;base64,'+P.photo;if(P.flag)ST.fg=P.flag;ST.pu=P.updatedAt}
@@ -650,9 +655,9 @@ T.nums_on=["Yurish raqamlari: yoqilgan","Номера ходов: вкл","Move 
 T.rt_0=["Orqaga yurish: normal","Возврат коня: обычный","Knight return: normal"];T.rt_1=["Orqaga yurish: tez","Возврат коня: быстро","Knight return: fast"];T.rt_2=["Orqaga yurish: sekin","Возврат коня: медленно","Knight return: slow"];
 
 let MSGX='';const TCOL=['#f5b82e','#4da3ff','#34c759','#ff4d6d','#bf5af2','#ffffff'],TCE=['🟡','🔵','🟢','🔴','🟣','⚪'],TCR=[0,0,0,30,70,120];
-function nextTc(){const i=ST.tc||0;for(let k=1;k<=6;k++){const j=(i+k)%6;if(stars()>=TCR[j]){ST.tc=j;break}}if($('g').classList.contains('on'))draw()}
+function nextTc(){const i=ST.tc||0;for(let k=1;k<=6;k++){const j=(i+k)%6;if(Math.max(stars(),ST.osr||0)>=TCR[j]){ST.tc=j;break}}if($('g').classList.contains('on'))draw()}
 const MSN=()=>{const d=new Date().toDateString();if(!ST.ms||ST.ms.d!=d)ST.ms={d,p:[0,0,0],c:[0,0,0]};return ST.ms},MG=[3,1,1];
-function mProg(sc,m){const M=MSN();M.p[0]++;if(sc==3)M.p[1]++;if([3,4,7,8,9,11,12,13,14,15,16,17,18,19,20].includes(m)&&!daily&&!weekly)M.p[2]++;let t='';M.p.forEach((p,i)=>{if(!M.c[i]&&p>=MG[i]){M.c[i]=1;ST.bonus=(ST.bonus||0)+2;addC(10);t+=rp(tr('mdone'),2)+' 🪙+10\n'}});return t}
+function mProg(sc,m,nw){if(nw===false)return '';const M=MSN();M.p[0]++;if(sc==3)M.p[1]++;if([3,4,7,8,9,11,12,13,14,15,16,17,18,19,20].includes(m)&&!daily&&!weekly)M.p[2]++;let t='';M.p.forEach((p,i)=>{if(!M.c[i]&&p>=MG[i]){M.c[i]=1;ST.bonus=(ST.bonus||0)+2;addC(10);t+=rp(tr('mdone'),2)+' 🪙+10\n'}});return t}
 function recMsg(){if(daily||weekly||!LM(mode)||usedH||usedB)return'';const sec=Math.floor(tEl/1000),k=mode+'_'+lvl;ST.bt=ST.bt||{};const o=ST.bt[k];if(!o||sec<o){ST.bt[k]=sec;return o?tr('newrec')+' '+fmt(sec)+'\n':'⏱ '+fmt(sec)+'\n'}return tr('bestt')+' '+fmt(o)+'\n'}
 function missions(){const M=MSN();box(M.p.map((p,i)=>(M.c[i]?'✅ ':'⬜ ')+rp(tr('mt'+i),MG[i])+'  ('+Math.min(p,MG[i])+'/'+MG[i]+')  '+rp(tr('mrew'),2)).join('\n')+'\n\n'+tr('mnew'),[[tr('close')]],0,tr('msn'))}
 function records(){const E=Object.entries(ST.bt||{}).map(([k,v])=>{const a=k.split('_');return[+a[0],+a[1],v]}).sort((a,b)=>a[2]-b[2]).slice(0,10);box(E.length?E.map((e,i)=>(i+1)+'. '+tr(MK[e[0]])+' '+rp(tr('lvl'),e[1])+' — ⏱ '+fmt(e[2])).join('\n'):tr('norec'),[[tr('close')]],0,tr('rec'))}
@@ -989,8 +994,8 @@ const bu=JG.cell.filter(v=>v==1).length,bl=JG.cell.filter(v=>v==2).length;$('jl0
 $('jv0').textContent=JG.turn?'♞':'♘';$('jv1').textContent=bu;$('jv2').textContent=64-bu-bl-2;$('jv3').textContent=Math.floor((bu+bl)*100/64)+'%';$('jnew').textContent='✨ '+tr('jnew');$('jund').textContent='↩ '+tr('jundo')}
 function jEnd(){if(!JG.over||!$('sj').classList.contains('on'))return;
 if(!JG.solo){ST.jd=ST.jd||[0,0];ST.jd[JG.winner]++;const na=rew(stars());save();jUI();sfx('win');fw();box(tr(JG.winner?'jbw':'jww')+'\n'+tr('jno')+'\n\n'+jScore()+na,[['✨ '+tr('jnew'),()=>jSetup(false,1)],[tr('close'),()=>show('s2')]]);return}
-const L0=JG.level;if(JG.winner==0){const s0=stars(),sc=JG.help==0?3:JG.help<=3?2:1,k='21_'+L0;ST.s[k]=Math.max(ST.s[k]||0,sc);if(L0==ST.l[21]&&L0<=30)ST.l[21]=L0+1;ST.w++;ST.jw=(ST.jw||0)+1;sfx('win');fw();
-MSGX=mProg(sc,21);const cn=sc==3?10:6;addC(cn);MSGX+='🪙 +'+cn+'\n';let t=tr('won')+'\n'+rp(tr('jlvl'),L0);if(L0>=30)t+='\n\n'+tr('jall');t+=rew(s0);if(sc<3)t+='\n'+tr('sttip');t+='\n\n💡 '+tr('dyk')+'\n'+nextFact();const gn=gnx();if(gn)t+='\n\n'+tr('gnudge');save();
+const L0=JG.level;if(JG.winner==0){const s0=stars(),sc=JG.help==0?3:JG.help<=3?2:1,k='21_'+L0,pv=ST.s[k]||0;ST.s[k]=Math.max(ST.s[k]||0,sc);if(L0==ST.l[21]&&L0<=30)ST.l[21]=L0+1;ST.w++;ST.jw=(ST.jw||0)+1;sfx('win');fw();
+const cn=Math.max(0,C3(sc)-C3(pv));MSGX=mProg(sc,21,cn>0||sc>pv);if(cn){addC(cn);MSGX+='🪙 +'+cn+'\n'}else MSGX+=tr('norew')+'\n';let t=tr('won')+'\n'+rp(tr('jlvl'),L0);if(L0>=30)t+='\n\n'+tr('jall');t+=rew(s0);if(sc<3)t+='\n'+tr('sttip');t+='\n\n💡 '+tr('dyk')+'\n'+nextFact();const gn=gnx();if(gn)t+='\n\n'+tr('gnudge');save();
 box(t,[...(L0<30?[['➡️ '+tr('next'),()=>jSetup(true,L0+1),0,'big']]:[]),[tr('again'),()=>jSetup(true,L0)],[tr('close'),()=>show('s2')],...(gn?[['☁ '+tr('gsign'),()=>{signIn().catch(()=>{})}]]:[])]);starsFx(sc)}
 else{sfx('err');save();box(tr('jlose')+'\n\n'+tr('jlosetxt'),[['↩ '+tr('jundo'),()=>jUndo()],[tr('again'),()=>jSetup(true,L0)],[tr('close'),()=>show('s2')]])}}
 /* --- chizish --- */
@@ -1112,7 +1117,7 @@ else{rdy=1;if(localStorage.getItem('otyoli')&&lt>=t)up()}})}
 
 /* ulashish: Telegram ichida do‘stga yuborish yoki Story */
 const myId=U?String(U.id):'';
-const link=x=>{if(!TG_BOT)return 'https://muxlisaoilam-wq.github.io/otyoli-game/'+(x||'');let p=[];const q=new URLSearchParams((x||'').replace(/^\?/,''));const c=q.get('c');if(c&&/^[A-Za-z0-9]+$/.test(c))p.push('c'+c,'t'+(+q.get('t')||0));if(myId)p.push('r'+myId);return 'https://t.me/'+TG_BOT+(TG_APP?'/'+TG_APP:'')+(p.length?'?startapp='+p.join('_'):'')};
+const link=x=>{if(!TG_BOT)return 'https://muxlisaoilam-wq.github.io/otyoli/'+(x||'');let p=[];const q=new URLSearchParams((x||'').replace(/^\?/,''));const c=q.get('c');if(c&&/^[A-Za-z0-9]+$/.test(c))p.push('c'+c,'t'+(+q.get('t')||0));if(myId)p.push('r'+myId);return 'https://t.me/'+TG_BOT+(TG_APP?'/'+TG_APP:'')+(p.length?'?startapp='+p.join('_'):'')};
 const send=(m,x)=>{const u='https://t.me/share/url?url='+encodeURIComponent(link(x))+'&text='+encodeURIComponent(m);try{W.openTelegramLink(u)}catch(e){window.open(u)}};
 share=function(m,x){if(!(mob&&V('7.8')))return send(m,x);box(m,[[tr('tgsend'),()=>send(m,x)],[tr('tgstory'),()=>{try{W.shareToStory(new URL('icon-512.png',location.href).href,{text:(m+' '+link(x)).slice(0,200)})}catch(e){send(m,x)}}],[tr('cancel')]],0,tr('tgshare'))};
 card=function(msg){return share(msg)};
