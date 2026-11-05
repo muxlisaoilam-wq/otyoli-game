@@ -1244,7 +1244,7 @@ let ojOffOn=0;
 /* kirish holati tiklanguncha kutadi (Google akkaunt mehmonga aylanib qolmasin) */
 function ojAuth(){return fbLoad().then(()=>new Promise(ok=>{const c=firebase.auth().currentUser;if(c)return ok(c);let d=0;const un=firebase.auth().onAuthStateChanged(x=>{if(d)return;d=1;try{un()}catch(e){}ok(x)})})).then(u=>u||anonIn()).then(u=>{if(!FU){FU=u;try{syncUp()}catch(e){}}if(!ojOffOn){ojOffOn=1;ojDB().ref('.info/serverTimeOffset').on('value',s=>{OJ.off=s.val()||0})}return FU||u})}
 /* k: 'j' = Onlayn Jang, 'c' = Onlayn Classic (alohida reyting: ol / oc, alohida navbat: oq/w / oq/c) */
-const ojRP=k=>k=='c'?'oc':'ol',ojSlot=k=>'oq/'+(k=='c'?'c':'w'),ojNm=k=>tr(k=='c'?'ocn':'oj');
+const ojRP=k=>'ol',ojSlot=k=>'oq/'+(k=='c'?'c':'w'),ojNm=k=>tr(k=='c'?'ocn':'oj');
 function ojMe(k){const u=FU,me=u.uid;return ojDB().ref(ojRP(k)+'/'+me).once('value').then(s=>{const v=s.val()||{};if(k=='c'){OC.my=v;if(v.r){ST.ocr=v.r;save()}}else{OJ.my=v;if(v.r){ST.olr=v.r;save()}}const av=ST.av||'🔥';
 return {u:me,n:(ST.nm||(u.displayName||'').split(' ')[0]||(tr('guest')+' '+me.slice(-3))).slice(0,16),a:av.startsWith('data:')?'♞':av,f:ST.fg||'🇺🇿',r:v.r||1000,rk:ojRanked(),via:u.isAnonymous?(ST.tgid||ST.lm=='t'?'t':'m'):'g'}})}
 /* tasodifiy taxta: to‘siqlar, ikki ot joyi (ikkalasida yurishlar soni teng), kim birinchi yurishi */
@@ -1262,7 +1262,7 @@ function ojGo(c,i,v){$('ov').classList.remove('on');if(v&&v.k=='c')ocEnter(c,i);
 function ojJoinAny(c){return ojAuth().then(()=>ojDB().ref('orooms/'+c+'/k').once('value')).then(s=>ojMe(s.val()=='c'?'c':'j')).then(me=>ojJoinRoom(c,me))}
 
 /* ---------- menyu ---------- */
-function ojMenu(k){k=k=='c'?'c':'j';const draw=()=>{const v=(k=='c'?OC.my:OJ.my)||{},w=document.createElement('div');w.style.whiteSpace='pre-line';w.textContent=rp(tr('ojmy'),v.r||(k=='c'?ST.ocr:ST.olr)||1000,v.w||0)+(ojRanked()?'':'\n\n'+tr('ojgst'));
+function ojMenu(k){k=k=='c'?'c':'j';const draw=()=>{const v=(k=='c'?OC.my:OJ.my)||{},w=document.createElement('div');w.style.whiteSpace='pre-line';w.textContent=rp(tr('ojmy'),v.r||ST.olr||1000,v.w||0)+(ojRanked()?'':'\n\n'+tr('ojgst'));
 box(w,[['⚡ '+tr('ojq'),()=>ojQuick(0,k),1,'big'],['🔗 '+tr('ojf'),()=>ojFriend(k),1],['🔢 '+tr('ojc'),()=>ojCodeBox('',k),1],[k=='c'?tr('octop'):tr('ojtop'),()=>ojTop(k),1],[tr('close')]],0,ojNm(k));$('bx').dataset.oj='m'+k};
 draw();ojAuth().then(()=>{ojClean();return ojDB().ref(ojRP(k)+'/'+FU.uid).once('value')}).then(s=>{const v=s.val()||{};if(k=='c'){OC.my=v;if(v.r)ST.ocr=v.r}else{OJ.my=v;if(v.r)ST.olr=v.r}save();upd();if($('ov').classList.contains('on')&&$('bx').dataset.oj=='m'+k)draw()}).catch(()=>{})}
 function ojQuick(n,k){k=k=='c'?'c':'j';const T0='⚡ '+tr('ojq');box('…',[],0,T0);
@@ -1274,7 +1274,7 @@ function ojWaitBox(c,q,k){const ref=ojDB().ref('orooms/'+c),t0=Date.now(),d=docu
 const stop=()=>{live=0;clearInterval(iv);clearInterval(hb);if(fn){try{ref.off('value',fn)}catch(e){}fn=null}};
 const go=v=>{stop();ojGo(c,0,v)};
 const cancel=cpu=>{if(!live)return;stop();if(q)ojDB().ref(ojSlot(k)).transaction(v=>{if(v&&v.c==c)return null;return}).catch(()=>{});
-ref.transaction(r=>{if(!r)return r;if(r.st=='wait')return null;return},undefined,false).then(x=>{const v=x.snapshot.val();if(v&&v.st=='play'&&v.p&&v.p[1])ojGo(c,0,v);else if(cpu)box(tr('ojnone'+(k=='c'?'c':'')),[k=='c'?[tr('ocplay'),()=>tiers(3),0,'big']:[tr('ojcpu'),()=>jStart(true,Math.min(ST.l[21]||1,30)),0,'big'],[tr('ojretry'),()=>ojQuick(0,k),1],[tr('close')]],0,'⚡ '+tr('ojq'))}).catch(()=>{})};
+ref.transaction(r=>{if(!r)return r;if(r.st=='wait')return null;return},undefined,false).then(x=>{const v=x.snapshot.val();if(v&&v.st=='play'&&v.p&&v.p[1])ojGo(c,0,v);else if(cpu&&k=='c')ocBotStart();else if(cpu)box(tr('ojnone'+(k=='c'?'c':'')),[k=='c'?[tr('ocplay'),()=>tiers(3),0,'big']:[tr('ojcpu'),()=>jStart(true,Math.min(ST.l[21]||1,30)),0,'big'],[tr('ojretry'),()=>ojQuick(0,k),1],[tr('close')]],0,'⚡ '+tr('ojq'))}).catch(()=>{})};
 fn=ref.on('value',s=>{const v=s.val();if(v&&v.st=='play'&&v.p&&v.p[1])go(v)});
 const draw=()=>{if(!live)return;const s=Math.floor((Date.now()-t0)/1000);d.textContent=q?rp(tr('ojsrch'),s+' / 30'):rp(tr('ojcode'),c)+'\n\n'+rp(tr('ojwait'),s);if(q&&s>=30)cancel(1)};draw();iv=setInterval(draw,500);
 if(q)hb=setInterval(()=>ojDB().ref(ojSlot(k)).transaction(v=>{if(v&&v.c==c){v.at=ojNow();return v}return}).catch(()=>{}),10000);
@@ -1287,7 +1287,7 @@ function ojShare(c,k){const W=window.Telegram&&Telegram.WebApp,bot='https://t.me
 if(W&&W.initData){const u='https://t.me/share/url?url='+encodeURIComponent(bot)+'&text='+encodeURIComponent(m);try{W.openTelegramLink(u)}catch(e){window.open(u)}return}
 const txt=m+'\n✈️ '+bot+'\n🌐 '+web;if(navigator.share)navigator.share({text:txt}).catch(()=>{});else{try{navigator.clipboard.writeText(txt).then(()=>{const b=$('bx').querySelector('button');if(b){const o=b.textContent;b.textContent='✔';setTimeout(()=>b.textContent=o,1200)}})}catch(e){}}}
 function ojTop(k){k=k=='c'?'c':'j';const ic='🌐',w=document.createElement('div');w.style.cssText='display:flex;flex-direction:column;gap:6px;text-align:left;font-size:17px';w.textContent='…';
-box(w,[['🌍',()=>board(0),1],['🌐',()=>ojTop('j'),1],['♞',()=>ojTop('c'),1],[tr('close')]],0,k=='c'?tr('octop'):tr('ojtop'));
+box(w,[[tr('ojall'),()=>board(0),1,'big'],[tr('close')]],0,tr('ojtop'));
 ojAuth().then(()=>ojDB().ref(ojRP(k)).orderByChild('r').limitToLast(100).once('value')).then(s=>{const L=[];s.forEach(c=>{L.push(Object.assign({id:c.key},c.val()))});L.sort((a,b)=>(b.r||0)-(a.r||0));w.innerHTML='';if(!L.length)w.textContent='—';const me=FU&&FU.uid;
 L.slice(0,30).forEach((x,j)=>{const d=document.createElement('div');d.append((j+1)+'. '+(x.a||'')+(x.f||'')+' '+(x.n||'—'));if(OWNER_UIDS.includes(x.id))d.insertAdjacentHTML('beforeend',VTK);d.append((x.via=='t'?' ✈️':'')+'  '+ic+(x.r||1000)+'  🏆'+(x.w||0));if(x.id==me)d.style.color='var(--gold)';w.appendChild(d)});
 const mi=L.findIndex(x=>x.id==me);if(me&&mi>=30){const d=document.createElement('div');d.textContent='… '+(mi+1)+'. '+(L[mi].n||'')+'  '+ic+L[mi].r;d.style.color='var(--gold)';w.appendChild(d)}}).catch(()=>{w.textContent='✖'})}
@@ -1452,7 +1452,7 @@ ST.ocg=(ST.ocg||0)+1;if(won)ST.ocw=(ST.ocw||0)+1;const coin=won&&rated?20:0;if(c
 const bb=k=>Math.max((r.pr&&r.pr[k]&&r.pr[k].b)||0,ocP(r.pr&&r.pr[k]).length);
 const R={won,drw,why:r.why||'done',rt:'',coin,sc:rp(tr('ocscore'),bb(i),bb(o))};const fin=()=>{save();try{upd()}catch(e){}OC.res=R;OC.endKey='';ocEndBox()};
 if(rated){const E=1/(1+Math.pow(10,((op.r||1000)-(me.r||1000))/400));let d=Math.round(32*((won?1:drw?.5:0)-E));if(!drw)d=won?Math.max(1,d):Math.min(-1,d);
-ojDB().ref('oc/'+FU.uid).transaction(v=>{v=v||{};v.r=Math.max(100,(v.r||1000)+d);v.w=(v.w||0)+(won?1:0);v.l=(v.l||0)+(won||drw?0:1);v.d=(v.d||0)+(drw?1:0);v.n=me.n||'';v.a=me.a||'♞';v.f=me.f||'';v.via=me.via||'';v.at=ojNow();return v}).then(x=>{const v=x.snapshot.val()||{};ST.ocr=v.r;OC.my=v;R.rt=rp(tr('ojrt'),v.r,(d>0?'+':'')+d);fin()},fin)}
+ojDB().ref('ol/'+FU.uid).transaction(v=>{v=v||{};v.r=Math.max(100,(v.r||1000)+d);v.w=(v.w||0)+(won?1:0);v.l=(v.l||0)+(won||drw?0:1);v.d=(v.d||0)+(drw?1:0);v.n=me.n||'';v.a=me.a||'♞';v.f=me.f||'';v.via=me.via||'';v.at=ojNow();return v}).then(x=>{const v=x.snapshot.val()||{};ST.olr=v.r;OC.my=v;OJ.my=v;R.rt=rp(tr('ojrt'),v.r,(d>0?'+':'')+d);fin()},fin)}
 else{if(!q)R.rt=tr('ojfr');fin()}}
 function ocEndBox(){const R=OC.res,r=OC.room;if(!R||!r||r.st!='end'||!OC.on)return;const i=OC.i,o=1-i,rm=r.rm||{},lf=r.lf||{},key=JSON.stringify([rm,lf]);if(key==OC.endKey)return;const reopen=OC.endKey==='';OC.endKey=key;
 if(!reopen&&!($('ov').classList.contains('on')&&$('bx').dataset.oj=='e'))return;
@@ -1471,7 +1471,7 @@ function ojJang(){box('',[[tr('oj'),()=>ojMenu('j'),1],[tr('jang'),jangPick],[tr
 const show0=show;show=function(id){if(OJ.on&&id!='sj'&&$('sj').classList.contains('on')){const r=OJ.room;if(r&&r.st=='play'){box(tr('ojresq'),[[tr('ojres'),()=>ojFinish(1-OJ.i,'res')],[tr('cancel')]],0,'🏳');return}ojLeave()}
 const x=show0.apply(this,arguments);try{$('sj').classList.toggle('ojon',!!OJ.on&&id=='sj')}catch(e){}return x};
 const upd0=upd;upd=function(){const x=upd0.apply(this,arguments);try{const e=$('poj');if(e)e.innerHTML=icoHTML('🌐 '+(ST.olr||1000)+(ST.ow?' · 🏆 '+ST.ow:''))}catch(e){}return x};
-const board0=board;board=function(t){const x=board0.apply(this,arguments);try{const bx=$('bx'),c=[...bx.children].find(b=>b.tagName=='BUTTON'&&b.textContent=='📅');if(c&&!bx.querySelector('.ojtb')){const b=document.createElement('button');b.textContent='🌐';b.className='ojtb';b.onclick=()=>ojTop('j');const b2=document.createElement('button');b2.textContent='♞';b2.className='ojtb';b2.onclick=()=>ojTop('c');c.after(b,b2)}}catch(e){}return x};
+const board0=board;board=function(t){const x=board0.apply(this,arguments);try{const bx=$('bx'),T6=['🌍','👥','📅','📨','🌐','♞'];[...bx.children].forEach(b=>{if(b.tagName=='BUTTON'&&T6.includes(b.textContent.trim()))b.remove()});if(!bx.querySelector('.ojtb')){const b=document.createElement('button');b.textContent=tcase(tr('ojtop'));b.className='ojtb big';b.onclick=()=>ojTop('j');emIco(b);const cl=bx.querySelector(':scope > button.cb')||[...bx.children].filter(e=>e.tagName=='BUTTON').pop();if(cl)bx.insertBefore(b,cl);else bx.appendChild(b)}}catch(e){}return x};
 const AC0=AC;AC=function(){return AC0.apply(this,arguments).concat([(ST.ow||0)>=1,(ST.ow||0)>=10])};
 const aL0=applyLang;applyLang=function(){const x=aL0.apply(this,arguments);try{ojLang()}catch(e){}return x};
 {const b0=box;box=function(){const x=b0.apply(this,arguments);try{delete $('bx').dataset.oj}catch(e){}return x}}
@@ -1795,6 +1795,42 @@ c.onclick=()=>{if(sel)return;if(o){ST.b=i;save();try{if($('g').classList.contain
 box(w,[[tr('close'),()=>upd()]],0,tr('shop'));const bx=$('bx');bx.classList.add('shbox');
 if(sec=='looks'){if(sc)bx.scrollTop=sc;else{const t=$('shlk');if(t)bx.scrollTop=t.offsetTop-12}}}
 function shopLook(msg){shop(msg,'looks')}
+
+/* ===================== v3.44: Onlayn o‘yin + bot + bitta onlayn reyting =====================
+   Tez o‘yinda 30 soniyada raqib chiqmasa — ikki taxtali o‘yin bot bilan (🤖 belgili) boshlanadi.
+   Bot bazaga yozilmaydi, hammasi telefonda; reyting o‘zgarmaydi, g‘alaba +5 tanga.
+   Bot kuchi o‘yinchi reytingiga va oldingi natijalarga moslashadi (ST.bsk). */
+{const TL=(k,a)=>T[k]=a;
+TL('ocn',["🌐 ONLAYN O‘YIN","🌐 ОНЛАЙН-ИГРА","🌐 ONLINE GAME","🌐 لعبة أونلاين","🌐 在线对局","🌐 ऑनलाइन खेल"]);
+TL('octop',T.ojtop);
+TL('ojall',["⭐ Umumiy reyting","⭐ Общий рейтинг","⭐ Overall ranking","⭐ التصنيف العام","⭐ 总排行榜","⭐ कुल रैंकिंग"]);
+TL('ocbotr',["🤖 Bot bilan o‘yin — reyting o‘zgarmaydi","🤖 Игра с ботом — рейтинг не меняется","🤖 Bot game — rating doesn’t change","🤖 لعبة مع روبوت — لا يتغير التصنيف","🤖 人机对局——积分不变","🤖 बॉट के साथ खेल — रेटिंग नहीं बदलती"]);
+TL('ocbotgo',["Raqib topilmadi — bot bilan o‘ynaymiz!","Соперник не найден — играем с ботом!","No opponent found — playing a bot!","لم يُعثر على منافس — نلعب مع روبوت!","没有找到对手——与机器人对战！","कोई प्रतिद्वंद्वी नहीं — बॉट से खेलते हैं!"]);
+}
+const BOTN=['Jasur','Dilnoza','Sardor','Malika','Bekzod','Nodira','Aziz','Shahzoda','Otabek','Madina','Temur','Zarina','Sherzod','Kamola','Ulugʻbek','Laylo'],BOTA=['🦁','🐯','🦅','🐺','🦊','🐻','🦉','🐼','⚡','🔥','💎','🌟'],BOTF=['🇺🇿','🇺🇿','🇺🇿','🇺🇿','🇰🇿','🇹🇯','🇰🇬','🇹🇷','🇷🇺','🇹🇲'];
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+function ocBotStart(){ojAuth().then(()=>ojMe('j')).then(me=>{const myR=me.r||1000,room={k:'c',st:'play',q:0,bot:1,g:1,p:[me,{u:'bot',n:rnd(BOTN)+' 🤖',a:rnd(BOTA),f:rnd(BOTF),r:Math.max(800,Math.round(myR+(Math.random()*120-60))),rk:false}],s:ocGen().s,t0:ojNow(),pr:[]};
+ocStop();ojStop();ocDom();Object.assign(OC,{on:true,bot:true,c:'BOT',i:0,g:0,gk:'',room:null,h:[],best:1,fin:'',res:null,endKey:'',left:OCT,away:0,stuck:0});
+$('ov').classList.remove('on');show('soc');ocSync(room);clearInterval(OC.tick);OC.tick=setInterval(ocTick,250);ocBotSched(1500);setTimeout(()=>ocMsg(tr('ocbotgo')),300)}).catch(()=>er('internet'))}
+/* bot kuchi: yaxshi yurish ehtimoli va o‘ylash vaqti */
+function ocBotLvl(){const r=OC.room,myR=(r&&r.p&&r.p[OC.i]&&r.p[OC.i].r)||1000,k=ST.bsk||0;return {p:Math.max(.3,Math.min(.95,.45+(myR-1000)/400*.15+k)),d:Math.max(1.2,Math.min(3.4,2.8-(myR-1000)/1000-k*2))}}
+function ocBotSched(ms){clearTimeout(OC.btm);const L=ocBotLvl();OC.btm=setTimeout(ocBotStep,ms!=null?ms:L.d*1000*(.6+Math.random()*.8))}
+function ocBotStep(){const r=OC.room;if(!OC.on||!OC.bot||!r||r.st!='play')return;const bi=1-OC.i,st=r.s[bi];r.pr=r.pr||[];const cur=r.pr[bi]||{h:String(st),b:1};let h=ocP(cur);if(!h.length)h=[st];let best=Math.max(cur.b||1,h.length);
+const ms=ocMoves(h);if(!ms.length){r.pr[bi]={h:String(st),b:best};ocBotSched(1300);return}
+let m;if(Math.random()<ocBotLvl().p){const v=new Set(h),deg=t=>ocKM(t).filter(x=>!v.has(x)&&x!=t).length;let mn=99;ms.forEach(t=>{const d=deg(t);if(d<mn)mn=d});const c=ms.filter(t=>deg(t)==mn);m=c[Math.floor(Math.random()*c.length)]}else m=ms[Math.floor(Math.random()*ms.length)];
+h.push(m);best=Math.max(best,h.length);r.pr[bi]={h:h.join('.'),b:best,at:ojNow()};if(h.length>=64){ocFinish('done',bi);return}ocBotSched()}
+{const f0=ocPush;ocPush=function(){if(OC.bot){const r=OC.room;if(r){r.pr=r.pr||[];r.pr[OC.i]={h:OC.h.join('.'),b:OC.best,at:ojNow()}}return}return f0.apply(this,arguments)}}
+{const f0=ocFinish;ocFinish=function(why,win){if(!OC.bot)return f0.apply(this,arguments);const r=OC.room;if(!r||r.st!='play'||why=='left')return;let w=win;
+if(why=='done'&&ocP(r.pr&&r.pr[win]).length<64)return;
+if(why=='tout'){if(ojNow()<r.t0+OCT)return;const bb=k=>Math.max((r.pr[k]&&r.pr[k].b)||0,ocP(r.pr[k]).length),b0=bb(0),b1=bb(1);w=b0>b1?0:b1>b0?1:-1}
+clearTimeout(OC.btm);r.st='end';r.win=w;r.why=why;ocSync(r)}}
+{const f0=ocResult;ocResult=function(r){if(!OC.bot)return f0.apply(this,arguments);const i=OC.i,o=1-i,won=r.win==i,drw=r.win==-1;
+ocRender();sfx(won?'win':drw?'eat':'err');if(won)try{fw()}catch(e){}
+ST.ocg=(ST.ocg||0)+1;if(won){addC(5);ST.bsk=Math.min(.4,(ST.bsk||0)+.06)}else if(!drw)ST.bsk=Math.max(-.2,(ST.bsk||0)-.06);save();try{upd()}catch(e){}
+const bb=k=>Math.max((r.pr&&r.pr[k]&&r.pr[k].b)||0,ocP(r.pr&&r.pr[k]).length);OC.res={won,drw,why:r.why||'done',rt:tr('ocbotr'),coin:won?5:0,sc:rp(tr('ocscore'),bb(i),bb(o))};OC.endKey='';ocEndBox()}}
+{const f0=ocRematch;ocRematch=function(){if(!OC.bot)return f0.apply(this,arguments);const r=OC.room;if(!r)return;Object.assign(r,{s:ocGen().s,pr:[],st:'play',t0:ojNow(),g:(r.g||1)+1,win:null,why:null});$('ov').classList.remove('on');ocSync(r);ocBotSched(1500)}}
+{const f0=ocLeave;ocLeave=function(){if(OC.bot){ocStop();return}return f0.apply(this,arguments)}}
+{const f0=ocStop;ocStop=function(){clearTimeout(OC.btm);const x=f0.apply(this,arguments);OC.bot=false;return x}}
 
 document.querySelectorAll('[data-ic="globe"],[data-ic="home"],[data-ic="dl"]').forEach(e=>{delete e.dataset.done});applyLang();try{upd();icoFix()}catch(e){}
 
