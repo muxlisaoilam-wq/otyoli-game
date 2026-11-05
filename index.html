@@ -302,13 +302,16 @@ html.tg #ov{padding-top:var(--tgT,0px);padding-bottom:var(--tgB,0px)}
 .vtk{width:1em;height:1em;vertical-align:-.16em;margin-left:5px;display:inline-block;flex:none}
 </style></head><body>
 <div class="scr on" id="s0"><div class="au">Muallif: Mansur Gulamjanov  Usanovich</div><img id="lg"><div id="ld"><div id="ldt"><div id="ldf"></div><div id="ldn"><div id="ldb"><div id="ldk"></div></div></div></div></div></div>
-<div class="scr" id="s1"><div class="pf"><div id="fl" onclick="profile()"></div><div id="pn" onclick="profile()"><h3 id="pnm"></h3><div id="skl"></div></div></div>
-<div class="pf ps"><div id="pst" onclick="rating()"><div class="it"><span class="lb"><span data-i="rtg"></span></span><b><span data-ic="star"></span> <span id="rt">0</span></b></div><div class="it"><span class="lb"><span data-i="coin"></span></span><b><span data-ic="coin"></span> <span id="pcn">0</span></b></div></div></div>
-<div style="flex:1;max-height:3vh"></div>
-<button class="mb go" onclick="show('s2')"><span><span data-ic="play"></span> <span data-i="start"></span></span></button><button class="mb" onclick="howto()"><span><span data-ic="info"></span> <span data-i="about"></span></span></button><button class="mb" onclick="settings()"><span><span data-ic="gear"></span> <span data-i="settings"></span></span></button>
-<div class="row"><button class="sb" onclick="missions()"><span data-ic="target"></span> <span class="ne" data-i="msn"></span></button><button class="sb" onclick="records()"><span data-ic="trophy"></span> <span class="ne" data-i="rec"></span></button></div>
-<div class="row"><button class="sb" onclick="rating()"><span data-ic="trophy"></span> <span class="ne" data-i="rating"></span></button><button class="sb" onclick="ach()"><span data-ic="medal"></span> <span class="ne" data-i="ach"></span></button><button class="sb" onclick="stats()"><span data-ic="chart"></span> <span class="ne" data-i="stats"></span></button></div>
-<div class="row"><button class="sb" onclick="shop()"><span data-ic="cart"></span> <span class="ne" data-i="shop"></span> <span id="cn"></span></button><button class="sb" id="instb" onclick="instApp()" data-i="inst"></button></div></div>
+<div class="scr" id="s1">
+<div class="hb"><div class="hav" onclick="profile()"><svg class="lvr" viewBox="0 0 64 64"><circle cx="32" cy="32" r="29" class="lvb"/><circle cx="32" cy="32" r="29" class="lvf" id="lvf"/></svg><div id="fl"></div><b id="hlv">1</b></div>
+<div id="pn" onclick="profile()"><h3 id="pnm"></h3><div id="skl"></div></div>
+<div class="chips"><div class="chip" id="pst" onclick="rating()"><span data-ic="star"></span><b id="rt">0</b></div><div class="chip" id="pcc" onclick="shop()"><span data-ic="coin"></span><b id="pcn">0</b><i>+</i></div></div></div>
+<div class="hero"><canvas id="hcv"></canvas><div class="lgx" id="lgx" onclick="ligaBox()"></div></div>
+<button class="mb go" onclick="show('s2')"><span><span data-ic="play"></span> <span data-i="start"></span></span></button>
+<button class="mb hcnt" id="hcont" style="display:none"></button>
+<div class="dcard" id="dcard"><div class="dct"><b id="dcn"></b><span id="dcs"></span></div><div class="cal" id="cal"></div></div>
+<div class="qrow"><button class="qb" onclick="missions()"><span data-ic="target"></span><span class="ne" data-i="msn"></span></button><button class="qb" onclick="records()"><span data-ic="trophy"></span><span class="ne" data-i="rec"></span></button><button class="qb" onclick="stats()"><span data-ic="chart"></span><span class="ne" data-i="stats"></span></button><button class="qb" onclick="howto()"><span data-ic="info"></span><span class="ne" data-i="about"></span></button><button class="qb" onclick="settings()"><span data-ic="gear"></span><span class="ne" data-i="settings"></span></button><button class="qb" id="instb" onclick="instApp()"><span data-ic="dl"></span><span class="ne" data-i="inst"></span></button></div>
+<nav class="tbar"><button class="tb1 on" onclick="show('s1')"><span data-ic="home"></span><span class="ne" data-i="thome"></span></button><button class="tb1" onclick="rating()"><span data-ic="gtrophy"></span><span class="ne" data-i="rating"></span></button><button class="tb1" onclick="ach()"><span data-ic="medal"></span><span class="ne" data-i="ach"></span></button><button class="tb1" onclick="shop()"><span data-ic="cart"></span><span class="ne" data-i="shop"></span><span id="cn" class="tbn"></span></button><button class="tb1" onclick="profile()"><span data-ic="user"></span><span class="ne" data-i="tprof"></span></button></nav></div>
 <div class="scr" id="s2"><h2 data-i="lvlpick" style="margin:3vh 0 0"></h2>
 <div class="g2 g4 dqr"><button class="mb dq" onclick="play(1,0,1)"><span><span data-ic="fire"></span> <span class="ne" data-i="daily"></span></span><span class="sub" id="pd"></span></button><button class="mb dq" onclick="play(2,0,0,1)"><span><span data-ic="cal"></span> <span class="ne" data-i="weekly"></span></span><span class="sub" id="pw"></span></button></div>
 <button class="mb m2 cls" id="clb" onclick="ocPick()"><span><span class="kn">♞</span> <span data-i="classic"></span></span><span class="cbd" data-i="mainb"></span></button>
@@ -1616,7 +1619,184 @@ function rsAsk(v){box(rsName(v),[[tr('rsgo'),()=>rsResume(v),0,'big'],[tr('rsdel
 if(v.k=='g'&&((v.d&&v.dd!=today())||(v.w&&v.wk!=wkId())||!(v.h&&v.h.length>=2))){rsDel();return}
 let n=0;const iv=setInterval(()=>{n++;if(n>240||(typeof GAUTH!='undefined'&&GAUTH)){clearInterval(iv);return}if(n<3||!$('s1').classList.contains('on')||$('ov').classList.contains('on')||$('dl').classList.contains('on'))return;clearInterval(iv);v=rsGet();if(v)rsAsk(v)},1000)})();
 
-document.querySelectorAll('[data-ic="globe"]').forEach(e=>{delete e.dataset.done});applyLang();try{upd();icoFix()}catch(e){}
+/* ===================== v3.42: JAHON DARAJASIDAGI BOSH EKRAN =====================
+   Yuqori panel (avatar + daraja halqasi, ism, ⭐/🪙 chiplar), jonli ot sahnasi, haftalik liga,
+   katta Boshlash, "Davom etish", Bugungi vazifa + 7 kunlik sovg‘a kalendari, tezkor tugmalar, pastki menyu.
+   Daraja yulduzlardan hisoblanadi; liga — shu haftada yig‘ilgan yulduzlardan. Yangi saqlash maydonlari: ST.plv. */
+{const TL=(k,a)=>T[k]=a;
+TL('thome',["Bosh sahifa","Главная","Home","الرئيسية","主页","होम"]);
+TL('tprof',["Profil","Профиль","Profile","الملف","个人","प्रोफ़ाइल"]);
+TL('lvx',["#-daraja","Уровень #","Level #","المستوى #","第#级","स्तर #"]);
+TL('lvup',["🎉 Yangi daraja: #!","🎉 Новый уровень: #!","🎉 New level: #!","🎉 مستوى جديد: #!","🎉 新等级：#！","🎉 नया स्तर: #!"]);
+TL('lvupt',["Yulduzlar yig‘ishda davom eting — keyingi darajaga # ⭐ qoldi.","Собирайте звёзды дальше — до следующего уровня # ⭐.","Keep collecting stars — # ⭐ to the next level.","واصل جمع النجوم — # ⭐ للمستوى التالي.","继续收集星星——距下一级还差 # ⭐。","सितारे इकट्ठा करते रहें — अगले स्तर तक # ⭐।"]);
+TL('lg0',["Bronza liga","Бронзовая лига","Bronze league","دوري البرونز","青铜联赛","कांस्य लीग"]);
+TL('lg1',["Kumush liga","Серебряная лига","Silver league","دوري الفضة","白银联赛","रजत लीग"]);
+TL('lg2',["Oltin liga","Золотая лига","Gold league","الدوري الذهبي","黄金联赛","स्वर्ण लीग"]);
+TL('lg3',["Olmos liga","Алмазная лига","Diamond league","دوري الماس","钻石联赛","हीरा लीग"]);
+TL('lgwk',["shu hafta ⭐ #","на неделе ⭐ #","this week ⭐ #","هذا الأسبوع ⭐ #","本周 ⭐ #","इस हफ़्ते ⭐ #"]);
+TL('lgtxt',["Haftalik liga: shu haftada yig‘ilgan yulduzlar bo‘yicha.\n\n🥉 Bronza: 0+\n🥈 Kumush: 50+\n🥇 Oltin: 150+\n💎 Olmos: 400+\n\nHar dushanba liga yangidan boshlanadi.","Недельная лига: по звёздам за эту неделю.\n\n🥉 Бронза: 0+\n🥈 Серебро: 50+\n🥇 Золото: 150+\n💎 Алмаз: 400+\n\nКаждый понедельник лига начинается заново.","Weekly league: based on stars earned this week.\n\n🥉 Bronze: 0+\n🥈 Silver: 50+\n🥇 Gold: 150+\n💎 Diamond: 400+\n\nThe league restarts every Monday.","الدوري الأسبوعي: حسب النجوم المكتسبة هذا الأسبوع.\n\n🥉 برونز: 0+\n🥈 فضة: 50+\n🥇 ذهب: 150+\n💎 ماس: 400+\n\nيبدأ الدوري من جديد كل اثنين.","周联赛：按本周获得的星星计算。\n\n🥉 青铜：0+\n🥈 白银：50+\n🥇 黄金：150+\n💎 钻石：400+\n\n每周一重新开始。","साप्ताहिक लीग: इस हफ़्ते के सितारों के आधार पर।\n\n🥉 कांस्य: 0+\n🥈 रजत: 50+\n🥇 स्वर्ण: 150+\n💎 हीरा: 400+\n\nहर सोमवार लीग फिर से शुरू होती है।"]);
+TL('lgnext',["Keyingi ligaga yana # ⭐","До следующей лиги ещё # ⭐","# more ⭐ to the next league","# ⭐ إضافية للدوري التالي","距下一联赛还差 # ⭐","अगली लीग के लिए # ⭐ और"]);
+TL('lgtop',["📅 Haftalik reyting","📅 Недельный рейтинг","📅 Weekly ranking","📅 التصنيف الأسبوعي","📅 周排行榜","📅 साप्ताहिक रैंकिंग"]);
+TL('dctask',["Bugungi vazifa","Задание дня","Today’s challenge","تحدي اليوم","今日挑战","आज की चुनौती"]);
+TL('dcdone',["✅ Bajarildi","✅ Выполнено","✅ Done","✅ تم","✅ 已完成","✅ पूरा"]);
+TL('dcplay',["O‘ynash","Играть","Play","العب","开始","खेलें"]);
+TL('calt',["Kunlik sovg‘a","Ежедневный подарок","Daily gift","هدية يومية","每日礼物","रोज़ का तोहफ़ा"]);
+TL('cday',["#-kun","День #","Day #","اليوم #","第#天","दिन #"]);
+}
+Object.assign(SVGI,{home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-6h4v6h5V10"/>',dl:'<path d="M12 3v12M7 10l5 5 5-5"/><path d="M5 21h14"/>'});
+(function(){const s=document.createElement('style');s.textContent=
+'#s1{justify-content:flex-start!important;gap:min(2.4vw,1.5vh);padding:calc(2vh + var(--tgT,0px)) 4vw calc(84px + var(--tgB,0px))!important}'+
+/* yuqori panel */
+'.hb{display:flex;align-items:center;gap:10px;width:min(92vw,520px)}'+
+'.hav{position:relative;width:min(15vw,62px);height:min(15vw,62px);flex:none;cursor:pointer}'+
+'.hav #fl{position:absolute;inset:5px;width:auto!important;max-width:none!important;border-radius:50%!important;padding:0!important;border:0!important;box-shadow:none!important;background:rgba(255,255,255,.08)!important;font-size:min(7vw,30px)!important;overflow:hidden;display:flex;align-items:center;justify-content:center}'+
+'.hav #fl img{width:100%;height:100%;object-fit:cover}'+
+'.lvr{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}.lvr circle{fill:none;stroke-width:5}.lvb{stroke:rgba(255,255,255,.14)}.lvf{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:182.2;stroke-dashoffset:182.2;transition:stroke-dashoffset .8s ease-out}'+
+'#hlv{position:absolute;right:-4px;bottom:-4px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:linear-gradient(#ffd75a,#e0a526);color:#3a2400;font-size:12px;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg,#050818)}'+
+'.hb #pn{flex:1;min-width:0;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;backdrop-filter:none!important;cursor:pointer}'+
+'.hb #pnm{font-size:min(5.2vw,22px)!important;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center}'+
+'.hb #skl{font-size:min(3.4vw,14px)!important}'+
+'.chips{display:flex;flex-direction:column;gap:6px;flex:none}'+
+'.chip{display:flex!important;align-items:center;gap:5px;padding:4px 10px 4px 7px!important;border-radius:16px!important;background:rgba(255,255,255,.08)!important;border:1.5px solid var(--glb)!important;box-shadow:none!important;font-size:min(3.8vw,16px);cursor:pointer;min-width:84px}'+
+'.chip b{font-size:min(3.8vw,16px)!important;color:inherit!important;text-shadow:none!important;font-variant-numeric:tabular-nums}'+
+'.chip i{margin-left:auto;font-style:normal;width:18px;height:18px;border-radius:50%;background:#2ecc71;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px;line-height:1}'+
+/* jonli sahna */
+'.hero{position:relative;width:min(92vw,520px);height:min(34vw,19vh,190px);flex:none}'+
+'#hcv{width:100%;height:100%;display:block;border-radius:20px}'+
+'.lgx{position:absolute;left:10px;top:10px;padding:4px 10px;border-radius:14px;background:rgba(0,0,0,.45);color:#fff;font-size:min(3.3vw,13px);font-weight:700;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);cursor:pointer;border:1px solid rgba(255,255,255,.25)}'+
+/* asosiy tugmalar */
+'#s1 .mb.go{margin:0!important;width:min(92vw,520px)}'+
+'#s1 .mb.hcnt{margin:0!important;width:min(92vw,520px);padding:min(2.8vw,12px) 8px!important;font-size:min(4.4vw,18px)!important;background:linear-gradient(135deg,rgba(79,209,255,.32),rgba(79,209,255,.12))!important}'+
+/* bugungi vazifa + kalendar */
+'.dcard{width:min(92vw,520px);border-radius:20px;padding:10px 12px;background:linear-gradient(135deg,rgba(31,200,180,.30),rgba(11,114,133,.22));border:1.5px solid rgba(156,242,230,.55);display:flex;flex-direction:column;gap:8px}'+
+'.dct{display:flex;align-items:center;gap:8px;font-size:min(4vw,16px)}.dct b{flex:1}.dct button{border:0;border-radius:12px;padding:6px 14px;font-weight:700;font-family:inherit;background:#1fc8b4;color:#00302b;font-size:min(3.8vw,15px)}'+
+'.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}'+
+'.cd{display:flex;flex-direction:column;align-items:center;gap:1px;padding:4px 0;border-radius:10px;background:rgba(255,255,255,.07);font-size:min(2.7vw,11px);border:1.5px solid transparent}'+
+'.cd b{font-size:min(3.2vw,13px)}.cd.ok{background:rgba(46,204,113,.25);border-color:rgba(46,204,113,.6)}.cd.now{border-color:#ffd75a;box-shadow:0 0 8px rgba(255,215,90,.5)}.cd.big{background:rgba(255,215,90,.16)}'+
+/* tezkor tugmalar */
+'.qrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:min(92vw,520px)}'+
+'.qb{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:16px;background:rgba(255,255,255,.06);border:1.5px solid var(--glb);color:inherit;font-family:inherit;font-weight:700;font-size:min(3.2vw,13px);line-height:1.15}'+
+'.qb [data-ic]{font-size:min(5.6vw,22px)}.qb:active{transform:scale(.96);filter:brightness(.85)}'+
+'@media (min-aspect-ratio:12/10){.qrow{grid-template-columns:repeat(6,1fr)}}'+
+/* pastki menyu */
+'#s1 .tbar{position:fixed;left:0;right:0;bottom:0;z-index:5;display:flex;justify-content:space-around;padding:6px 4px calc(8px + var(--tgB,0px) + env(safe-area-inset-bottom,0px));background:rgba(8,14,40,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid rgba(255,255,255,.12)}'+
+'.tb1{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:rgba(255,255,255,.62);font-family:inherit;font-size:min(2.9vw,11.5px);font-weight:700;padding:4px 0}'+
+'.tb1 [data-ic]{font-size:min(6vw,24px);color:inherit}.tb1.on{color:var(--gold)}.tb1.on [data-ic]{color:var(--gold)}.tb1:active{transform:scale(.92)}'+
+'.tbn:empty{display:none}.tbn{position:absolute;top:0;right:22%;min-width:8px;height:8px;border-radius:4px;background:#ff4d5e}'+
+'html[data-th=light] #s1 .tbar{background:rgba(255,255,255,.88);border-top-color:rgba(10,40,80,.12)}html[data-th=light] .tb1{color:rgba(10,26,58,.55)}'+
+'html[data-th=light] .chip,html[data-th=light] .qb{background:rgba(255,255,255,.6)!important}html[data-th=light] .lgx{background:rgba(255,255,255,.75);color:#0a1a3a}'+
+/* 6) jonli his: tanga uchishi, ekran o‘tishi */
+'#s2 .tl .tli{width:min(13vw,6.4vh,54px);height:min(13vw,6.4vh,54px);border-radius:16px;display:flex!important;align-items:center;justify-content:center;color:#fff!important;font-size:min(7vw,3.4vh,28px)!important;box-shadow:0 6px 14px rgba(0,0,0,.35),inset 0 2px 0 rgba(255,255,255,.35);margin-bottom:3px}'+'#s2 .tl .tli .si{filter:drop-shadow(0 1px 2px rgba(0,0,0,.45))}'+'#s2 .tl:nth-child(1) .tli{background:linear-gradient(135deg,#ff8a5c,#d6336c)}#s2 .tl:nth-child(2) .tli{background:linear-gradient(135deg,#ffd43b,#f08c00)}'+'#s2 .tl:nth-child(3) .tli{background:linear-gradient(135deg,#51cf66,#0b7285)}#s2 .tl:nth-child(4) .tli{background:linear-gradient(135deg,#b197fc,#7048e8)}'+'.ojc .ob{bottom:auto!important;top:100%!important;transform:translate(-50%,6px)!important}'+'.cfly{position:fixed;z-index:60;font-size:22px;pointer-events:none;will-change:transform}'+
+'.chip.pop{animation:cpop .35s ease-out}@keyframes cpop{50%{transform:scale(1.18)}}'+
+'.mb,.sb,.qb,.tb1,.box button{transition:transform .12s,filter .12s}.mb:active,.sb:active{transform:scale(.97)}';
+document.head.appendChild(s)})();
+
+/* daraja: yulduzlardan (har daraja oldingisidan ko‘proq yulduz talab qiladi) */
+const lvOf=s=>Math.floor(Math.sqrt(Math.max(0,s)/5))+1,lvAt=L=>5*(L-1)*(L-1);
+/* haftalik liga */
+function wkStars(){try{wkSync()}catch(e){}return Math.max(0,stars()-((ST.wb&&ST.wb.b!=null)?ST.wb.b:stars()))}
+const LGT=[0,50,150,400],LGI=['🥉','🥈','🥇','💎'];
+const lgOf=w=>LGT.reduce((a,t,i)=>w>=t?i:a,0);
+function ligaBox(){const w=wkStars(),l=lgOf(w);let t=LGI[l]+' '+tr('lg'+l)+' · '+rp(tr('lgwk'),w)+'\n\n'+tr('lgtxt');if(l<3)t+='\n\n'+rp(tr('lgnext'),LGT[l+1]-w);
+box(t,[[tr('lgtop'),()=>{try{board(2)}catch(e){rating()}},0,'big'],[tr('close')]],0,LGI[l]+' '+tr('lg'+l))}
+/* 7 kunlik sovg‘a kalendari (mavjud kunlik sovg‘a: 1-kun 5 … 6-kundan 30 tanga) */
+function calEl(){const d=document.createElement('div');d.className='cal';const td=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString(),act=ST.lgd==td||ST.lgd==y,n=act?(ST.lgs||0):0,got=ST.lgd==td,wk=n?Math.floor((n-(got?1:0))/7)*7:0;
+for(let k=1;k<=7;k++){const day=wk+k,c=Math.min(day,6)*5,e=document.createElement('div');e.className='cd'+(day<=n?' ok':'')+(day==(got?n:n+1)?' now':'')+(k==7?' big':'');e.innerHTML='<span></span><b></b>';e.firstChild.textContent=rp(tr('cday'),day);e.lastChild.textContent=(day<=n?'✓ ':'🪙')+c;d.appendChild(e)}return d}
+function homeUI(){try{
+const s=stars(),L=lvOf(s),a=lvAt(L),b=lvAt(L+1),f=$('lvf');if(f)f.style.strokeDashoffset=String(182.2*(1-Math.min(1,(s-a)/Math.max(1,b-a))));const h=$('hlv');if(h)h.textContent=L;
+const g=$('lgx');if(g){const w=wkStars(),l=lgOf(w);g.textContent=LGI[l]+' '+tr('lg'+l)+' · '+rp(tr('lgwk'),w)}
+const td=new Date().toDateString(),y=new Date(Date.now()-864e5).toDateString(),done=ST.dyd==td;
+$('dcn').textContent='🔥 '+tr('dctask')+(ST.ds&&(ST.dyd==td||ST.dyd==y)?' · '+ST.ds:'');const dcs=$('dcs');dcs.innerHTML='';
+if(done){dcs.textContent=tr('dcdone')}else{const bt=document.createElement('button');bt.textContent=tr('dcplay');bt.onclick=()=>play(1,0,1);dcs.appendChild(bt)}
+const c=$('cal');if(c)c.replaceWith(Object.assign(calEl(),{id:'cal'}));
+const hc=$('hcont'),v=typeof rsGet=='function'?rsGet():null;if(hc){if(v&&(v.k=='j'||(v.h&&v.h.length>=2))){hc.style.display='';hc.textContent='▶ '+noEm(tr('rsgo'))+': '+rsName(v).split('\n')[0];hc.onclick=()=>rsResume(v)}else hc.style.display='none'}
+const cn=$('cn');if(cn)cn.textContent='';
+/* daraja oshdi */
+if(ST.plv==null||performance.now()<12000){if(ST.plv!==L){ST.plv=L;save()}}else if(L>ST.plv){ST.plv=L;save();if($('s1').classList.contains('on')&&!$('ov').classList.contains('on')){box(rp(tr('lvupt'),b-s),[[tr('gotit')]],0,rp(tr('lvup'),L));try{fw()}catch(e){}}}
+/* tanga uchishi */
+const cc=ST.coins||0;if(homeUI.c!=null&&cc>homeUI.c&&$('s1').classList.contains('on'))coinFly(cc-homeUI.c);homeUI.c=cc;
+}catch(e){}}
+function coinFly(n){if(RM)return;const chip=$('pcc');if(!chip)return;const r=chip.getBoundingClientRect(),k=Math.min(8,2+Math.floor(n/10));
+for(let i=0;i<k;i++){const e=document.createElement('div');e.className='cfly';e.textContent='🪙';const sx=innerWidth/2+(Math.random()-.5)*120,sy=innerHeight*.55+(Math.random()-.5)*80;e.style.left=sx+'px';e.style.top=sy+'px';document.body.appendChild(e);
+const an=e.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${r.left+r.width/2-sx}px,${r.top+r.height/2-sy}px) scale(.6)`,opacity:.9}],{duration:650+i*70,easing:'cubic-bezier(.5,0,.3,1)',delay:i*40});an.onfinish=()=>{e.remove();chip.classList.remove('pop');void chip.offsetWidth;chip.classList.add('pop')}}}
+/* jonli sahna: taxtada ot sakraydi, ortida piyodalar */
+const HZ0={w:7,h:3,p:[1,1],t:0,tr:[],ok:0};
+function heroDraw(){const cv=$('hcv');if(!cv||!$('s1').classList.contains('on'))return;const r=cv.getBoundingClientRect();if(!r.width)return;const dpr=Math.min(2,devicePixelRatio||1),W=Math.round(r.width*dpr),H=Math.round(r.height*dpr);if(cv.width!=W||cv.height!=H){cv.width=W;cv.height=H}
+const x=cv.getContext('2d'),cols=Math.max(5,Math.round(W/H*3)),cs=H/3,ox=(W-cols*cs)/2,now=performance.now();HZ0.w=cols;x.clearRect(0,0,W,H);
+const g=x.createLinearGradient(0,0,W,H);g.addColorStop(0,'#13306b');g.addColorStop(1,'#0a1638');x.fillStyle=g;x.fillRect(0,0,W,H);
+const bc=(IM.bc&&IM.bc[ST.b])||['#e9d4a8','#a8763e'];for(let rr=0;rr<3;rr++)for(let c=0;c<cols;c++){x.globalAlpha=.9;x.fillStyle=(rr+c)%2?bc[1]:bc[0];x.fillRect(ox+c*cs,rr*cs,cs,cs)}x.globalAlpha=1;
+const wp=jImg(IM.wp),bp=jImg(IM.bp);HZ0.tr.forEach((q,i)=>{const im=(q[0]+q[1])%2?bp:wp;if(!im)return;const age=now-q[2],a=Math.min(1,age/250);x.globalAlpha=a*.95;const ph=cs*.78,pw=ph*im.naturalWidth/im.naturalHeight;x.drawImage(im,ox+q[1]*cs+(cs-pw)/2,q[0]*cs+cs*.12+(1-a)*cs*.3,pw,ph)});x.globalAlpha=1;
+const k=jImg(KN());if(k){const T=900,ph=Math.min(1,(now-HZ0.t)/T*1.6),e=ph<1?ph*(2-ph):1,f=HZ0.f||HZ0.p,fx=ox+f[1]*cs,fy=f[0]*cs,tx=ox+HZ0.p[1]*cs,ty=HZ0.p[0]*cs,kx=fx+(tx-fx)*e,ky=Math.max(-cs*.05,fy+(ty-fy)*e-Math.sin(Math.PI*e)*cs*.6);
+x.save();x.shadowColor='rgba(255,215,90,.7)';x.shadowBlur=cs*.25;const kh=cs*.95,kw=kh*k.naturalWidth/k.naturalHeight;x.drawImage(k,kx+(cs-kw)/2,ky+cs*.02,kw,kh);x.restore()}}
+function heroStep(){if(!$('s1').classList.contains('on'))return;const [r,c]=HZ0.p,D=[[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]];const ms=D.map(d=>[r+d[0],c+d[1]]).filter(([a,b])=>a>=0&&a<3&&b>=0&&b<HZ0.w&&!HZ0.tr.some(q=>q[0]==a&&q[1]==b));
+let nx=ms.length?ms[Math.floor(Math.random()*ms.length)]:null;if(!nx){HZ0.tr=[];nx=D.map(d=>[r+d[0],c+d[1]]).filter(([a,b])=>a>=0&&a<3&&b>=0&&b<HZ0.w)[0]||[1,1]}
+HZ0.tr.push([r,c,performance.now()]);if(HZ0.tr.length>9)HZ0.tr.shift();HZ0.f=[r,c];HZ0.p=nx;HZ0.t=performance.now()}
+(function loop(){heroDraw();requestAnimationFrame(loop)})();
+setInterval(()=>{if(!RM)heroStep()},1100);
+{const u3=upd;upd=function(){const x=u3.apply(this,arguments);homeUI();return x}}
+{const lg0=loginGift;loginGift=function(next){const before=ST.lgd;const x=lg0.apply(this,arguments);try{if(ST.lgd!=before&&$('ov').classList.contains('on')){const b=$('bx'),c=calEl();c.style.margin='4px 0';const btn=b.querySelector(':scope > button');b.insertBefore(c,btn);b.querySelector('h4')||b.insertAdjacentHTML('afterbegin','<h4>🎁 '+tr('calt')+'</h4>')}}catch(e){}return x}}
+
+/* ===================== v3.43: YANGI DO‘KON va "Bugungi vazifa" rangi =====================
+   Do‘kon: yuqorida tanga balansi + "Tanga olish", Yordamlar kartochkalari,
+   Ot ko‘rinishlari va Taxtalar — rasmlari bilan to‘liq ko‘rinadigan kartochkalar (Tanlash / Sotib olish).
+   Narxlar, sotib olish (buy) va saqlash eski kod bilan bir xil. */
+{const TL=(k,a)=>T[k]=a;
+TL('shhelp',["Yordamlar","Помощь","Boosters","المساعدات","道具","सहायता"]);
+TL('shlooks',["Ot ko‘rinishlari","Облик коня","Knight skins","مظاهر الحصان","马的外观","घोड़े के रूप"]);
+TL('shbrd',["Taxtalar","Доски","Boards","الرقع","棋盘","बोर्ड"]);
+TL('shsel',["✓ Tanlangan","✓ Выбрано","✓ Selected","✓ مختار","✓ 已选","✓ चुना गया"]);
+TL('shpick',["Tanlash","Выбрать","Select","اختر","选择","चुनें"]);
+TL('shstock',["Zaxirada: #","В запасе: #","In stock: #","في المخزون: #","库存：#","स्टॉक में: #"]);
+}
+(function(){const s=document.createElement('style');s.textContent=
+'.dcard{background:linear-gradient(135deg,rgba(255,159,67,.34),rgba(232,89,12,.20))!important;border-color:rgba(255,196,130,.65)!important}'+
+'.dct button{background:#ff9f43!important;color:#3a1a00!important}'+
+'.box.shbox{width:min(94vw,470px);max-height:88vh}'+'.box>*{flex-shrink:0}'+
+'.shw{display:flex;flex-direction:column;gap:10px;white-space:normal;text-align:left;width:100%}'+
+'.shh{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:linear-gradient(135deg,rgba(255,200,60,.28),rgba(255,140,0,.12));border:1.5px solid rgba(255,214,90,.6)}'+
+'.shh .cn{font-size:30px;line-height:1}.shh b{flex:1;font-size:28px;font-variant-numeric:tabular-nums;color:#ffd75a}'+
+'.box .shw .shh button{border:0!important;border-radius:14px;padding:9px 14px;font-weight:700;font-family:inherit;font-size:15px;background:linear-gradient(#27d65a,#0b8a2c);color:#fff}'+
+'.shm{text-align:center;font-weight:700;padding:6px;border-radius:12px;background:rgba(255,255,255,.08)}'+
+'.shs{font-weight:700;font-size:15px;color:var(--gold);margin-top:4px;text-transform:uppercase;letter-spacing:.5px}'+
+'.shi{display:grid;grid-template-columns:1fr 1fr;gap:8px}'+
+'.shc{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px;background:rgba(255,255,255,.06);border:1.5px solid var(--glb);text-align:center}'+
+'.shc .ic{font-size:30px;line-height:1.1}.shc .nm{font-weight:700;font-size:13.5px;line-height:1.2}.shc .sstk{font-size:12px;opacity:.8}'+'.box .shw button{width:auto!important;min-height:0;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;margin:0;text-shadow:none!important}'+
+'.box .shw button.shp{border:0!important;border-radius:12px;padding:6px 12px;font-weight:700;font-family:inherit;font-size:14px;background:linear-gradient(#ffd75a,#e0a526);color:#3a2400;margin-top:2px}'+
+'.shp.no{filter:grayscale(.7) brightness(.8)}'+
+'.shg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}'+
+'.shk{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 5px;border-radius:14px;background:rgba(255,255,255,.06);border:1.5px solid var(--glb);cursor:pointer;min-width:0}'+
+'.shk .spv{width:100%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:10px;background:radial-gradient(circle,rgba(255,255,255,.14),rgba(255,255,255,.02));overflow:hidden}'+
+'.shk .spv img{width:88%;height:88%;object-fit:contain}.shk.bd .spv img{width:100%;height:100%;object-fit:cover}'+
+'.shk .nm{font-size:12px;font-weight:700;text-align:center;line-height:1.2;min-height:2.4em;display:flex;align-items:center}'+
+'.shk .st{font-size:12px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(79,209,255,.25);white-space:nowrap}'+
+'.shk.sel{border-color:#ffd75a;box-shadow:0 0 10px rgba(255,215,90,.5)}.shk.sel .st{background:#ffd75a;color:#3a2400}'+
+'.shk.lk .st{background:linear-gradient(#ffd75a,#e0a526);color:#3a2400}.shk.lk.no .st{filter:grayscale(.7) brightness(.8)}.shk.lk .spv img{opacity:.55}'+
+'.shk:active,.shc button:active,.shh button:active{transform:scale(.96)}'+
+'html[data-th=light] .shc,html[data-th=light] .shk{background:rgba(255,255,255,.6)}';
+document.head.appendChild(s)})();
+
+function shop(msg,sec){const sc=$('bx').classList.contains('shbox')&&$('ov').classList.contains('on')?$('bx').scrollTop:0,coins=ST.coins||0,E=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const w=E('div','shw');
+const hd=E('div','shh');hd.append(E('span','cn','🪙'),E('b','',String(coins)));const gb=E('button','',noEm(tr('getc')));gb.onclick=()=>getCoins();hd.appendChild(gb);w.appendChild(hd);
+if(msg)w.appendChild(E('div','shm',msg));
+/* yordamlar */
+w.appendChild(E('div','shs',tr('shhelp')));const hi=E('div','shi');
+[['💡',tr('buyhint'),ST.hp||0,()=>ST.hp=(ST.hp||0)+3],['↩️',tr('buyundo'),ST.bp||0,()=>ST.bp=(ST.bp||0)+3]].forEach(([ic,lb,n,f])=>{const c=E('div','shc');c.append(E('div','ic',ic),E('div','nm',String(lb).split(' — ')[0].replace(/^\S+\s+/,'')),E('div','sstk',rp(tr('shstock'),n)));const b=E('button','shp'+(coins<30?' no':''),'30 🪙');b.onclick=()=>buy(30,f);c.appendChild(b);hi.appendChild(c)});w.appendChild(hi);
+/* ot ko‘rinishlari */
+const sl=E('div','shs',tr('shlooks'));sl.id='shlk';w.appendChild(sl);const g1=E('div','shg');
+FL.forEach((f,i)=>{const o=skinOk(i),sel=i==(ST.sn||0),p=SP(i),c=E('div','shk'+(sel?' sel':'')+(o?'':' lk'+(coins<p?' no':''))),pv=E('div','spv'),im=new Image();im.src=NK[i]||IM.knight;im.style.filter=f;pv.appendChild(im);
+c.append(pv,E('div','nm',tr('sk'+i)),E('div','st',sel?tr('shsel'):o?tr('shpick'):'🔒 '+p+' 🪙'));
+c.onclick=()=>{if(sel)return;if(o){ST.sn=i;save();try{applySkin()}catch(e){}shop('','looks')}else buy(p,()=>{ST.bu=ST.bu||{};ST.bu['s'+i]=1;ST.sn=i;try{applySkin()}catch(e){}},1)};g1.appendChild(c)});w.appendChild(g1);
+/* taxtalar */
+w.appendChild(E('div','shs',tr('shbrd')));const g2=E('div','shg');
+IM.boards.forEach((s,i)=>{const o=brdOk(i),sel=i==ST.b,p=BP(i),c=E('div','shk bd'+(sel?' sel':'')+(o?'':' lk'+(coins<p?' no':''))),pv=E('div','spv'),im=new Image();im.src=s;pv.appendChild(im);
+c.append(pv,E('div','nm',tr('brd')+' '+(i+1)),E('div','st',sel?tr('shsel'):o?tr('shpick'):'🔒 '+p+' 🪙'));
+c.onclick=()=>{if(sel)return;if(o){ST.b=i;save();try{if($('g').classList.contains('on'))draw()}catch(e){}shop('','looks')}else buy(p,()=>{ST.bu=ST.bu||{};ST.bu['b'+i]=1;ST.b=i},1)};g2.appendChild(c)});w.appendChild(g2);
+box(w,[[tr('close'),()=>upd()]],0,tr('shop'));const bx=$('bx');bx.classList.add('shbox');
+if(sec=='looks'){if(sc)bx.scrollTop=sc;else{const t=$('shlk');if(t)bx.scrollTop=t.offsetTop-12}}}
+function shopLook(msg){shop(msg,'looks')}
+
+document.querySelectorAll('[data-ic="globe"],[data-ic="home"],[data-ic="dl"]').forEach(e=>{delete e.dataset.done});applyLang();try{upd();icoFix()}catch(e){}
 
 </script><script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});if('serviceWorker'in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
