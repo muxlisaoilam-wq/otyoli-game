@@ -1,8 +1,8 @@
-/* Ot Yo‘li — service worker (v3.36)
+/* Ot Yo‘li — service worker (v3.38)
    O‘yin fayllari keshda saqlanadi: internet bo‘lmasa ham ochiladi.
    index.html avval internetdan olinadi (yangi versiya darhol keladi), bo‘lmasa keshdan.
    Yangi versiya chiqarganda VERSION ni o‘zgartiring — eski kesh o‘chadi. */
-const VERSION = 'otyoli-v3.36';
+const VERSION = 'otyoli-v3.38';
 const CORE = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', e => {
