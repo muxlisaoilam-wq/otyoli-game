@@ -3019,5 +3019,31 @@ html body #s2 .prb{border:3px solid #e53935!important;animation-name:btPulR!impo
 50%{transform:scale(1.025);box-shadow:inset 0 2px 0 rgba(255,255,255,.2),0 14px 26px -8px rgba(0,0,0,.55),0 0 18px rgba(229,57,53,.75),0 0 0 3px rgba(229,57,53,.35)}}
 @media (prefers-reduced-motion:reduce){html body #s1 .hgo,html body #s2 #clb .ccp,html body #s2 .prb,html body #s1 .hgo::after,html body #s2 #clb .ccp::after,html body #s2 .prb::after{animation:none!important}}
 </style>
+<style id="v375">
+/* v3.75: Omad g'ildiragi — ramka va chiroqchalarsiz, faqat g'ildirakning o'zi */
+.wst{background:none!important;border:0!important;box-shadow:none!important;padding:4px 0 0!important}
+.wst::before{display:none!important}
+.wst .wbx{display:none!important}
+.wst .whx.wt{color:var(--mu)!important}
+/* v3.75: bosh menyu — ism to'liq: 1-qator profil + til, 2-qator yulduz + tanga */
+#s1 .hb2{display:flex;gap:min(2.4vw,10px)}
+#s1 .hb2 .chips{flex:1;display:flex!important;flex-direction:row!important;gap:min(2.4vw,10px)!important;margin:0!important}
+#s1 .hb2 .chip{flex:1 1 0!important;justify-content:center!important;text-align:center}
+#s1 .hb2 .chip{display:flex!important;align-items:center;gap:8px}
+#s1 .hb2 .chip>*{margin-left:0!important;margin-right:0!important}
+/* v3.76: statistika va pastki kartochkalar ixchamroq */
+#s1 .hst{padding:min(3vw,12px) 6px!important}
+#s1 .hst b{font-size:min(6.2vw,26px)!important}
+#s1 .hst span,#s1 .hst small{font-size:min(3vw,12.5px)!important}
+#s1>.hgr{gap:min(2.4vw,10px)!important}
+#s1 .hgr .hg{min-height:min(20vw,84px)!important;padding:min(3vw,12px) 4px!important;gap:min(1.4vw,6px)!important}
+#s1 .hgr .hgi{width:min(7.6vw,30px)!important;height:min(7.6vw,30px)!important}
+#s1 .hgr .hg>.ne{font-size:min(3.6vw,15px)!important}
+#s1 .hgr .hg .hsb{font-size:min(3vw,12.5px)!important}
+</style>
+<script>/* v3.75: yulduz va tanga chiplarini alohida qatorga ko'chirish */
+(function(){try{const s1=document.getElementById('s1');if(!s1)return;const hb=s1.querySelector('.hb'),ch=hb&&hb.querySelector('.chips');if(!ch||s1.querySelector('.hb2'))return;
+const r=document.createElement('div');r.className='hb2';r.appendChild(ch);hb.after(r)}catch(e){}})();
+</script>
 <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});if('serviceWorker'in navigator&&/^https?:/.test(location.protocol))addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 </script></body></html>
