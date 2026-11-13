@@ -3487,6 +3487,7 @@ function kxLoad(){if(KXS||!window.KX80)return;KXS=1;const K=window.KX80,a=new Im
    KXG=kxBuild(x.getImageData(0,0,c.width,c.height).data,c.width,c.height);KXI=b;KVW.forEach(v=>{v.dirty=1;v.kick()})}catch(e){console.log('kx',e)}};
  a.onload=fin;b.onload=fin;a.src=K.hm;b.src=K.tx}
 function kxUp(S){if(S.M.kx)return true;if(!KXG||!KXI)return false;S.M.kx=upMesh(S.gl,KXG);S.T.kx=makeTex(S.gl,KXI,true);return true}
+const MKXD={col:[.2,.2,.23],sp:.3,sh:60,rf:.04,rim:.1,rc:[.7,.8,1],cc:.3,em:.55};
 const MKX={col:[.5,.5,.5],sp:.2,sh:60,rf:.03,rim:.08,rc:[1,.9,.7],cc:.25,em:.92};
 
 /* ---------- shaderlar ---------- */
@@ -3662,14 +3663,14 @@ View.prototype.draw=function(){const S=this;if(!S.alive)return;const gl=S.gl,o=S
  const A=S.anim;let ak=1,capS=0;if(A){ak=Math.min(1,(now-A.t0)/A.dur);if(ak>=1)S.anim=null;else busy=true}
  const sk=KSK[(S.state&&S.state.sk)||0]||KSK[0];
  const list=[];S.pieces.forEach(p=>{const xz=S.cellXZ(p.c);let x=xz[0],z=xz[1],y=0,s=1,rot=0;
-  if(p.k==='n'){s=1.18;rot=p.dark?Math.PI:0;/* ot burilmaydi: doim h ustuni tomonga (qora ot — teskari) */if(A&&A.t===p.c&&ak<1){const f=S.cellXZ(A.f),e=ak<.5?2*ak*ak:1-Math.pow(-2*ak+2,2)/2;x=f[0]+(x-f[0])*e;z=f[1]+(z-f[1])*e;y=Math.sin(Math.PI*e)*.3}}
+  if(p.k==='n'){s=.82;rot=p.dark?Math.PI:0;/* ot burilmaydi: doim h ustuni tomonga (qora ot — teskari) */if(A&&A.t===p.c&&ak<1){const f=S.cellXZ(A.f),e=ak<.5?2*ak*ak:1-Math.pow(-2*ak+2,2)/2;x=f[0]+(x-f[0])*e;z=f[1]+(z-f[1])*e;y=Math.sin(Math.PI*e)*.3}}
   list.push({p,x,y,z,s,rot})});
  if(A&&ak<1&&A.cap!=null&&A.cap!==-1){const xz=S.cellXZ(A.t),k2=Math.max(0,(ak-.45)/.55);capS=1-k2;if(capS>0)list.push({p:{k:'p',w:A.cap,c:A.t,cap:1},x:xz[0],y:-k2*.25,z:xz[1],s:Math.max(.01,capS),rot:0})}
  /* figuralar */
  list.forEach(q=>{const p=q.p,M=model(q.x,q.y,q.z,q.rot,q.s);
   if(p.k==='p'){bind(S.M.pawn);mat(p.w?MW:MB,0);dr(S.M.pawn,M)}
   else if(p.k==='o'){bind(S.M.obs);mat({col:[.24,.07,.09],sp:.4,sh:30,rf:.1,rim:.2,rc:[1,.3,.3]},0);dr(S.M.obs,model(q.x,.3,q.z,0,1))}
-  else if(p.k==='n'&&!p.dark&&((p.sk!=null?p.sk:((S.state&&S.state.sk)||0))===0)&&kxUp(S)){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,S.T.kx);bind(S.M.kx);mat(MKX,1);dr(S.M.kx,M);gl.bindTexture(gl.TEXTURE_2D,S.T.board)}
+  else if(p.k==='n'&&kxUp(S)){gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,S.T.kx);bind(S.M.kx);mat(p.dark?MKXD:MKX,1);dr(S.M.kx,M);gl.bindTexture(gl.TEXTURE_2D,S.T.board)}
   else if(p.k==='n'&&kUp(S)){const m=p.sk!=null?(KSK[p.sk]||sk):sk,dk=p.dark;
    const body={col:dk?[m.col[0]*.12+.02,m.col[1]*.12+.02,m.col[2]*.12+.02]:m.col,sp:dk?.4:m.sp,sh:dk?50:m.sh,rf:dk?.05:m.rf,rim:.25,cc:1,rc:p.ring||[1,.95,.85],em:m.em||0};
    body.ac=m.am?m.acc:(dk?[m.col[0]*.3+.05,m.col[1]*.3+.05,m.col[2]*.3+.05]:[m.col[0]*.86,m.col[1]*.84,m.col[2]*.8]);if(m.am&&dk)body.ac=[m.acc[0]*.9,m.acc[1]*.75,m.acc[2]*.4];
@@ -4122,19 +4123,17 @@ try{applyLang();upd()}catch(e){}
 
 </script>
 <style id="v380">/* ===== v3.80: "Klassik" mavzu — to'q yashil + oltin ===== */
-html[data-th=classic]{--bg:#0b1d15;--gold:#e3b04b;--ac:#e3b04b;--nb:linear-gradient(135deg,rgba(227,176,75,.20),rgba(20,80,55,.14));--nbd:rgba(227,176,75,.55);--ng:0 8px 22px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.10);--gl:rgba(14,40,29,.72);--glb:rgba(227,176,75,.22);
---pbg:transparent;--pcr:#143024;--pcb:rgba(140,190,160,.20);--pdk:#f3efe4;--pmu:#9fb3a8;--pgr:#e3b04b;--pg1:#e9bb58;--pg2:#d49f35;--pgbd:#b98a2c;--pck1:#1d4a36;--pck2:#143526;--psh:0 10px 22px -10px rgba(0,0,0,.7);
---s0a:#17402d;--s0b:#08160f;--s0c:rgba(255,255,255,.035);--s0g:rgba(227,176,75,.22)}
-html[data-th=classic] body{background:radial-gradient(ellipse at 50% 12%,#17402d 0,#0f2a1e 45%,#0b1d15 85%)}
-html[data-th=classic] #s1{--hbg:transparent;--cr:#143024;--cb:rgba(140,190,160,.20);--dk:#f3efe4;--mu:#9fb3a8;--gr:#e3b04b;--g1:#e9bb58;--g2:#d49f35;--gbd:#b98a2c;--ck1:#1d4a36;--ck2:#143526;--hl:rgba(227,176,75,.12);--hlb:rgba(227,176,75,.55)}
+html.th-cream[data-th=light]{--bg:#f3e8d0;--gold:#c9952a;--ac:#c9952a;--pbg:linear-gradient(180deg,#f8efdb,#efe2c6);--pcr:#fdf7e8;--pcb:#e3d3ae;--pdk:#2b2415;--pmu:#8b7b5a;--pgr:#b8860b;--pg1:#ebbf5c;--pg2:#d6a238;--pgbd:#b98a2c;--pck1:#e6d3a3;--pck2:#fbf3de;--psh:0 8px 18px -10px rgba(90,60,10,.45);--s0a:#fbf3df;--s0b:#ecdcb6;--s0c:rgba(60,40,10,.045);--s0g:rgba(232,181,44,.34)}
+html.th-cream[data-th=light] body{background:linear-gradient(180deg,#f8efdb,#efe2c6)!important}
+html.th-cream[data-th=light] #s1{--cr:#fdf7e8;--cb:#e3d3ae;--dk:#2b2415;--mu:#8b7b5a;--gr:#b8860b;--g1:#ebbf5c;--g2:#d6a238;--gbd:#b98a2c;--ck1:#e6d3a3;--ck2:#fbf3de;--hl:rgba(201,149,42,.12);--hlb:rgba(201,149,42,.55)}
 /* oltin tugmalarda to'q yozuv */
-html[data-th=classic] #s1 .hgo,html[data-th=classic] #s1 .hgo *,html[data-th=classic] #s1 .hgr .hg.hsel,html[data-th=classic] #s1 .hgr .hg.hsel *{color:#1b2a1f!important}
-html[data-th=classic] #s1 .hgr .hg.hsel svg *{stroke:#1b2a1f!important}
-html[data-th=classic] #s1 .hgo svg *{fill:#1b2a1f!important}
+html.th-cream #s1 .hgo,html.th-cream #s1 .hgo *,html.th-cream #s1 .hgr .hg.hsel,html.th-cream #s1 .hgr .hg.hsel *{color:#1b2a1f!important}
+html.th-cream #s1 .hgr .hg.hsel svg *{stroke:#1b2a1f!important}
+html.th-cream #s1 .hgo svg *{fill:#1b2a1f!important}
 
 /* ===== o'yin ekrani (barcha mavzularda) ===== */
 #g.g80>.tb,#g.g80>#st,#g.g80>.bb{display:none!important}
-#g.g80{padding:calc(10px + var(--tgT,0px)) 14px calc(12px + var(--tgB,0px));gap:0;justify-content:flex-start}
+#g.g80{padding:10px 14px 12px!important;gap:0;justify-content:flex-start!important}
 .g8h{display:flex;align-items:center;gap:10px;width:100%;max-width:520px;flex:none}
 .g8k{width:46px;height:46px;flex:none;border-radius:14px;background:var(--pcr,#143024);border:1.5px solid var(--pcb,rgba(255,255,255,.2));color:var(--pdk,#fff);display:grid;place-items:center;padding:0;cursor:pointer}
 .g8k svg{width:22px;height:22px}
@@ -4144,7 +4143,7 @@ html[data-th=classic] #s1 .hgo svg *{fill:#1b2a1f!important}
 .g8r{display:flex;align-items:center;gap:6px;flex:none;min-width:46px;justify-content:flex-end}
 #g .g8r .b3d{position:static!important;height:46px;padding:0 14px;border-radius:14px;border:1.5px solid var(--pcb,rgba(255,255,255,.2));background:var(--pcr,#143024);color:var(--pdk,#fff);font:800 15px Poppins,Roboto,sans-serif;gap:6px;box-shadow:none;transform:none;margin:0}
 #g .g8r .b3d.on{background:linear-gradient(180deg,var(--pg1,#e9bb58),var(--pg2,#d49f35));border-color:var(--pgbd,#b98a2c);color:#1b2a1f}
-html:not([data-th=classic]) #g .g8r .b3d.on{color:#fff}
+html:not(.th-cream) #g .g8r .b3d.on{color:#fff}
 #g .g8r .b3d .b3i{display:grid;place-items:center;width:20px;height:20px;font-size:0}
 #g .g8r .b3d .b3i svg{width:20px;height:20px}
 #g .g8r .b3r{position:static!important;width:38px;height:38px;border-radius:12px;border:1.5px solid var(--pcb,rgba(255,255,255,.2));background:var(--pcr,#143024);color:var(--pdk,#fff);font-size:18px;display:none;place-items:center;padding:0;margin:0;box-shadow:none;transform:none}
@@ -4169,18 +4168,18 @@ html.d3 #g .g8r .b3r{display:grid}
 html.d3 #g .g8h,html.d3 #g .g8s,html.d3 #g .g8p,html.d3 #g .g8b{position:relative;z-index:3}
 /* yurish mumkin bo'lgan kataklar — oltin ramka */
 html:not(.acc) #bd .c.h::after{width:auto;height:auto;inset:6%;border-radius:14%;background:rgba(240,184,58,.14);border:3px solid #f0b83a;box-shadow:0 0 8px rgba(240,184,58,.45)}
-html[data-th=classic] #wrap.cr #bd{box-shadow:0 0 0 5px #f3efe4,0 0 0 7px rgba(227,176,75,.75),0 16px 30px rgba(0,0,0,.5)!important}
+html.th-cream #wrap.cr #bd{box-shadow:0 0 0 5px #fffaf0,0 0 0 7px rgba(201,149,42,.8),0 14px 26px rgba(90,60,10,.3)!important}
 /* klassik mavzu: qolgan tugmalar */
-html[data-th=classic] .shbuy,html[data-th=classic] #bx .pf2s{background:linear-gradient(180deg,#e9bb58,#d49f35)!important;border-color:#b98a2c!important;color:#1b2a1f!important;text-shadow:none!important}
-html[data-th=classic] .shbuy *{color:#1b2a1f!important}
-html[data-th=classic] .mb.bk,html[data-th=classic] .bk{border-color:rgba(227,176,75,.5)!important;box-shadow:none!important}
-html[data-th=classic] .mb.bk svg,html[data-th=classic] .bk svg{stroke:#e3b04b}
-html[data-th=classic] #sj #jsub,html[data-th=classic] #sj [id^=jl]{color:#9fb3a8!important}
-html[data-th=classic] .b3d{background:#143024;border-color:rgba(227,176,75,.45);color:#f3efe4}
-html[data-th=classic] .b3d.on{background:linear-gradient(180deg,#e9bb58,#d49f35);border-color:#b98a2c;color:#1b2a1f}
-html[data-th=classic] .b3r{background:#143024;border-color:rgba(227,176,75,.45);color:#f3efe4}
+html.th-cream .shbuy,html.th-cream #bx .pf2s{background:linear-gradient(180deg,#e9bb58,#d49f35)!important;border-color:#b98a2c!important;color:#1b2a1f!important;text-shadow:none!important}
+html.th-cream .shbuy *{color:#1b2a1f!important}
+html.th-cream .mb.bk,html.th-cream .bk{border-color:rgba(227,176,75,.5)!important;box-shadow:none!important}
+html.th-cream .mb.bk svg,html.th-cream .bk svg{stroke:#b8860b}
+html.th-cream #sj #jsub,html.th-cream #sj [id^=jl]{color:#8b7b5a!important}
+html.th-cream .b3d{background:#fdf7e8;border-color:#e3d3ae;color:#2b2415}
+html.th-cream .b3d.on{background:linear-gradient(180deg,#e9bb58,#d49f35);border-color:#b98a2c;color:#1b2a1f}
+html.th-cream .b3r{background:#fdf7e8;border-color:#e3d3ae;color:#2b2415}
 .b3d .b3i svg{width:18px;height:18px;display:block}
-html[data-th=classic] #oct,html[data-th=classic] .ocl .occ{color:#e3b04b}
+html.th-cream #oct,html.th-cream .ocl .occ{color:#b8860b}
 #g.g80>#wrap{grid-row:1/7}
 @media (min-aspect-ratio:1/1){#g.g80>.g8h,#g.g80>.g8s,#g.g80>.g8p,#g.g80>.g8b,#g.g80>#tip{grid-column:2;align-self:center;justify-self:center}#g.g80>#wrap{margin-top:0}#g.g80>#tip{margin-bottom:0}}
 .shri svg{display:block}
@@ -4215,6 +4214,19 @@ html body #s2 #clb.ccard span.cbd *{color:#1b2a1f!important;fill:#1b2a1f!importa
 @keyframes cbd8{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(227,176,75,.7)}50%{opacity:.6;box-shadow:0 0 0 6px rgba(227,176,75,0)}}
 html body #s2 .ccard .ccp{align-self:center!important;margin-inline:auto!important}
 html body #s2 #clb.ccard span.cbd{-webkit-background-clip:border-box!important;background-clip:border-box!important;-webkit-text-fill-color:#1b2a1f!important;border:0!important}
+
+/* v3.87: o'yin ekrani — taxta bo'sh joyga moslanadi va o'rtada turadi */
+#g.g80>#wrap{margin-top:auto!important;margin-bottom:0}
+#g.g80>#tip{margin-top:6px;margin-bottom:auto!important;flex:none}
+@media (min-aspect-ratio:12/10){#g.g80{padding:2vh 3vw!important}}
+#s1 .hcard{cursor:default!important}#s1 .hcard:active{transform:none!important}
+/* v3.89 */
+html body #s2 #clb.ccard{cursor:default!important;position:relative}
+html body #s2 #clb.ccard:active{transform:none!important}
+html body #s2 #clb.ccard span.cbd{position:absolute!important;top:12px;inset-inline-end:12px;z-index:2;margin:0!important}
+html body #s2 #clb.ccard .ccp{cursor:pointer!important;pointer-events:auto}
+html body #dl #dlb{transform:scale(.86);transform-origin:center}
+html body #dl #dlb h3{padding-inline:30px}
 </style>
 <script>/* ===================== v3.80 =====================
    Yangi dizayn: "Klassik" mavzu (to'q yashil + oltin) · o'yin ekrani: Yurish / Vaqt / Yulduz paneli, yozuvli tugmalar
@@ -4228,6 +4240,7 @@ TL('g8r',["Qayta","Заново","Restart","إعادة","重来","फिर स�
 TL('g8d',["Do‘kon","Магазин","Shop","المتجر","商店","दुकान"]);
 TL('onl8',["Onlayn","Онлайн","Online","أونلاين","在线","ऑनलाइन"]);
 TL('onl8s',["Onlayn o‘yin va Onlayn Jang — real raqiblar bilan","Онлайн-игра и Онлайн-бой — с реальными соперниками","Online game and Online Battle — against real players","لعبة أونلاين ومعركة أونلاين — ضد لاعبين حقيقيين","在线对局与在线对战——与真人对手","ऑनलाइन खेल और ऑनलाइन जंग — असली खिलाड़ियों से"]);
+TL('ocn8',["ONLAYN CLASSIC O‘YIN","ОНЛАЙН CLASSIC","ONLINE CLASSIC GAME","CLASSIC أونلاين","在线 CLASSIC","ऑनलाइन CLASSIC"]);
 TL('g8s',["Sozlama","Настройки","Settings","الإعدادات","设置","सेटिंग"]);
 TL('g8m',["YURISH","ХОДЫ","MOVES","النقلات","步数","चालें"]);
 TL('g8tm',["VAQT","ВРЕМЯ","TIME","الوقت","时间","समय"]);
@@ -4235,8 +4248,50 @@ TL('g8st',["YULDUZ","ЗВЁЗДЫ","STARS","النجوم","星星","सिता
 
 /* ---------- mavzu ---------- */
 if(THS.indexOf('classic')<0){THS.unshift('classic');THBG.classic='#0b1d15';THN.classic=['🌞 Klassik','🌞 Классика','🌞 Classic','🌞 كلاسيك','🌞 经典','🌞 क्लासिक']}
-if(!ST.v380){ST.v380=1;ST.th='classic';try{save()}catch(e){}}
+/* "Klassik" = qaymoq rang (kunduzgi mavzu asosida); yangi o'yinchida birinchi ochilishda "Kun" */
+{const a0=applyTheme;applyTheme=function(){const x=a0.apply(this,arguments);try{const H=document.documentElement,c=ST.th=='classic';H.classList.toggle('th-cream',c);if(c){H.dataset.th='light';const m=document.querySelector('meta[name=theme-color]');m&&m.setAttribute('content','#f3e8d0')}}catch(e){}return x}}
+if(!ST.v387){ST.v387=1;if(!ST.th)ST.th='light';try{save()}catch(e){}}
 try{applyTheme()}catch(e){}
+
+/* ---------- taxta o'lchami: bo'sh joyga qarab ---------- */
+function fit8(){try{const g=$('g');if(!g||!g.classList.contains('on')||!g.classList.contains('g80'))return;const w=$('wrap');if(innerWidth/innerHeight>=1.2){w.style.removeProperty('--bs');return}
+ const cs=getComputedStyle(g),H=g.clientHeight-parseFloat(cs.paddingTop)-parseFloat(cs.paddingBottom),W=g.clientWidth-parseFloat(cs.paddingLeft)-parseFloat(cs.paddingRight);
+ let used=0;['g8h','g8s','g8p','g8b'].forEach(i=>{const e=$(i),c=getComputedStyle(e);used+=e.offsetHeight+parseFloat(c.marginTop)+parseFloat(c.marginBottom)});
+ const bs=Math.max(140,Math.floor(Math.min(W-26,H-used-86,620)));w.style.setProperty('--bs',bs+'px')}catch(e){}}
+addEventListener('resize',()=>setTimeout(fit8,60));
+{const sh0=show;show=function(id){const x=sh0.apply(this,arguments);if(id=='g'){fit8();setTimeout(fit8,120);setTimeout(()=>{fit8();try{R3G.sync()}catch(e){}},500)}return x}}
+
+/* ---------- musiqa: zamonaviy klassik (pianino arpejiosi + yumshoq fon) ---------- */
+try{music=function(){clearInterval(mu);mu=null;if(!ST.mus)return;try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();ac.resume&&ac.resume()}catch(e){return}
+ const hz=m=>440*Math.pow(2,(m-69)/12);
+ if(!music.out){const cp=ac.createDynamicsCompressor(),lp=ac.createBiquadFilter(),mg=ac.createGain();lp.type='lowpass';lp.frequency.value=2600;mg.gain.value=.55;lp.connect(cp);cp.connect(mg);mg.connect(ac.destination);music.out=lp}
+ const out=music.out;
+ const pno=(m,t,d,v)=>{const g=ac.createGain();g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);g.connect(out);
+  [['triangle',1,1],['sine',2,.35],['sine',3,.12]].forEach(q=>{const o=ac.createOscillator(),og=ac.createGain();o.type=q[0];o.frequency.value=hz(m)*q[1];og.gain.value=q[2];o.connect(og);og.connect(g);o.start(t);o.stop(t+d+.05)})};
+ const pad=(ms,t,d,v)=>ms.forEach(m=>{const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=hz(m);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(v,t+d*.35);g.gain.linearRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(out);o.start(t);o.stop(t+d+.05)});
+ /* Am – F – C – G – Am – F – Dm – E */
+ const CH=[[45,[57,60,64]],[41,[57,60,65]],[48,[55,60,64]],[43,[55,59,62]],[45,[57,60,64]],[41,[53,57,60]],[38,[53,57,62]],[40,[56,59,64]]];
+ const ARP=[0,1,2,1,3,2,1,2],MEL=[[76,0,3],[72,4,1.5],[77,0,2],[76,3,1],[72,5,1.5],[79,0,3],[76,4,1.5],[74,0,2],[71,3,1],[74,5,1.5],[76,0,3],[81,4,1.5],[81,0,2],[79,3,1],[77,5,1.5],[77,0,2],[76,3,1.5],[74,6,1],[76,0,3],[71,4,2]];
+ const ST8=.34,BAR=ST8*8;let bar=0,next=ac.currentTime+.15;
+ const sched=()=>{const [b,c]=CH[bar%8],t=next,rnd=()=>(Math.random()-.5)*.012;
+  pno(b,t,BAR*1.1,.11);pad(c,t,BAR*1.05,.018);
+  ARP.forEach((a,i)=>{const m=a==3?c[0]+12:c[a];pno(m,t+i*ST8+rnd(),1.5,.05+(i%4==0?.02:0))});
+  const sec=bar%16,per={0:[0,1],1:[2,3,4],2:[5,6],3:[7,8,9],4:[10,11],5:[12,13,14],6:[15,16,17],7:[18,19]}[sec%8];
+  if(sec<8||bar%32>=16)per.forEach(k=>{const n=MEL[k];pno(n[0]+(bar%32>=16&&sec>=8?0:0),t+n[1]*ST8,n[2]*ST8*1.6+1,.06)});
+  bar++;next+=BAR};
+ mu=setInterval(()=>{if(document.hidden||!ST.mus||ac.state!='running'){next=Math.max(next,ac.currentTime+.2);return}while(next<ac.currentTime+.8)sched()},250)};
+ if(ST.mus&&mu)music()}catch(e){console.log('mus80',e)}
+
+/* ---------- "O'yin haqida" — hozirgi o'yinga mos matn ---------- */
+try{const au=i=>{try{return String(T.abouttxt[i]).split('\n').map(l=>l.trim()).filter(Boolean).pop()}catch(e){return ''}};
+T.abouttxt=[
+"♞ «OT YO‘LI» — shaxmat otining yo‘li haqidagi jumboq o‘yini.\n\nASOSIY QOIDA\n• Taxtaning har bir katagida piyoda turadi.\n• Ot istalgan katakdan boshlaydi va faqat «Г» shaklida yuradi.\n• Ot borgan katakdagi piyoda yeyiladi, u katakka qaytib bo‘lmaydi.\n• Yurish mumkin bo‘lgan kataklar oltin ramka bilan ko‘rsatiladi.\n• Barcha 64 katakni aylanib chiqsangiz, g‘alaba.\n\nREJIMLAR\n• O‘rganish — yangi boshlovchilar uchun o‘rgatuvchi bosqichlar.\n• Classic — asosiy jumboq: Oson, O‘rta va Qiyin darajalar.\n• Jang — kompyuter yoki do‘st bilan; yurishi qolmagan o‘yinchi yutqazadi.\n• Blitz — vaqt tugaguncha iloji boricha ko‘p bosqich yeching.\n• Sarguzasht — O‘zbekiston hududlari bo‘ylab sayohat, yangi rasmlarni oching.\n• Onlayn — Onlayn o‘yin va Onlayn Jang: real raqiblar bilan bellashing.\n• Turnir — Arena: belgilangan vaqtda ko‘p o‘yinchi bilan musobaqa.\n\nO‘YIN EKRANI\n• 3D — taxtani aylantirib, yaqinlashtirib o‘ynang.\n• Orqaga — oxirgi yurishni qaytaradi.\n• Maslahat — keyingi to‘g‘ri yurishni ko‘rsatadi.\n• Qayta — bosqichni boshidan boshlaydi.\n\nYULDUZ VA TANGALAR\n• Maslahatsiz yechsangiz 3 yulduz, maslahat ishlatsangiz kamroq.\n• Tangalarga do‘kondan maslahat, orqaga yurish, yangi otlar va taxtalar oling.\n• Har kuni Omad g‘ildiragini bepul aylantiring.\n\n"+au(0),
+"♞ «OT YO‘LI» («Путь коня») — головоломка о ходе шахматного коня.\n\nОСНОВНОЕ ПРАВИЛО\n• На каждой клетке доски стоит пешка.\n• Конь начинает с любой клетки и ходит только буквой «Г».\n• Пешка на клетке, куда пришёл конь, съедается, вернуться на эту клетку нельзя.\n• Клетки, на которые можно пойти, выделены золотой рамкой.\n• Обойдите все 64 клетки, и вы победили.\n\nРЕЖИМЫ\n• Обучение — обучающие уровни для новичков.\n• Classic — основная головоломка: лёгкий, средний и сложный уровни.\n• Бой — против компьютера или друга; проигрывает тот, у кого не осталось ходов.\n• Блиц — решите как можно больше уровней, пока идёт время.\n• Приключение — путешествие по регионам Узбекистана, открывайте новые картинки.\n• Онлайн — Онлайн-игра и Онлайн-бой с реальными соперниками.\n• Турнир — Арена: соревнование многих игроков в назначенное время.\n\nЭКРАН ИГРЫ\n• 3D — вращайте и приближайте доску.\n• Назад — отменяет последний ход.\n• Подсказка — показывает следующий верный ход.\n• Заново — начинает уровень сначала.\n\nЗВЁЗДЫ И МОНЕТЫ\n• Без подсказок вы получаете 3 звезды, с подсказками меньше.\n• За монеты в магазине берите подсказки, отмены хода, новых коней и доски.\n• Каждый день бесплатно крутите Колесо удачи.\n\n"+au(1),
+"♞ “OT YO‘LI” (Knight’s Path) is a puzzle game about the chess knight’s tour.\n\nMAIN RULE\n• Every square of the board holds a pawn.\n• The knight starts on any square and moves only in an L shape.\n• The pawn on the square the knight lands on is captured, and you cannot return to that square.\n• Squares you can move to are marked with a gold frame.\n• Visit all 64 squares to win.\n\nMODES\n• Learn — tutorial levels for beginners.\n• Classic — the main puzzle: Easy, Medium and Hard.\n• Battle — against the computer or a friend; the player with no moves left loses.\n• Blitz — solve as many levels as you can before time runs out.\n• Adventure — travel across the regions of Uzbekistan and unlock new pictures.\n• Online — Online game and Online Battle against real players.\n• Tournament — Arena: many players compete at a set time.\n\nGAME SCREEN\n• 3D — rotate and zoom the board.\n• Undo — takes back the last move.\n• Hint — shows the next correct move.\n• Restart — starts the level again.\n\nSTARS AND COINS\n• Solve without hints for 3 stars; hints give fewer.\n• Spend coins in the shop on hints, undos, new knights and boards.\n• Spin the Wheel of Fortune for free every day.\n\n"+au(2),
+"♞ «OT YO‘LI» لعبة ألغاز عن مسار حصان الشطرنج.\n\nالقاعدة الأساسية\n• في كل مربع من الرقعة بيدق.\n• يبدأ الحصان من أي مربع ويتحرك فقط على شكل حرف L.\n• البيدق في المربع الذي يصل إليه الحصان يؤكل، ولا يمكن العودة إلى ذلك المربع.\n• المربعات التي يمكن التحرك إليها محددة بإطار ذهبي.\n• زر كل المربعات الـ 64 لتفوز.\n\nالأوضاع\n• التعلّم — مراحل تعليمية للمبتدئين.\n• Classic — اللغز الأساسي: سهل ومتوسط وصعب.\n• المعركة — ضد الحاسوب أو صديق؛ يخسر من لا تبقى له نقلات.\n• Blitz — حل أكبر عدد من المراحل قبل انتهاء الوقت.\n• المغامرة — رحلة عبر مناطق أوزبكستان وافتح صورًا جديدة.\n• أونلاين — لعبة أونلاين ومعركة أونلاين ضد لاعبين حقيقيين.\n• البطولة — Arena: منافسة بين لاعبين كثيرين في وقت محدد.\n\nشاشة اللعب\n• 3D — دوّر الرقعة وقرّبها.\n• تراجع — يلغي آخر نقلة.\n• تلميح — يُظهر النقلة الصحيحة التالية.\n• إعادة — يبدأ المرحلة من جديد.\n\nالنجوم والعملات\n• بلا تلميحات تحصل على 3 نجوم، ومع التلميحات أقل.\n• بالعملات اشترِ من المتجر تلميحات وتراجعات وأحصنة ورقعًا جديدة.\n• دوّر عجلة الحظ مجانًا كل يوم.\n\n"+au(3),
+"♞ «OT YO‘LI»（马之路）是一款关于国际象棋骑士巡游的益智游戏。\n\n基本规则\n• 棋盘的每个格子上都有一个兵。\n• 马可以从任意格子出发，只能走“日”字。\n• 马落到的格子上的兵会被吃掉，不能再回到该格。\n• 可以走到的格子用金色边框标出。\n• 走遍全部 64 格即获胜。\n\n模式\n• 学习 — 面向新手的教学关卡。\n• Classic — 主要谜题：简单、中等、困难。\n• 对战 — 对电脑或朋友；无路可走的一方输。\n• Blitz — 在时间结束前尽量多解关卡。\n• 冒险 — 游历乌兹别克斯坦各地区，解锁新图片。\n• 在线 — 在线对局与在线对战，对手是真人。\n• 锦标赛 — Arena：多名玩家在指定时间比赛。\n\n游戏界面\n• 3D — 旋转并缩放棋盘。\n• 撤销 — 撤回上一步。\n• 提示 — 显示下一步正确走法。\n• 重来 — 重新开始本关。\n\n星星与金币\n• 不用提示得 3 星，用提示会减少。\n• 用金币在商店换取提示、撤销、新的马和棋盘。\n• 每天免费转动幸运转盘。\n\n"+au(4),
+"♞ «OT YO‘LI» शतरंज के घोड़े की चाल पर आधारित पहेली खेल है।\n\nमुख्य नियम\n• बोर्ड के हर खाने में एक प्यादा है।\n• घोड़ा किसी भी खाने से शुरू होता है और केवल L आकार में चलता है।\n• घोड़ा जिस खाने पर आता है वहाँ का प्यादा खा लिया जाता है, उस खाने पर वापस नहीं आ सकते।\n• जिन खानों पर चल सकते हैं वे सुनहरे फ्रेम से दिखते हैं।\n• सभी 64 खानों पर जाएँ और जीतें।\n\nमोड\n• सीखें — नए खिलाड़ियों के लिए सिखाने वाले स्तर।\n• Classic — मुख्य पहेली: आसान, मध्यम और कठिन।\n• जंग — कंप्यूटर या दोस्त के खिलाफ; जिसके पास चाल नहीं बचती वह हारता है।\n• Blitz — समय खत्म होने से पहले ज़्यादा से ज़्यादा स्तर हल करें।\n• रोमांच — उज़्बेकिस्तान के क्षेत्रों की यात्रा, नई तस्वीरें खोलें।\n• ऑनलाइन — ऑनलाइन खेल और ऑनलाइन जंग, असली खिलाड़ियों से।\n• टूर्नामेंट — Arena: तय समय पर कई खिलाड़ियों की प्रतियोगिता।\n\nखेल स्क्रीन\n• 3D — बोर्ड घुमाएँ और पास लाएँ।\n• वापस — पिछली चाल वापस लेता है।\n• संकेत — अगली सही चाल दिखाता है।\n• फिर से — स्तर दोबारा शुरू करता है।\n\nसितारे और सिक्के\n• बिना संकेत 3 सितारे, संकेत लेने पर कम।\n• सिक्कों से दुकान में संकेत, वापसी, नए घोड़े और बोर्ड लें।\n• हर दिन भाग्य चक्र मुफ़्त घुमाएँ।\n\n"+au(5)];
+}catch(e){console.log('abt80',e)}
 
 /* ---------- ijtimoiy tarmoq logolari (Tanga olish) ---------- */
 window.SOC80={tg:'<svg viewBox="0 0 24 24" width="26" height="26"><path fill="#fff" d="M16.906 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>',
@@ -4296,7 +4351,7 @@ function g8(){try{if(!$('g8h'))return;
  const hp=ST.hp||0;sh.textContent=hp>0?'+'+hp:'';sh.style.display=hp>0?'':'none';$('g8bhc').textContent=hl;
  if((ST.bp||0)>0&&su.style.display=='none'){su.textContent='+'+ST.bp;su.style.display=''}
 }catch(e){}}
-{const d0=draw;draw=function(){const x=d0.apply(this,arguments);g8();return x}}
+{const d0=draw;draw=function(){const x=d0.apply(this,arguments);g8();if(!fit8.k||fit8.k!=innerWidth+'x'+innerHeight){fit8.k=innerWidth+'x'+innerHeight;fit8()}return x}}
 setInterval(()=>{try{if($('g').classList.contains('on'))g8()}catch(e){}},500);
 
 /* ---------- Darajalar: "Onlayn" bo'limi (LIVE) ---------- */
@@ -4304,7 +4359,7 @@ try{
  const globe='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.200 3 14.800 0 18M12 3c-3 3.200-3 14.800 0 18"/></svg>';
  const swd=(typeof svgI=='function'&&svgI('swords'))||globe;
  window.onlPick=function(){const rows=[
-  ['<img src="'+IM.knight+'" alt="">','kn2',noEm(tr('ocn')),tr('monl'),()=>ojMenu('c'),1,'grn',noEm(tr('ojon'))],
+  ['<img src="'+IM.knight+'" alt="">','kn2',tr('ocn8'),tr('monl'),()=>ojMenu('c'),1,'grn',noEm(tr('ojon'))],
   [swd,'o',noEm(tr('oj')),tr('monl'),()=>ojMenu('j'),1,'grn',noEm(tr('ojon'))]];
   if(window.mBox80)mBox80('🌐 '+tr('onl8'),rows);else box('',[[tr('ocn'),()=>ojMenu('c'),1,'big'],[tr('oj'),()=>ojMenu('j'),1],[tr('close')]],0,'🌐 '+tr('onl8'))};
  ojJang=function(){jangPick()};
@@ -4312,6 +4367,12 @@ try{
   b.innerHTML='<span class="tri onli">'+globe+'</span><span class="trt"><b>'+tr('onl8')+' <i class="lv8"><u></u>LIVE</i></b><small>'+tr('onl8s')+'</small></span><svg class="schv" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>'};
  mk();{const sh0=show;show=function(id){const x=sh0.apply(this,arguments);if(id=='s2')try{mk()}catch(e){}return x}}
 }catch(e){console.log('onl80',e)}
+
+/* bosh menyudagi "Ot Yo'li" kartasi — faqat rasm (bosilmaydi) */
+try{const h=document.querySelector('#s1 .hcard');if(h){h.removeAttribute('onclick');h.onclick=null;h.removeAttribute('role');h.removeAttribute('tabindex');h.style.cursor='default'}}catch(e){}
+
+/* Classic kartasi (Darajalar): karta va ot rasmi bosilmaydi, faqat "O'ynash" tugmasi ishlaydi */
+try{const c=$('clb');if(c){c.removeAttribute('onclick');c.onclick=null;c.removeAttribute('role');c.removeAttribute('tabindex');const b=c.querySelector('.ccp');if(b){b.setAttribute('role','button');b.tabIndex=0;b.onclick=e=>{e.stopPropagation();ocPick()}}}}catch(e){}
 
 /* ---------- 3D tugma ko'rinishi ---------- */
 try{const b0=R3G.btns;R3G.btns=function(){const x=b0.apply(this,arguments);document.querySelectorAll('.b3d .b3i').forEach(i=>{if(!i.dataset.v8){i.dataset.v8=1;i.innerHTML=IC.cube}});return x};R3G.btns()}catch(e){}
